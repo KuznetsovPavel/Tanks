@@ -1,6 +1,6 @@
 package com.gdx.battle_city.client;
 
-import BattleCity_LibGDX.BattleCityGame;
+import BattleCity_Scene_Screen.BattleCityGame;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;

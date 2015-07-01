@@ -1,4 +1,4 @@
-package BattleCity_LibGDX;
+package BattleCity_Scene_Screen;
 
 import BattleCity_independent_code.Controller;
 import BattleCity_independent_code.Model;

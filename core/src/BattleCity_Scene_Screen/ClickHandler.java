@@ -1,7 +1,7 @@
-package BattleCity_LibGDX;
+package BattleCity_Scene_Screen;
 
-import Actors.ButtonFire;
-import Actors.MovingControl;
+import BattleCity_Actors.ButtonFire;
+import BattleCity_Actors.MovingControl;
 import BattleCity_independent_code.Controller;
 import BattleCity_independent_code.Model;
 import BattleCity_independent_code.View;

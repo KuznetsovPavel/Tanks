@@ -1,6 +1,6 @@
 package com.gdx.battle_city.android;
 
-import BattleCity_LibGDX.BattleCityGame;
+import BattleCity_Scene_Screen.BattleCityGame;
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;

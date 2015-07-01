@@ -1,7 +1,7 @@
-package BattleCity_LibGDX;
+package BattleCity_Scene_Screen;
 
-import Actors.Button;
-import Actors.Headband;
+import BattleCity_Actors.Button;
+import BattleCity_Actors.Headband;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;

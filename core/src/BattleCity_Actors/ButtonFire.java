@@ -1,6 +1,6 @@
-package Actors;
+package BattleCity_Actors;
 
-import BattleCity_LibGDX.BattleCityScreen;
+import BattleCity_Scene_Screen.BattleCityScreen;
 import BattleCity_independent_code.Map;
 
 import com.badlogic.gdx.Gdx;

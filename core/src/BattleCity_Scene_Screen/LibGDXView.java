@@ -1,12 +1,12 @@
-package BattleCity_LibGDX;
+package BattleCity_Scene_Screen;
 
-import Actors.Bonus;
-import Actors.Box;
-import Actors.Bullet;
-import Actors.ButtonFire;
-import Actors.InfoPanel;
-import Actors.MovingControl;
-import Actors.Tank;
+import BattleCity_Actors.Bonus;
+import BattleCity_Actors.Box;
+import BattleCity_Actors.Bullet;
+import BattleCity_Actors.ButtonFire;
+import BattleCity_Actors.InfoPanel;
+import BattleCity_Actors.MovingControl;
+import BattleCity_Actors.Tank;
 import BattleCity_independent_code.Map;
 import BattleCity_independent_code.Model;
 
@@ -86,8 +86,7 @@ public class LibGDXView extends BattleCity_independent_code.View {
 
 	@Override
 	protected void drawInfoPanel(int coordX, int coordY,
-			int pannel_size_X, int pannel_size_Y, int textureIndex,
-			String message, boolean gameOver) {
+			int pannel_size_X, int pannel_size_Y, String message, boolean gameOver) {
 		
 		if (gameOver) {
 			_stage.gameIsOver = true;

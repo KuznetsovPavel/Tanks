@@ -1,7 +1,7 @@
-package Actors;
+package BattleCity_Actors;
 
 
-import BattleCity_LibGDX.BattleCityScreen;
+import BattleCity_Scene_Screen.BattleCityScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
