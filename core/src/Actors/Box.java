@@ -1,6 +1,7 @@
-package com.gdx.battle_city;
+package Actors;
 
-import tanks.Map;
+import BattleCity_LibGDX.BattleCityScreen;
+import BattleCity_independent_code.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Box extends Actor {
+	
+	private static final int HEIGHT_ACTOR = BattleCityScreen.SCREEN_HEIGHT/Map.ROW;
+	private static final int WIDTH_ACTOR = BattleCityScreen.SCREEN_WIGHT/Map.COL;
 
 	static Texture[] textures = new Texture[9];
 	Texture _texture;
@@ -27,8 +31,7 @@ public class Box extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.draw(_texture, this.getX(), getY(), this.getOriginX(), this.getOriginY(),
-				BattleCityScreen.SCREEN_WIGHT/Map.COL, BattleCityScreen.SCREEN_HEIGHT/Map.ROW, 
-				this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0, 
+				WIDTH_ACTOR, HEIGHT_ACTOR, this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0, 
 				_texture.getWidth(), _texture.getHeight(), false, false);
 	}
 

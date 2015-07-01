@@ -1,6 +1,7 @@
-package com.gdx.battle_city;
+package Actors;
 
-import tanks.Map;
+import BattleCity_LibGDX.BattleCityScreen;
+import BattleCity_independent_code.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

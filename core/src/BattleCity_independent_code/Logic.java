@@ -1,11 +1,9 @@
-package tanks;
+package BattleCity_independent_code;
 
 import java.util.List;
 import java.util.Random;
 
-import com.gdx.battle_city.BattleCityScreen;
-
-import tanks.State;
+import BattleCity_independent_code.State;
 
 public class Logic {
 	
@@ -311,8 +309,11 @@ public class Logic {
 			tank._bullet.targetDerection = tank.derection;
 //		}
 	}
+	
+	
 
-	private boolean tankHaveTarget(Tank tank) {
+/*
+ 	private boolean tankHaveTarget(Tank tank) {
 		
 		int victim_coordX = _state.get_tank().coordX;
 		int victim_coordY = _state.get_tank().coordY;
@@ -325,7 +326,9 @@ public class Logic {
 		}
 		return false;
 	}
-
+*/
+	
+	
 	protected boolean fire() {
 		Tank hunter = _state.get_tank();
 		

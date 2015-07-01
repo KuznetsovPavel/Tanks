@@ -1,10 +1,10 @@
 package com.gdx.battle_city.android;
 
+import BattleCity_LibGDX.BattleCityGame;
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.gdx.battle_city.BattleCityGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

@@ -1,11 +1,11 @@
-package tanks;
+package BattleCity_independent_code;
 
-import com.gdx.battle_city.BattleCityScreen;
+import BattleCity_LibGDX.BattleCityScreen;
 
 public class View {
 
-	static final int SCREEN_HEIGHT = BattleCityScreen.SCREEN_HEIGHT;
-	static final int SCREEN_WIDTH = BattleCityScreen.SCREEN_WIGHT;
+	protected static final int SCREEN_HEIGHT = BattleCityScreen.SCREEN_HEIGHT;
+	protected static final int SCREEN_WIDTH = BattleCityScreen.SCREEN_WIGHT;
 	
 	static final int TANK_SIZE_X = SCREEN_WIDTH / Map.COL;
 	static final int TANK_SIZE_Y = SCREEN_HEIGHT / Map.ROW;

@@ -1,9 +1,10 @@
 package com.gdx.battle_city.client;
 
+import BattleCity_LibGDX.BattleCityGame;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.gdx.battle_city.BattleCityGame;
 
 public class HtmlLauncher extends GwtApplication {
 

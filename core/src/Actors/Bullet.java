@@ -1,6 +1,7 @@
-package com.gdx.battle_city;
+package Actors;
 
-import tanks.Map;
+import BattleCity_LibGDX.BattleCityScreen;
+import BattleCity_independent_code.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,9 +14,12 @@ public class Bullet extends Actor {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		
+		int width_bullet = BattleCityScreen.SCREEN_WIGHT/Map.COL/(_texture.getWidth() - 4);
+		int height_bullet = BattleCityScreen.SCREEN_HEIGHT/Map.ROW/(_texture.getHeight() - 4);
+		
 		batch.draw(_texture, this.getX(), this.getY(), this.getOriginX(), this.getOriginY(),
-				BattleCityScreen.SCREEN_WIGHT/Map.COL/(_texture.getWidth() - 4), 
-				BattleCityScreen.SCREEN_HEIGHT/Map.ROW/(_texture.getHeight() - 4), this.getScaleX(), this.getScaleY(), 
+				width_bullet, height_bullet, this.getScaleX(), this.getScaleY(), 
 				this.getRotation(), 0, 0, _texture.getWidth(), _texture.getHeight(), false, false);
 	}
 	

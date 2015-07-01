@@ -1,4 +1,4 @@
-package com.gdx.battle_city;
+package BattleCity_LibGDX;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;

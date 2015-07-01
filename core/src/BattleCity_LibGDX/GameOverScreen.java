@@ -1,4 +1,8 @@
-package com.gdx.battle_city;
+package BattleCity_LibGDX;
+
+import Actors.Button;
+import Actors.Headband;
+import Actors.InfoPanel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -7,38 +11,38 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class GameOverScreen implements Screen, InputProcessor {
 
-	OrthographicCamera camera;
+	private static final int VOLUME_MAX = 100;
+
+	private static final int VOLUME_OFF = 0;
+
+	private static final int GAME_OVER_HEADBAND = 1;
+
+	private static final int SOUND_IS_ON = 4;
+	private static final int SOUND_IS_OFF = 5;
+	private static final int BUTTON_PLAY_IS_NOT_PUT = 3;
+	private static final int BUTTON_PLAY_IS_PUT = 2;
+	
+	private static final int HEIGHT_BUT_PLAY = Button.getHeightButPlay();
+	private static final int LENGHT_BUT_PLAY = Button.getWidthButPlay();
+	private static final double COORD_BUT_PLAY_X = BattleCityScreen.SCREEN_WIGHT*0.4;
+	private static final double COORD_BUT_PLAY_Y = BattleCityScreen.SCREEN_HEIGHT*0.8;
+	private static final double COORD_BUT_VOLUME_X = BattleCityScreen.SCREEN_WIGHT*0.01;
+	private static final double COORD_BUT_VOLUME_Y = BattleCityScreen.SCREEN_HEIGHT*0.85;
+	private static final int LENGHT_BUT_VOLUME = Button.getWidthButVolume();
+	private static final int HEIGHT_BUT_VOLUME = Button.getHeightButVolume();
 
 	BattleCityGame game = new BattleCityGame();
-	
-	private static final int HEIGHT_BUT_PLAY = BattleCityScreen.SCREEN_HEIGHT/10;
-
-	private static final int LENGHT_BUT_PLAY = BattleCityScreen.SCREEN_WIGHT/4;
-
-	private static final double COORD_BUT_PLAY_X = BattleCityScreen.SCREEN_WIGHT*0.4;
-
-	private static final double COORD_BUT_PLAY_Y = BattleCityScreen.SCREEN_HEIGHT*0.8;
-
-	private static final double COORD_BUT_VOLUME_X = BattleCityScreen.SCREEN_WIGHT*0.01;
-
-	private static final double COORD_BUT_VOLUME_Y = BattleCityScreen.SCREEN_HEIGHT*0.9;
-
-	private static final int LENGHT_BUT_VOLUME = BattleCityScreen.SCREEN_WIGHT/10;
-
-	private static final int HEIGHT_BUT_VOLUME = BattleCityScreen.SCREEN_HEIGHT/10;
-
+	OrthographicCamera camera;
 	
 	boolean isPlay = false;
-	Headband headband = new Headband(1);
+	Headband headband = new Headband(GAME_OVER_HEADBAND);
 	
-	Button play = new Button(3, (int) (BattleCityScreen.SCREEN_WIGHT * 0.4),
+	Button play = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) (BattleCityScreen.SCREEN_WIGHT * 0.4),
 			(int) (BattleCityScreen.SCREEN_HEIGHT * 0.1));
-	Button _volume = new Button(4, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.SCREEN_HEIGHT*0.01));
+	Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.SCREEN_HEIGHT*0.01));
 	
 	InfoPanel gameOverInfoPanel = new InfoPanel();
 	BitmapFont gameOverInfo = new BitmapFont();
@@ -72,11 +76,11 @@ public class GameOverScreen implements Screen, InputProcessor {
 		headband.draw(game.batch, 0);
 		
 		if (isPlay) {
-			play._texture = play.textures[2];
+			play.set_texture(play.getTextures()[BUTTON_PLAY_IS_PUT]);
 		}else if(game.music_mute){
-			_volume._texture = _volume.textures[5];
+			_volume.set_texture(_volume.getTextures()[SOUND_IS_OFF]);
 		}else if (!game.music_mute) {
-			_volume._texture = _volume.textures[4];
+			_volume.set_texture(_volume.getTextures()[SOUND_IS_ON]);
 		}
 		
 		play.draw(game.batch, 0);
@@ -121,15 +125,15 @@ public class GameOverScreen implements Screen, InputProcessor {
 			game.main.play();
 	        return true;
 		}else if (game.music_mute) {
-			game.main.setVolume(0);
-			game.boom.setVolume(0);
-			game.shot.setVolume(0);
-			game.music_gameOver.setVolume(0);
+			game.main.setVolume(VOLUME_OFF);
+			game.getBoom().setVolume(VOLUME_OFF);
+			game.getShot().setVolume(VOLUME_OFF);
+			game.music_gameOver.setVolume(VOLUME_OFF);
 		}else if(!game.music_mute){
-			game.main.setVolume(100);
-			game.boom.setVolume(100);
-			game.shot.setVolume(100);
-			game.music_gameOver.setVolume(100);
+			game.main.setVolume(VOLUME_MAX);
+			game.getBoom().setVolume(VOLUME_MAX);
+			game.getShot().setVolume(VOLUME_MAX);
+			game.music_gameOver.setVolume(VOLUME_MAX);
 		}
 		return false;
 	}

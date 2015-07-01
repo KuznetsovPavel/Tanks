@@ -1,4 +1,4 @@
-package tanks;
+package BattleCity_independent_code;
 
 import java.io.File;
 import java.io.FileNotFoundException;

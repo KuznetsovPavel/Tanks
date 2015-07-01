@@ -1,4 +1,4 @@
-package tanks;
+package BattleCity_independent_code;
 
 public interface Graphics {
 
