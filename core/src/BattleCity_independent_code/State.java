@@ -6,6 +6,9 @@ import java.util.List;
 public class State {
 
 	static final int NUMB_OF_TANK_BOT = 3;
+	static final int SIZE_BOX_Y = View.SCREEN_HEIGHT / Map.ROW;
+	static final int SIZE_BOX_X = View.SCREEN_WIDTH / Map.COL;
+
 	private int _level = 1;
 	private Tank _tank;
 	Map _map;
@@ -13,9 +16,7 @@ public class State {
 	private boolean newMap = false;
 
 	int bonus, _bonus_coordX = -10, _bonus_coordY = -10;
-
 	Tank tank_with_bonus;
-
 	public boolean bonusIsTake = true;
 
 	boolean _gameOver = false;
@@ -25,9 +26,6 @@ public class State {
 	int coordX_expl = 0;
 	int coordY_expl = 0;
 	
-	static final int SIZE_BOX_X = View.SCREEN_WIDTH / Map.COL;
-	static final int SIZE_BOX_Y = View.SCREEN_HEIGHT / Map.ROW;
-
 	protected void addTank(Tank tank) {
 		_botTanks.add(tank);
 	}

@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class InfoPanel extends Actor {
 	
+	private static final int HEIGHT_INFO_PANEL = BattleCityScreen.SCREEN_HEIGHT/Map.ROW * 3;
+	private static final int WIDTH_INFO_PANEL = BattleCityScreen.SCREEN_WIGHT/Map.COL * 5;
 	Texture _texture;
 	
 	public InfoPanel() {
@@ -19,7 +21,7 @@ public class InfoPanel extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.draw(_texture, this.getX(), getY(), this.getOriginX(), this.getOriginY(),
-				BattleCityScreen.SCREEN_WIGHT/Map.COL * 5, BattleCityScreen.SCREEN_HEIGHT/Map.ROW * 3, this.getScaleX(), this.getScaleY(), 
+				WIDTH_INFO_PANEL, HEIGHT_INFO_PANEL, this.getScaleX(), this.getScaleY(), 
 				this.getRotation(), 0, 0, _texture.getWidth(), _texture.getHeight(), false, false);
 	}
 

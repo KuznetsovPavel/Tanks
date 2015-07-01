@@ -7,6 +7,15 @@ import BattleCity_independent_code.State;
 
 public class Logic {
 	
+	private static final int NUMB_OF_STEP_FOR_ONE_DERECTION = 50;
+	private static final int LEVEL_UP = 1;
+	
+	private static final int COORD_FOR_BONUS_CHARGING = -10;
+	private static final int SHOTING_SPEED = 2;
+	private static final int MOVING_SPEED = 1;
+	private static final int ARMOR = 0;
+	private static final int NUMB_OF_BONUS = 3;
+	
 	private static final int VALUE_BLOCK_GROUND = 0;
 	private static final int VALUE_BLOCK_BRICK = 2;
 	private static final int VALUE_BLOCK_STONE = 3;
@@ -43,7 +52,7 @@ public class Logic {
 
 	public boolean oneStep() {
 
-		if (_state.get_tank().damages == 10) {
+		if (_state.get_tank().damages == Tank.ARMOR_PLAYER_TANK) {
 			_state._gameOver = true;
 			return true;
 		}
@@ -78,7 +87,7 @@ public class Logic {
 			_state.setIsNewMap(true);
 			_state.setMap(map);
 			_state.get_tank().setTank(Map.COL / 2 * BOX_SIZE_X, 2 * BOX_SIZE_Y);
-			_state.set_level(_state.get_level() + 1);
+			_state.set_level(_state.get_level() + LEVEL_UP);
 
 		}
 	}
@@ -109,7 +118,7 @@ public class Logic {
 				moveBotTank(hunter);
 				hunter.countOfStep += 1;
 				
-				if (hunter.countOfStep == 50) {
+				if (hunter.countOfStep == NUMB_OF_STEP_FOR_ONE_DERECTION) {
 					hunter.countOfStep = 0;
 				}
 				
@@ -302,7 +311,7 @@ public class Logic {
 		}
 
 //		if (tankHaveTarget(tank)) {
-			tank._bullet = new Bullet(tank.equals(_state.tank_with_bonus) && _state.bonus == 3);
+			tank._bullet = new Bullet(tank.equals(_state.tank_with_bonus) && _state.bonus == SHOTING_SPEED);
 			tank._bullet.isLive = true;
 			tank._bullet.coordY = tank.coordY + TANK_SIZE_Y / 2;
 			tank._bullet.coordX = tank.coordX + TANK_SIZE_X / 2;
@@ -380,8 +389,8 @@ public class Logic {
 		
 		int tankCoordY = victim.coordY;
 		int tankCoordX = victim.coordX;
-		int bulletCoordY = (hunter._bullet.coordY * 2 + 5) / 2;
-		int bulletCoordX = (hunter._bullet.coordX * 2 + 5) / 2;
+		int bulletCoordY = hunter._bullet.coordY ;
+		int bulletCoordX = hunter._bullet.coordX;
 
 		if (tankCoordY <= bulletCoordY
 				&& tankCoordY + TANK_SIZE_Y >= bulletCoordY
@@ -483,8 +492,8 @@ public class Logic {
 			_state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_WITH_HALF_ON_LEFT;
 		}
 		
-		hunter._bullet.coordX = (hunter.coordX * 2 + TANK_SIZE_X) / 2;
-		hunter._bullet.coordY = (hunter.coordY * 2 + TANK_SIZE_Y) / 2;
+		hunter._bullet.coordX = hunter.coordX + TANK_SIZE_X / 2;
+		hunter._bullet.coordY = hunter.coordY + TANK_SIZE_Y / 2;
 		bullet.isLive = false;
 		return true;
 		
@@ -504,11 +513,11 @@ public class Logic {
 		_state.bonusIsTake = false;
 		while (true) {
 			
-			_state.bonus = random.nextInt(3);
-			bonus_tmpX = random.nextInt(24);
-			bonus_tmpY = random.nextInt(14);
+			_state.bonus = random.nextInt(NUMB_OF_BONUS);
+			bonus_tmpX = random.nextInt(Map.COL - 1);
+			bonus_tmpY = random.nextInt(Map.ROW - 1);
 			
-			if (_state._map._data[bonus_tmpY][bonus_tmpX] == 0) {
+			if (_state._map._data[bonus_tmpY][bonus_tmpX] == VALUE_BLOCK_GROUND) {
 				_state._bonus_coordX = bonus_tmpX;
 				_state._bonus_coordY = bonus_tmpY;
 				break;
@@ -540,16 +549,16 @@ public class Logic {
 
 	private void whichBonusIsTake(Tank tank) {
 		
-		if (_state.bonus == 0) {
+		if (_state.bonus == ARMOR) {
 			tank.damages -= 1;
-		}else if (_state.bonus == 1) {
-			tank._speed += 2;
-		}else if (_state.bonus == 2) {
-			tank._bullet._speed += 6;
+		}else if (_state.bonus == MOVING_SPEED) {
+			tank._speed += Tank.SPEED;
+		}else if (_state.bonus == SHOTING_SPEED) {
+			tank._bullet._speed += Bullet.SPEED;
 		}
 		
-		_state._bonus_coordX = -10;
-		_state._bonus_coordY = -10;
+		_state._bonus_coordX = COORD_FOR_BONUS_CHARGING;
+		_state._bonus_coordY = COORD_FOR_BONUS_CHARGING;
 		_state.bonusIsTake = true;
 		
 	}
