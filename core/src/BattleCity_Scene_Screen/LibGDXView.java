@@ -10,8 +10,11 @@ import BattleCity_Actors.Tank;
 import BattleCity_independent_code.Map;
 import BattleCity_independent_code.Model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
@@ -52,13 +55,14 @@ public class LibGDXView extends BattleCity_independent_code.View {
 		
 		if (_bonus == null) {	
 			_bonus = new Bonus(bonusIndex);
-		_stage.addActor(_bonus);
+			_stage.addActor(_bonus);
 		}
 		
 		if (bonusFree) {
 			_bonus.set_texture(Bonus.getTextures()[bonusIndex]);
-			_bonus.toFront();
 			_bonus.setPosition(coordX, coordY);	
+			_bonus.toFront();
+			_bonus.addAction(Actions.sequence(Actions.scaleTo(1f, 1f, 0.5f),Actions.scaleTo(0.2f, 0.2f)));
 		}else {
 			_bonus.toBack();
 		}

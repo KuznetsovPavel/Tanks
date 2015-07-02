@@ -30,6 +30,7 @@ public class BattleCityScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		_stage.act(Gdx.graphics.getDeltaTime());
         _stage.draw();
         if (_stage.gameIsOver) {
 			game.setScreen(new GameOverScreen(game, _stage));

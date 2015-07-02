@@ -48,10 +48,11 @@ public class BattleCityStage extends Stage {
 			@Override
 			public void run() {
 				timerForBonus += 1;		
-				
-				if (timerForBonus == TIME_FOR_BONUS) {
+				if (timerForBonus == TIME_FOR_BONUS - 50) {
+					model._logic._state.bonusIsTake = true;
+				}else if (timerForBonus == TIME_FOR_BONUS) {
 					controller.dropBonus();
-					timerForBonus = 0;
+					timerForBonus = 0;					
 				}
 				
 				if (controller.oneStep()) {

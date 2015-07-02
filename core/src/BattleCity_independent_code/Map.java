@@ -19,6 +19,7 @@ public class Map {
 		new File("resourse/map/map2.txt"), 
 		new File("resourse/map/map3.txt"), 
 		new File("resourse/map/map4.txt")};
+	private static Scanner scanner;
 
 	public Map() {
 		_data = new int [ROW][COL];
@@ -27,7 +28,7 @@ public class Map {
 	public static int[][] readMap(int mapNumber){
 		int[][] data = new int[ROW][COL];
 		try {
-			Scanner scanner = new Scanner(MAPS[mapNumber]);
+			scanner = new Scanner(MAPS[mapNumber]);
 			for (int i = 0; i < data.length; i++) {
 				for (int j = 0; j < data[i].length; j++) {					
 						data[i][j] = scanner.nextInt();

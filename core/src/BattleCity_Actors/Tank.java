@@ -6,7 +6,9 @@ import BattleCity_independent_code.Map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Tank extends Actor {
 	
@@ -39,7 +41,7 @@ public class Tank extends Actor {
 				WIDTH_TANK, HEIGHT_TANK, this.getScaleX(), this.getScaleY(), 
 				this.getRotation(), 0, 0, get_texture().getWidth(), get_texture().getHeight(), false, false);
 	}
-
+	
 	public int getNumbTextExpl() {
 		return numbTextExpl;
 	}

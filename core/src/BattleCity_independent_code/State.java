@@ -17,7 +17,7 @@ public class State {
 
 	int bonus, _bonus_coordX = -10, _bonus_coordY = -10;
 	Tank tank_with_bonus;
-	public boolean bonusIsTake = true;
+	public boolean bonusIsTake = false;
 
 	boolean _gameOver = false;
 	private int state_cntrl;

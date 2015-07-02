@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 
 public class Bonus extends Actor {
@@ -16,7 +17,6 @@ public class Bonus extends Actor {
 	
 	private static Texture[] textures = new Texture[3];
 	private Texture _texture;
-	
 	
 	static {
 			getTextures()[0] = new Texture(Gdx.files.internal("resourse/graphics/bonus_HP.png"));
@@ -34,8 +34,8 @@ public class Bonus extends Actor {
 				WIDTH_ACTOR, HEIGHT_ACTOR, this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0, 
 				get_texture().getWidth(), get_texture().getHeight(), false, false);
 	}
-
-
+	
+	
 	public Texture get_texture() {
 		return _texture;
 	}
