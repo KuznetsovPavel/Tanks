@@ -35,6 +35,16 @@ public class Bonus extends Actor {
 				get_texture().getWidth(), get_texture().getHeight(), false, false);
 	}
 	
+	public void action(int coordX, int coordY){
+		this.addAction(
+				Actions.sequence(
+						Actions.delay(1f),
+						Actions.scaleTo(2f, 2f), 
+						Actions.moveTo(coordX, coordY),
+						Actions.removeAction(Actions.scaleTo(2f, 2f), this),
+						Actions.scaleTo(1f, 1f, 1f) )
+				);
+	}	
 	
 	public Texture get_texture() {
 		return _texture;

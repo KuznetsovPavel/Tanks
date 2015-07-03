@@ -1,20 +1,24 @@
 package BattleCity_Scene_Screen;
 
+import org.omg.CORBA._PolicyStub;
+
 import BattleCity_Actors.Bonus;
 import BattleCity_Actors.Box;
 import BattleCity_Actors.Bullet;
 import BattleCity_Actors.ButtonFire;
 import BattleCity_Actors.InfoPanel;
 import BattleCity_Actors.MovingControl;
+import BattleCity_Actors.Plane;
 import BattleCity_Actors.Tank;
 import BattleCity_independent_code.Map;
 import BattleCity_independent_code.Model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
@@ -39,6 +43,7 @@ public class LibGDXView extends BattleCity_independent_code.View {
 	private Bullet[] _bullet = new Bullet[NUMB_OF_TANK_IN_LEVEL];
 	private InfoPanel _infoPanel;
 	private Bonus _bonus;
+	private Plane _plane;
 	private MovingControl _movingControl;
 	private ButtonFire _button_fire;
 	BitmapFont font = new BitmapFont();
@@ -53,18 +58,24 @@ public class LibGDXView extends BattleCity_independent_code.View {
 	@Override
 	protected void drawBonus(int coordX, int coordY, boolean bonusFree, int bonusIndex) {
 		
-		if (_bonus == null) {	
-			_bonus = new Bonus(bonusIndex);
-			_stage.addActor(_bonus);
-		}
-		
 		if (bonusFree) {
-			_bonus.set_texture(Bonus.getTextures()[bonusIndex]);
-			_bonus.setPosition(coordX, coordY);	
-			_bonus.toFront();
-			_bonus.addAction(Actions.sequence(Actions.scaleTo(1f, 1f, 0.5f),Actions.scaleTo(0.2f, 0.2f)));
-		}else {
-			_bonus.toBack();
+			if (_bonus == null) {	
+			_plane = new Plane();
+			_bonus = new Bonus(bonusIndex);
+			_plane.setPosition(-_plane.get_texture().getHeight(), -_plane.get_texture().getWidth());
+			_bonus.setPosition(-_bonus.get_texture().getWidth(), -_bonus.get_texture().getHeight());
+			_stage.addActor(_bonus);
+			_stage.addActor(_plane);
+			_plane.action(coordX, coordY, 0);
+			_bonus.action(coordX, coordY);
+		}			
+				
+			}else {
+				if (_bonus != null) {
+					_bonus.remove();
+					_bonus = null;
+				}
+			
 		}
 			
 	}
