@@ -1,6 +1,5 @@
 package BattleCity_Scene_Screen;
 
-import org.omg.CORBA._PolicyStub;
 
 import BattleCity_Actors.Bonus;
 import BattleCity_Actors.Box;
@@ -15,10 +14,6 @@ import BattleCity_independent_code.Model;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 

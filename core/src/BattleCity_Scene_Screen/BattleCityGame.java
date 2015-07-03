@@ -10,9 +10,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class BattleCityGame extends Game {
 	Music main;
 	Music music_gameOver;
-	 SpriteBatch batch;
-	 BitmapFont font;
-	 boolean music_mute = false;
+	private static Music aircraft;
+	SpriteBatch batch;
+	BitmapFont font;
+	boolean music_mute = false;
 	 
 	private static Music shot;
 	private static Music boom;
@@ -25,6 +26,7 @@ public class BattleCityGame extends Game {
 		this.setScreen(new MenuScreen(this));
 		music_gameOver = Gdx.audio.newMusic(Gdx.files.internal("resourse/sounds/gameOver.mp3"));
 		main = Gdx.audio.newMusic(Gdx.files.internal("resourse/sounds/main.mp3"));
+		setAircraft(Gdx.audio.newMusic(Gdx.files.internal("resourse/sounds/aircraft.mp3")));
 		setShot(Gdx.audio.newMusic(Gdx.files.internal("resourse/sounds/shot.mp3")));
 		setBoom(Gdx.audio.newMusic(Gdx.files.internal("resourse/sounds/boom.mp3")));
 		main.play();
@@ -44,6 +46,14 @@ public class BattleCityGame extends Game {
 
 	public static void setShot(Music shot) {
 		BattleCityGame.shot = shot;
+	}
+
+	public static Music getAircraft() {
+		return aircraft;
+	}
+
+	public static void setAircraft(Music aircraft) {
+		BattleCityGame.aircraft = aircraft;
 	}
 
 }

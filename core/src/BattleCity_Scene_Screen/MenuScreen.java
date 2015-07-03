@@ -8,11 +8,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 
 public class MenuScreen implements Screen, InputProcessor{
 
+	private static final int VOLUME_MAX = 100;
+	private static final int VOLUME_OFF = 0;
+	
 	private static final int HEIGHT_BUT_PLAY = Button.getHeightButPlay();
 	private static final int LENGHT_BUT_PLAY = Button.getWidthButPlay();
 	private static final double COORD_BUT_PLAY_X = BattleCityScreen.SCREEN_WIGHT*0.4;
@@ -93,15 +94,17 @@ public class MenuScreen implements Screen, InputProcessor{
 			game.setScreen(new BattleCityScreen(game));
 	        return true;
 		}else if (game.music_mute) {
-			game.main.setVolume(0);
-			game.getBoom().setVolume(0);
-			game.getShot().setVolume(0);
-			game.music_gameOver.setVolume(0);
+			game.main.setVolume(VOLUME_OFF);
+			game.getBoom().setVolume(VOLUME_OFF);
+			game.getShot().setVolume(VOLUME_OFF);
+			game.getAircraft().setVolume(VOLUME_OFF);
+			game.music_gameOver.setVolume(VOLUME_OFF);
 		}else if(!game.music_mute){
-			game.main.setVolume(100);
-			game.getBoom().setVolume(100);
-			game.getShot().setVolume(100);
-			game.music_gameOver.setVolume(100);
+			game.main.setVolume(VOLUME_MAX);
+			game.getBoom().setVolume(VOLUME_MAX);
+			game.getAircraft().setVolume(VOLUME_MAX);
+			game.getShot().setVolume(VOLUME_MAX);
+			game.music_gameOver.setVolume(VOLUME_MAX);
 		}
 		return false;
 	}

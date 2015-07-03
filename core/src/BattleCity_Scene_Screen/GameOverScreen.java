@@ -15,9 +15,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 public class GameOverScreen implements Screen, InputProcessor {
 
 	private static final int VOLUME_MAX = 100;
-
 	private static final int VOLUME_OFF = 0;
-
 	private static final int GAME_OVER_HEADBAND = 1;
 
 	private static final int SOUND_IS_ON = 4;
@@ -126,11 +124,13 @@ public class GameOverScreen implements Screen, InputProcessor {
 	        return true;
 		}else if (game.music_mute) {
 			game.main.setVolume(VOLUME_OFF);
+			game.getAircraft().setVolume(VOLUME_OFF);
 			game.getBoom().setVolume(VOLUME_OFF);
 			game.getShot().setVolume(VOLUME_OFF);
 			game.music_gameOver.setVolume(VOLUME_OFF);
 		}else if(!game.music_mute){
 			game.main.setVolume(VOLUME_MAX);
+			game.getAircraft().setVolume(VOLUME_MAX);
 			game.getBoom().setVolume(VOLUME_MAX);
 			game.getShot().setVolume(VOLUME_MAX);
 			game.music_gameOver.setVolume(VOLUME_MAX);
