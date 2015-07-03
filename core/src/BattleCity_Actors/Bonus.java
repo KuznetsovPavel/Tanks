@@ -38,11 +38,11 @@ public class Bonus extends Actor {
 	public void action(int coordX, int coordY){
 		this.addAction(
 				Actions.sequence(
-						Actions.delay(1f),
+						Actions.delay(1.5f),
 						Actions.scaleTo(2f, 2f), 
 						Actions.moveTo(coordX, coordY),
 						Actions.removeAction(Actions.scaleTo(2f, 2f), this),
-						Actions.scaleTo(1f, 1f, 1f) )
+						Actions.scaleTo(1f, 1f, 2f) )
 				);
 	}	
 	

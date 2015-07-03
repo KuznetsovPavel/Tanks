@@ -129,7 +129,7 @@ public class GameOverScreen implements Screen, InputProcessor {
 			game.getShot().setVolume(VOLUME_OFF);
 			game.music_gameOver.setVolume(VOLUME_OFF);
 		}else if(!game.music_mute){
-			game.main.setVolume(VOLUME_MAX);
+			game.main.setVolume(VOLUME_MAX/2);
 			game.getAircraft().setVolume(VOLUME_MAX);
 			game.getBoom().setVolume(VOLUME_MAX);
 			game.getShot().setVolume(VOLUME_MAX);

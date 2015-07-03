@@ -4,8 +4,6 @@ import BattleCity_Scene_Screen.BattleCityGame;
 import BattleCity_Scene_Screen.BattleCityScreen;
 import BattleCity_independent_code.Map;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -28,18 +26,12 @@ public class Plane extends Actor {
 	
 	public void action(int coordX , int coordY, int ang){
 		
-		/*
-		double hypotenuse = Math.sqrt((coordX - WIDTH_ACTOR)^2 + (coordY - HEIGHT_ACTOR)^2);
-		double cathetus = coordX - WIDTH_ACTOR;
-		float angle = (float) (360 - Math.acos(cathetus/hypotenuse)*55);
-		*/
-		
 		BattleCityGame.getAircraft().play();
 		this.addAction(
 				Actions.sequence(
-					Actions.moveTo(coordX + WIDTH_ACTOR/2, coordY + HEIGHT_ACTOR/3, 1f),
+					Actions.moveTo(coordX, coordY, 1.5f),
 					Actions.parallel(Actions.rotateTo(180, 1f), Actions.moveTo(coordX + WIDTH_ACTOR, coordY + HEIGHT_ACTOR, 0.5f)), 
-					Actions.moveTo(-WIDTH_ACTOR, -HEIGHT_ACTOR, 1f), 
+					Actions.moveTo(-WIDTH_ACTOR, -HEIGHT_ACTOR, 2f), 
 					Actions.removeActor(this))
 				);
 	}
