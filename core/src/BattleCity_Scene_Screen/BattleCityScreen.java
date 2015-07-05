@@ -7,15 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class BattleCityScreen implements Screen {
 
+	public static final int SCREEN_WIGHT = Gdx.graphics.getWidth();
+	public static final int SCREEN_HEIGHT = Gdx.graphics.getHeight(); 
+	
 	BattleCityStage _stage;
 	BattleCityGame game;
 	Texture texture;
 	
-	
-	
-	public static final int SCREEN_WIGHT = Gdx.graphics.getWidth();
-    public static final int SCREEN_HEIGHT = Gdx.graphics.getHeight(); 
-    
     public BattleCityScreen(BattleCityGame newGame) {
     	game = newGame;
     }

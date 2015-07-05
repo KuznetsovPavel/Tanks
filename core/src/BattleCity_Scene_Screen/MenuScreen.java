@@ -14,6 +14,12 @@ public class MenuScreen implements Screen, InputProcessor{
 	private static final int VOLUME_MAX = 100;
 	private static final int VOLUME_OFF = 0;
 	
+	private static final int MENU_SCREEN_HEADBAND = 0;
+	private static final int SOUND_IS_ON = 4;
+	private static final int SOUND_IS_OFF = 5;
+	private static final int BUTTON_PLAY_IS_NOT_PUT = 3;
+	private static final int BUTTON_PLAY_IS_PUT = 2;
+	
 	private static final int HEIGHT_BUT_PLAY = Button.getHeightButPlay();
 	private static final int LENGHT_BUT_PLAY = Button.getWidthButPlay();
 	private static final double COORD_BUT_PLAY_X = BattleCityScreen.SCREEN_WIGHT*0.4;
@@ -27,9 +33,9 @@ public class MenuScreen implements Screen, InputProcessor{
 	 
 	 boolean isPlay = false;
 	 BattleCityGame game = new BattleCityGame();
-	 Headband headband = new Headband(0);
-	 Button play_game = new Button(0, (int) COORD_BUT_PLAY_X, (int) (BattleCityScreen.SCREEN_HEIGHT*0.1));
-	 Button _volume = new Button(4, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.SCREEN_HEIGHT*0.01));
+	 Headband headband = new Headband(MENU_SCREEN_HEADBAND);
+	 Button play_game = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) COORD_BUT_PLAY_X, (int) (BattleCityScreen.SCREEN_HEIGHT*0.1));
+	 Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.SCREEN_HEIGHT*0.01));
 	 
 	 public MenuScreen(BattleCityGame newGame) {
 		 	game = newGame;
@@ -51,11 +57,11 @@ public class MenuScreen implements Screen, InputProcessor{
 	        game.batch.begin();
 	        headband.draw(game.batch, 0);
 	        if (isPlay) {
-				play_game.set_texture(play_game.getTextures()[1]);
+				play_game.set_texture(Button.getTextures()[BUTTON_PLAY_IS_PUT]);
 			}else if(game.music_mute){
-				_volume.set_texture(_volume.getTextures()[5]);
+				_volume.set_texture(Button.getTextures()[SOUND_IS_OFF]);
 			}else if (!game.music_mute) {
-				_volume.set_texture(_volume.getTextures()[4]);
+				_volume.set_texture(Button.getTextures()[SOUND_IS_ON]);
 			}
 	        play_game.draw(game.batch, 0);
 	        _volume.draw(game.batch, 0);
@@ -95,15 +101,15 @@ public class MenuScreen implements Screen, InputProcessor{
 	        return true;
 		}else if (game.music_mute) {
 			game.main.setVolume(VOLUME_OFF);
-			game.getBoom().setVolume(VOLUME_OFF);
-			game.getShot().setVolume(VOLUME_OFF);
-			game.getAircraft().setVolume(VOLUME_OFF);
+			BattleCityGame.getBoom().setVolume(VOLUME_OFF);
+			BattleCityGame.getShot().setVolume(VOLUME_OFF);
+			BattleCityGame.getAircraft().setVolume(VOLUME_OFF);
 			game.music_gameOver.setVolume(VOLUME_OFF);
 		}else if(!game.music_mute){
 			game.main.setVolume(VOLUME_MAX);
-			game.getBoom().setVolume(VOLUME_MAX);
-			game.getAircraft().setVolume(VOLUME_MAX);
-			game.getShot().setVolume(VOLUME_MAX);
+			BattleCityGame.getBoom().setVolume(VOLUME_MAX);
+			BattleCityGame.getAircraft().setVolume(VOLUME_MAX);
+			BattleCityGame.getShot().setVolume(VOLUME_MAX);
 			game.music_gameOver.setVolume(VOLUME_MAX);
 		}
 		return false;

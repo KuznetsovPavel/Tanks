@@ -41,9 +41,9 @@ public class Bonus extends Actor {
 						Actions.delay(1.5f),
 						Actions.scaleTo(2f, 2f), 
 						Actions.moveTo(coordX, coordY),
-						Actions.removeAction(Actions.scaleTo(2f, 2f), this),
-						Actions.scaleTo(1f, 1f, 2f) )
-				);
+						Actions.scaleTo(1f, 1f, 2f)
+				)
+		);
 	}	
 	
 	public Texture get_texture() {

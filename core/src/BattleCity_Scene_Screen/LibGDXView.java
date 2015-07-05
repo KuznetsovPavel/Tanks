@@ -53,7 +53,9 @@ public class LibGDXView extends BattleCity_independent_code.View {
 	@Override
 	protected void drawBonus(int coordX, int coordY, boolean bonusFree, int bonusIndex) {
 		
+		
 		if (bonusFree) {
+			
 			if (_bonus == null) {	
 			_plane = new Plane();
 			_bonus = new Bonus(bonusIndex);
@@ -66,6 +68,11 @@ public class LibGDXView extends BattleCity_independent_code.View {
 		}			
 				
 			}else {
+				
+				if (_model._logic._state.isBonusIsDroped()) {						
+					_model._logic._state.setBonusIsDroped(false);
+				}
+
 				if (_bonus != null) {
 					_bonus.remove();
 					_bonus = null;

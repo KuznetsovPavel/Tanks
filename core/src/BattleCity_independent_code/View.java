@@ -39,7 +39,7 @@ public class View {
 		int numberOfTank = 0;
 		int numberOfBullet = 0;
 
-		if (!state.bonusIsTake) {
+		if (!state.isBonusIsTake()) {
 			drawBonus(state._bonus_coordX*BOX_SIZE_X, state._bonus_coordY*BOX_SIZE_Y, true, state.bonus);
 		}else {
 			drawBonus(state._bonus_coordX*BOX_SIZE_X, state._bonus_coordY*BOX_SIZE_Y, false, state.bonus);

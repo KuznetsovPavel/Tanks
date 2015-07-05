@@ -12,13 +12,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class BattleCityStage extends Stage {
 
-	private static final int TIME_FOR_BONUS = 1000;
+	private static final int TIME_FOR_BONUS = 15000;
 	private static final int SCREEN_WIDTH = BattleCityScreen.SCREEN_WIGHT;
 	private static final int SCREEN_HEIGHT = BattleCityScreen.SCREEN_HEIGHT;
 
 	SpriteBatch spriteBatch = new SpriteBatch();
 	
-	int timerForBonus = 0;
+	long timerForDroppingBonus = 0;
+	long timerForGettingBonus = 0;
 	protected boolean gameIsOver = false;
 	protected int final_score;
 	protected int final_level;
@@ -47,12 +48,21 @@ public class BattleCityStage extends Stage {
 			
 			@Override
 			public void run() {
-				timerForBonus += 1;		
-				if (timerForBonus == TIME_FOR_BONUS - 50) {
-					model._logic._state.bonusIsTake = true;
-				}else if (timerForBonus == TIME_FOR_BONUS) {
+				if (timerForDroppingBonus == 0) {
+					timerForDroppingBonus = this.getExecuteTimeMillis();
+				}
+				
+				if (this.getExecuteTimeMillis() - timerForDroppingBonus >= TIME_FOR_BONUS - 100 && 
+						this.getExecuteTimeMillis() - timerForDroppingBonus <= TIME_FOR_BONUS) {
+					model._logic._state.setBonusIsTake(true);
+				}else if (this.getExecuteTimeMillis() - timerForDroppingBonus >= TIME_FOR_BONUS) {
 					controller.dropBonus();
-					timerForBonus = 0;					
+					timerForGettingBonus = this.getExecuteTimeMillis();
+					timerForDroppingBonus = 0;		
+				}			
+				
+				if (this.getExecuteTimeMillis() - timerForGettingBonus  >= 3500) {
+					model._logic._state.setBonusIsDroped(true);
 				}
 				
 				if (controller.oneStep()) {
@@ -60,7 +70,7 @@ public class BattleCityStage extends Stage {
 					BattleCityGame.getBoom().play();
 				}
 			}
-		}, 0.01f, 0.013f);
+		}, 0.01f, 0.02f);
 
 		Gdx.input.setInputProcessor(this);
 

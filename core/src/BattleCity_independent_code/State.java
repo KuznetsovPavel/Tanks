@@ -15,9 +15,10 @@ public class State {
 	List<Tank> _botTanks = new ArrayList<Tank>();
 	private boolean newMap = false;
 
-	int bonus, _bonus_coordX = -10, _bonus_coordY = -10;
+	int bonus, _bonus_coordX, _bonus_coordY;
+	private boolean bonusIsDroped = false;
 	Tank tank_with_bonus;
-	public boolean bonusIsTake = true;
+	private boolean bonusIsTake = true;
 
 	boolean _gameOver = false;
 	private int state_cntrl;
@@ -100,6 +101,22 @@ public class State {
 
 	public void setState_cntrl(int state_cntrl) {
 		this.state_cntrl = state_cntrl;
+	}
+
+	public boolean isBonusIsDroped() {
+		return bonusIsDroped;
+	}
+
+	public void setBonusIsDroped(boolean bonusIsDroped) {
+		this.bonusIsDroped = bonusIsDroped;
+	}
+
+	public boolean isBonusIsTake() {
+		return bonusIsTake;
+	}
+
+	public void setBonusIsTake(boolean bonusIsTake) {
+		this.bonusIsTake = bonusIsTake;
 	}
 
 }

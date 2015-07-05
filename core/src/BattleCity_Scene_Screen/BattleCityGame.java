@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-
 public class BattleCityGame extends Game {
 	Music main;
 	Music music_gameOver;
@@ -14,15 +13,15 @@ public class BattleCityGame extends Game {
 	SpriteBatch batch;
 	BitmapFont font;
 	boolean music_mute = false;
-	 
+
 	private static Music shot;
 	private static Music boom;
-	 
+
 	@Override
-	public void create () {
-		
-	batch = new SpriteBatch();
-	font = new BitmapFont();
+	public void create() {
+
+		batch = new SpriteBatch();
+		font = new BitmapFont();
 		this.setScreen(new MenuScreen(this));
 		music_gameOver = Gdx.audio.newMusic(Gdx.files.internal("resourse/sounds/gameOver.mp3"));
 		main = Gdx.audio.newMusic(Gdx.files.internal("resourse/sounds/main.mp3"));

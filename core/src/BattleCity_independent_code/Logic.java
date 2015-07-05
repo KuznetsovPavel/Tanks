@@ -7,10 +7,10 @@ import BattleCity_independent_code.State;
 
 public class Logic {
 	
+	private static final int COORD_BONUS_IS_CHARGING = -10;
 	private static final int NUMB_OF_STEP_FOR_ONE_DERECTION = 50;
 	private static final int LEVEL_UP = 1;
 	
-	private static final int COORD_FOR_BONUS_CHARGING = -10;
 	private static final int SHOTING_SPEED = 2;
 	private static final int MOVING_SPEED = 1;
 	private static final int ARMOR = 0;
@@ -83,7 +83,8 @@ public class Logic {
 			
 			_state.setBotTank();
 			Map map = Map.randomMap();
-			_state.bonusIsTake = true;
+			_state.setBonusIsTake(true);
+			_state.bonus = COORD_BONUS_IS_CHARGING;
 			_state.setIsNewMap(true);
 			_state.setMap(map);
 			_state.get_tank().setTank(Map.COL / 2 * BOX_SIZE_X, 2 * BOX_SIZE_Y);
@@ -284,19 +285,19 @@ public class Logic {
 
 		switch (direction) {
 		case UP:
-			move(tank, tank._speed / 2, 0);
+			move(tank, tank._speed, 0);
 			break;
 
 		case DOWN:
-			move(tank, -tank._speed / 2, 0);
+			move(tank, -tank._speed, 0);
 			break;
 
 		case LEFT:
-			move(tank, 0, -tank._speed / 2);
+			move(tank, 0, -tank._speed);
 			break;
 
 		case RIGHT:
-			move(tank, 0, tank._speed / 2);
+			move(tank, 0, tank._speed);
 			break;
 
 		default:
@@ -501,6 +502,8 @@ public class Logic {
 
 
 	public boolean dropBonus() {
+		
+		
 		int bonus_tmpX;
 		int bonus_tmpY;
 		
@@ -510,7 +513,7 @@ public class Logic {
 			_state.tank_with_bonus = null;
 		}
 		
-		_state.bonusIsTake = false;
+		_state.setBonusIsTake(false);
 		while (true) {
 			
 			_state.bonus = random.nextInt(NUMB_OF_BONUS);
@@ -530,19 +533,22 @@ public class Logic {
 
 	public void takeBonus() {
 		for (Tank tank : _state._botTanks) {
-			if (checkCrossing(tank.coordX, tank.coordY, _state._bonus_coordX*BOX_SIZE_X, _state._bonus_coordY*BOX_SIZE_Y)) {
+			if (_state.isBonusIsDroped() && checkCrossing(tank.coordX, tank.coordY, 
+					_state._bonus_coordX*BOX_SIZE_X, _state._bonus_coordY*BOX_SIZE_Y)) {
 				
 				whichBonusIsTake(tank);
 				_state.tank_with_bonus = tank;
-
+				bonusIsTake();
 				return;
+				
 			}
 		}
-		if (checkCrossing(_state.get_tank().coordX, _state.get_tank().coordY,
+		if (_state.isBonusIsDroped() && checkCrossing(_state.get_tank().coordX, _state.get_tank().coordY,
 				_state._bonus_coordX*BOX_SIZE_X, _state._bonus_coordY*BOX_SIZE_Y)) {
 
 			whichBonusIsTake(_state.get_tank());
 			_state.tank_with_bonus = _state.get_tank();
+			bonusIsTake();
 			
 		}
 	}
@@ -557,10 +563,12 @@ public class Logic {
 			tank._bullet._speed += Bullet.SPEED;
 		}
 		
-		_state._bonus_coordX = COORD_FOR_BONUS_CHARGING;
-		_state._bonus_coordY = COORD_FOR_BONUS_CHARGING;
-		_state.bonusIsTake = true;
-		
+	}
+
+	private void bonusIsTake() {
+		_state._bonus_coordX = _state._bonus_coordY = COORD_BONUS_IS_CHARGING;
+		_state.setBonusIsDroped(false);
+		_state.setBonusIsTake(true);
 	}
 
 }

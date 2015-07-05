@@ -2,7 +2,7 @@ package BattleCity_independent_code;
 
 public class Bullet {
 
-	static final int SPEED = 6;
+	static final int SPEED = 10;
 	
 	int coordY, coordX, targetDerection;
 	boolean isLive = false;
