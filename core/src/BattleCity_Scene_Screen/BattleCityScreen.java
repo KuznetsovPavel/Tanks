@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class BattleCityScreen implements Screen {
 
-	public static final int SCREEN_WIGHT = Gdx.graphics.getWidth();
-	public static final int SCREEN_HEIGHT = Gdx.graphics.getHeight(); 
+	private static final int SCREEN_WIGHT = Gdx.graphics.getWidth();
+	private static final int SCREEN_HEIGHT = Gdx.graphics.getHeight(); 
 	
 	BattleCityStage _stage;
 	BattleCityGame game;
@@ -30,7 +30,7 @@ public class BattleCityScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		_stage.act(Gdx.graphics.getDeltaTime());
         _stage.draw();
-        if (_stage.gameIsOver) {
+        if (_stage.isGameIsOver()) {
 			game.setScreen(new GameOverScreen(game, _stage));
 			game.main.stop();
 		}
@@ -65,6 +65,16 @@ public class BattleCityScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 
+	}
+
+
+	public static int getScreenHeight() {
+		return SCREEN_HEIGHT;
+	}
+
+
+	public static int getScreenWight() {
+		return SCREEN_WIGHT;
 	}
 
 }

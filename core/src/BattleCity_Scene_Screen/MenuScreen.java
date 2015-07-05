@@ -22,25 +22,25 @@ public class MenuScreen implements Screen, InputProcessor{
 	
 	private static final int HEIGHT_BUT_PLAY = Button.getHeightButPlay();
 	private static final int LENGHT_BUT_PLAY = Button.getWidthButPlay();
-	private static final double COORD_BUT_PLAY_X = BattleCityScreen.SCREEN_WIGHT*0.4;
-	private static final double COORD_BUT_PLAY_Y = BattleCityScreen.SCREEN_HEIGHT*0.8;
-	private static final double COORD_BUT_VOLUME_X = BattleCityScreen.SCREEN_WIGHT*0.01;
-	private static final double COORD_BUT_VOLUME_Y = BattleCityScreen.SCREEN_HEIGHT*0.85;
+	private static final double COORD_BUT_PLAY_X = BattleCityScreen.getScreenWight()*0.4;
+	private static final double COORD_BUT_PLAY_Y = BattleCityScreen.getScreenHeight()*0.8;
+	private static final double COORD_BUT_VOLUME_X = BattleCityScreen.getScreenWight()*0.01;
+	private static final double COORD_BUT_VOLUME_Y = BattleCityScreen.getScreenHeight()*0.85;
 	private static final int LENGHT_BUT_VOLUME = Button.getWidthButVolume();
 	private static final int HEIGHT_BUT_VOLUME = Button.getHeightButVolume();
 
-	OrthographicCamera camera;
+	private OrthographicCamera camera;
 	 
-	 boolean isPlay = false;
-	 BattleCityGame game = new BattleCityGame();
-	 Headband headband = new Headband(MENU_SCREEN_HEADBAND);
-	 Button play_game = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) COORD_BUT_PLAY_X, (int) (BattleCityScreen.SCREEN_HEIGHT*0.1));
-	 Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.SCREEN_HEIGHT*0.01));
+	private boolean isPlay = false;
+	private BattleCityGame game = new BattleCityGame();
+	private Headband headband = new Headband(MENU_SCREEN_HEADBAND);
+	private Button play_game = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) COORD_BUT_PLAY_X, (int) (BattleCityScreen.getScreenHeight()*0.1));
+	private Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.getScreenHeight()*0.01));
 	 
 	 public MenuScreen(BattleCityGame newGame) {
 		 	game = newGame;
 	        camera = new OrthographicCamera();
-	        camera.setToOrtho(false, BattleCityScreen.SCREEN_HEIGHT, BattleCityScreen.SCREEN_WIGHT);
+	        camera.setToOrtho(false, BattleCityScreen.getScreenHeight(), BattleCityScreen.getScreenWight());
 	    }
 	
 	@Override

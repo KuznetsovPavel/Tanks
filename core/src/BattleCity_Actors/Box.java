@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Box extends Actor {
 	
-	private static final int HEIGHT_ACTOR = BattleCityScreen.SCREEN_HEIGHT/Map.ROW;
-	private static final int WIDTH_ACTOR = BattleCityScreen.SCREEN_WIGHT/Map.COL;
+	private static final int HEIGHT_ACTOR = BattleCityScreen.getScreenHeight()/Map.getRow();
+	private static final int WIDTH_ACTOR = BattleCityScreen.getScreenWight()/Map.getCol();
 
-	static Texture[] textures = new Texture[9];
-	Texture _texture;
+	private static Texture[] textures = new Texture[9];
+	private Texture _texture;
 	
 	
 	static {

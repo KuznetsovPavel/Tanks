@@ -11,9 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class ClickHandler extends InputListener {
-	Model _model;
-	Controller _controller;
-	BattleCityGame _game;
+	private Model _model;
+	private Controller _controller;
+	private BattleCityGame _game;
 	
 	public ClickHandler(Model model, Controller controller, BattleCityGame game) {
 		_model = model;
@@ -25,47 +25,47 @@ public class ClickHandler extends InputListener {
 		public boolean touchDown(InputEvent event, float x, float y,
 				int pointer, int button) {
 			
-			int cntrl_X = View.MOVING_CONTROL_X;
-			int cntrl_Y = View.MOVING_CONTROL_Y;
-			int bFire_X = View.BUTTON_FIRE_X;
-			int bFire_Y = View.BUTTON_FIRE_Y;
+			int cntrl_X = View.getMovingControlX();
+			int cntrl_Y = View.getMovingControlY();
+			int bFire_X = View.getButtonFireX();
+			int bFire_Y = View.getButtonFireY();
 			
-			if (pointInArea(x, y, bFire_X, bFire_Y, ButtonFire.WIDTH_BUTTON, 
-					 ButtonFire.HEIGHT_BUTTON)) {
+			if (pointInArea(x, y, bFire_X, bFire_Y, ButtonFire.getWidthButton(), 
+					 ButtonFire.getHeightButton())) {
 			
-				_model._logic._state.setState_butFire(1);
+				_model.get_logic().get_state().setState_butFire(1);
 				if (_controller.fire()) {
 					_game.getShot().stop();
 					_game.getShot().play();
 				}
 				
-			}else if (pointInArea(x, y, cntrl_X + MovingControl.WIDTH_CONTROL/3, 
-					cntrl_Y + MovingControl.HEIGHT_CONTROL*2/3, MovingControl.WIDTH_CONTROL*2/3, 
-					MovingControl.HEIGHT_CONTROL)) {
+			}else if (pointInArea(x, y, cntrl_X + MovingControl.getWidthControl()/3, 
+					cntrl_Y + MovingControl.getHeightControl()*2/3, MovingControl.getWidthControl()*2/3, 
+					MovingControl.getHeightControl())) {
 				
-				_model._logic._state.setState_cntrl(1);
-				_controller.up = true;
+				_model.get_logic().get_state().setState_cntrl(1);
+				_controller.setUp(true);
 		
-			}else if (pointInArea(x, y, cntrl_X + MovingControl.WIDTH_CONTROL/3, 
-					cntrl_Y, MovingControl.WIDTH_CONTROL*2/3, 
-					MovingControl.HEIGHT_CONTROL/3)) {
+			}else if (pointInArea(x, y, cntrl_X + MovingControl.getWidthControl()/3, 
+					cntrl_Y, MovingControl.getWidthControl()*2/3, 
+					MovingControl.getHeightControl()/3)) {
 			
-				_model._logic._state.setState_cntrl(2);
-				_controller.down = true;
+				_model.get_logic().get_state().setState_cntrl(2);
+				_controller.setDown(true);
 		
 			}else if (pointInArea(x, y, cntrl_X, 
-					cntrl_Y + MovingControl.HEIGHT_CONTROL/3, MovingControl.WIDTH_CONTROL/3, 
-					MovingControl.HEIGHT_CONTROL*2/3)) {
+					cntrl_Y + MovingControl.getHeightControl()/3, MovingControl.getWidthControl()/3, 
+					MovingControl.getHeightControl()*2/3)) {
 				
-				_model._logic._state.setState_cntrl(3);
-				_controller.left = true;
+				_model.get_logic().get_state().setState_cntrl(3);
+				_controller.setLeft(true);
 			
-			}else if (pointInArea(x, y, cntrl_X + MovingControl.WIDTH_CONTROL*2/3, 
-					MovingControl.HEIGHT_CONTROL/3, cntrl_X + MovingControl.WIDTH_CONTROL, 
-					MovingControl.HEIGHT_CONTROL*2/3)) {
+			}else if (pointInArea(x, y, cntrl_X + MovingControl.getWidthControl()*2/3, 
+					MovingControl.getHeightControl()/3, cntrl_X + MovingControl.getWidthControl(), 
+					MovingControl.getHeightControl()*2/3)) {
 				
-				_model._logic._state.setState_cntrl(4);
-				_controller.right = true;
+				_model.get_logic().get_state().setState_cntrl(4);
+				_controller.setRight(true);
 				
 			}
 			
@@ -97,12 +97,12 @@ public class ClickHandler extends InputListener {
 
 		private void resetControllers(final Model model, final Controller controller) {
 			
-			model._logic._state.setState_cntrl(0);
-			model._logic._state.setState_butFire(0);
-			controller.up = false;
-			controller.down = false;
-			controller.left = false;
-			controller.right = false;
+			model.get_logic().get_state().setState_cntrl(0);
+			model.get_logic().get_state().setState_butFire(0);
+			controller.setUp(false);
+			controller.setDown(false);
+			controller.setLeft(false);
+			controller.setRight(false);
 			
 		}
 		
@@ -111,19 +111,19 @@ public class ClickHandler extends InputListener {
 			switch (keycode) {
 
 			case Input.Keys.LEFT:
-				_controller.left = true;
+				_controller.setLeft(true);
 				break;
 
 			case Input.Keys.RIGHT:
-				_controller.right = true;
+				_controller.setRight(true);
 				break;
 
 			case Input.Keys.UP:
-				_controller.up = true;
+				_controller.setUp(true);
 				break;
 
 			case Input.Keys.DOWN:
-				_controller.down = true;
+				_controller.setDown(true);
 				break;
 
 			case Input.Keys.SPACE:
@@ -142,19 +142,19 @@ public class ClickHandler extends InputListener {
 			switch (keycode) {
 
 			case Input.Keys.LEFT:
-				_controller.left = false;
+				_controller.setLeft(false);
 				break;
 
 			case Input.Keys.RIGHT:
-				_controller.right = false;
+				_controller.setRight(false);
 				break;
 
 			case Input.Keys.UP:
-				_controller.up = false;
+				_controller.setUp(false);
 				break;
 
 			case Input.Keys.DOWN:
-				_controller.down = false;
+				_controller.setDown(false);
 				break;
 
 			}

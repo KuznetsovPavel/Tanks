@@ -10,9 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class InfoPanel extends Actor {
 	
-	private static final int HEIGHT_INFO_PANEL = BattleCityScreen.SCREEN_HEIGHT/Map.ROW * 3;
-	private static final int WIDTH_INFO_PANEL = BattleCityScreen.SCREEN_WIGHT/Map.COL * 5;
-	Texture _texture;
+	private static final int HEIGHT_INFO_PANEL = BattleCityScreen.getScreenHeight()/Map.getRow() * 3;
+	private static final int WIDTH_INFO_PANEL = BattleCityScreen.getScreenWight()/Map.getCol() * 5;
+	private Texture _texture;
 	
 	public InfoPanel() {
 		_texture = new Texture(Gdx.files.internal("resourse/graphics/info_table.png"));

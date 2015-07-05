@@ -4,27 +4,27 @@ import BattleCity_Scene_Screen.BattleCityScreen;
 
 public class View {
 
-	protected static final int SCREEN_HEIGHT = BattleCityScreen.SCREEN_HEIGHT;
-	protected static final int SCREEN_WIDTH = BattleCityScreen.SCREEN_WIGHT;
+	private static final int SCREEN_HEIGHT = BattleCityScreen.getScreenHeight();
+	private static final int SCREEN_WIDTH = BattleCityScreen.getScreenWight();
 	
-	static final int TANK_SIZE_X = SCREEN_WIDTH / Map.COL;
-	static final int TANK_SIZE_Y = SCREEN_HEIGHT / Map.ROW;
-	private static final int BOX_SIZE_X = SCREEN_WIDTH / Map.COL;
-	private static final int BOX_SIZE_Y = SCREEN_HEIGHT / Map.ROW;
+	private static final int TANK_SIZE_X = getScreenWidth() / Map.getCol();
+	private static final int TANK_SIZE_Y = getScreenHeight() / Map.getRow();
+	private static final int BOX_SIZE_X = getScreenWidth() / Map.getCol();
+	private static final int BOX_SIZE_Y = getScreenHeight() / Map.getRow();
 	
-	final static int TANK_TEXTURE_INDEX = 0;
-	final static int TANK_BOT_TEXTURE_INDEX = 1;
-	static final int TANK_BOT_CRASHED_TEXTURE_INDEX = 2;
+	private final static int TANK_TEXTURE_INDEX = 0;
+	private final static int TANK_BOT_TEXTURE_INDEX = 1;
+	private static final int TANK_BOT_CRASHED_TEXTURE_INDEX = 2;
 
-	final static int PANEL_COORD_X = (Map.COL - 5) * SCREEN_WIDTH / Map.COL;
-	final static int PANEL_COORD_Y = (Map.ROW - 3) * SCREEN_HEIGHT / Map.ROW;
-	public final static int PANEL_SIZE_X = SCREEN_WIDTH / Map.COL * 5;
-	public final static int PANEL_SIZE_Y = SCREEN_HEIGHT / Map.ROW * 3;
+	private final static int PANEL_COORD_X = (Map.getCol() - 5) * getScreenWidth() / Map.getCol();
+	private final static int PANEL_COORD_Y = (Map.getRow() - 3) * getScreenHeight() / Map.getRow();
+	private final static int PANEL_SIZE_X = getScreenWidth() / Map.getCol() * 5;
+	private final static int PANEL_SIZE_Y = getScreenHeight() / Map.getRow() * 3;
 	
-	public static final int MOVING_CONTROL_X = (int) (SCREEN_WIDTH*0.1);
-	public static final int MOVING_CONTROL_Y = (int) (SCREEN_HEIGHT*0.05);
-	public static final int BUTTON_FIRE_X = (int) (SCREEN_WIDTH*0.8);
-	public static final int BUTTON_FIRE_Y = (int) (SCREEN_HEIGHT*0.1);
+	private static final int MOVING_CONTROL_X = (int) (getScreenWidth()*0.1);
+	private static final int MOVING_CONTROL_Y = (int) (getScreenHeight()*0.05);
+	private static final int BUTTON_FIRE_X = (int) (getScreenWidth()*0.8);
+	private static final int BUTTON_FIRE_Y = (int) (getScreenHeight()*0.1);
 
 	private Graphics _graphics;
 	
@@ -34,48 +34,48 @@ public class View {
 
 	public void draw(final State state) {
 
-		drawMap(state._map.getData());
+		drawMap(state.get_map().getData());
 
 		int numberOfTank = 0;
 		int numberOfBullet = 0;
 
 		if (!state.isBonusIsTake()) {
-			drawBonus(state._bonus_coordX*BOX_SIZE_X, state._bonus_coordY*BOX_SIZE_Y, true, state.bonus);
+			drawBonus(state.get_bonus_coordX()*BOX_SIZE_X, state.get_bonus_coordY()*BOX_SIZE_Y, true, state.getBonus());
 		}else {
-			drawBonus(state._bonus_coordX*BOX_SIZE_X, state._bonus_coordY*BOX_SIZE_Y, false, state.bonus);
+			drawBonus(state.get_bonus_coordX()*BOX_SIZE_X, state.get_bonus_coordY()*BOX_SIZE_Y, false, state.getBonus());
 		}
 
-		if (state.get_tank()._bullet.isLive == true) {
-			drawBullet(state.get_tank()._bullet.coordX, state.get_tank()._bullet.coordY,
+		if (state.get_tank().get_bullet().isLive() == true) {
+			drawBullet(state.get_tank().get_bullet().getCoordX(), state.get_tank().get_bullet().getCoordY(),
 					numberOfBullet);
-		} else if (state.get_tank()._bullet.isLive == false) {
-			drawBullet(state.get_tank().coordX + TANK_SIZE_X / 2, state.get_tank().coordY
+		} else if (state.get_tank().get_bullet().isLive() == false) {
+			drawBullet(state.get_tank().getCoordX() + TANK_SIZE_X / 2, state.get_tank().getCoordY()
 					+ TANK_SIZE_Y / 2, numberOfBullet);
 		}
 
 
-		drawTank(TANK_TEXTURE_INDEX, state.get_tank().coordX, state.get_tank().coordY,
-				numberOfTank, state.get_tank().derection, false);
+		drawTank(TANK_TEXTURE_INDEX, state.get_tank().getCoordX(), state.get_tank().getCoordY(),
+				numberOfTank, state.get_tank().getDerection(), false);
 
-		for (Tank tankBot : state._botTanks) {
+		for (Tank tankBot : state.get_botTanks()) {
 			numberOfBullet += 1;
-			if (tankBot._bullet.isLive == true) {
-				drawBullet(tankBot._bullet.coordX, tankBot._bullet.coordY,
+			if (tankBot.get_bullet().isLive() == true) {
+				drawBullet(tankBot.get_bullet().getCoordX(), tankBot.get_bullet().getCoordY(),
 						numberOfBullet);
-			} else if (state.get_tank()._bullet.isLive == false) {
-				drawBullet(tankBot.coordX + TANK_SIZE_X / 2, tankBot.coordY
+			} else if (state.get_tank().get_bullet().isLive() == false) {
+				drawBullet(tankBot.getCoordX() + TANK_SIZE_X / 2, tankBot.getCoordY()
 						+ TANK_SIZE_Y / 2, numberOfBullet);
 			}
 		}
 
-		for (Tank tankBot : state._botTanks) {
+		for (Tank tankBot : state.get_botTanks()) {
 			numberOfTank += 1;
-			if (!tankBot.isCrash) {
-					drawTank(TANK_BOT_TEXTURE_INDEX, tankBot.coordX, tankBot.coordY,
-							numberOfTank, tankBot.derection, state.isNewMap());				
+			if (!tankBot.isCrash()) {
+					drawTank(TANK_BOT_TEXTURE_INDEX, tankBot.getCoordX(), tankBot.getCoordY(),
+							numberOfTank, tankBot.getDerection(), state.isNewMap());				
 			}else {
-				drawTank(TANK_BOT_CRASHED_TEXTURE_INDEX, tankBot.coordX, tankBot.coordY,
-						numberOfTank, tankBot.derection, state.isNewMap());
+				drawTank(TANK_BOT_CRASHED_TEXTURE_INDEX, tankBot.getCoordX(), tankBot.getCoordY(),
+						numberOfTank, tankBot.getDerection(), state.isNewMap());
 			}
 		}
 		
@@ -87,12 +87,12 @@ public class View {
 		drawInfoPanel(PANEL_COORD_X, PANEL_COORD_Y, PANEL_SIZE_X, PANEL_SIZE_Y,
 			 "You destroy " + state.get_tank().getEnemyKilled() + " enemy" + '\n'
 						+ "\n" + "You have "
-						+ (Tank.ARMOR_PLAYER_TANK - state.get_tank().damages)
+						+ (Tank.getArmorPlayerTank() - state.get_tank().getDamages())
 						+ " armor" + '\n' + "\n" + "Level: " + state.get_level(),
-				state._gameOver);
+				state.is_gameOver());
 		
-		drawMovingControl(MOVING_CONTROL_X, MOVING_CONTROL_Y, state.getState_cntrl());
-		drawButtonFire(BUTTON_FIRE_X, BUTTON_FIRE_Y, state.getState_butFire());
+		drawMovingControl(getMovingControlX(), getMovingControlY(), state.getState_cntrl());
+		drawButtonFire(getButtonFireX(), getButtonFireY(), state.getState_butFire());
 		
 
 	}
@@ -136,5 +136,29 @@ public class View {
 
 	protected void drawBullet(final int coordX, final int coordY,int numberOfBullet) {
 		_graphics.drawBullet(coordX, coordY, BOX_SIZE_X, BOX_SIZE_Y, numberOfBullet);
+	}
+
+	public static int getMovingControlX() {
+		return MOVING_CONTROL_X;
+	}
+
+	public static int getMovingControlY() {
+		return MOVING_CONTROL_Y;
+	}
+
+	public static int getButtonFireX() {
+		return BUTTON_FIRE_X;
+	}
+
+	public static int getButtonFireY() {
+		return BUTTON_FIRE_Y;
+	}
+
+	public static int getScreenHeight() {
+		return SCREEN_HEIGHT;
+	}
+
+	public static int getScreenWidth() {
+		return SCREEN_WIDTH;
 	}
 }

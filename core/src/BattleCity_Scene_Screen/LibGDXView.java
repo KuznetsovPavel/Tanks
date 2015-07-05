@@ -34,7 +34,7 @@ public class LibGDXView extends BattleCity_independent_code.View {
 	private BattleCityStage _stage;
 	private Model _model;
 	private BattleCityGame _game;
-	private Box[][] _boxes = new Box[Model.ROWS][Model.COLUMNS];
+	private Box[][] _boxes = new Box[Model.getRows()][Model.getColumns()];
 	private Tank[] _tank = new Tank[NUMB_OF_TANK_IN_LEVEL];
 	private Bullet[] _bullet = new Bullet[NUMB_OF_TANK_IN_LEVEL];
 	private InfoPanel _infoPanel;
@@ -42,9 +42,9 @@ public class LibGDXView extends BattleCity_independent_code.View {
 	private Plane _plane;
 	private MovingControl _movingControl;
 	private ButtonFire _button_fire;
-	BitmapFont font = new BitmapFont();
-	LabelStyle infoStyle = new LabelStyle(font, Color.WHITE);
-	Label _info;
+	private BitmapFont font = new BitmapFont();
+	private LabelStyle infoStyle = new LabelStyle(font, Color.WHITE);
+	private Label _info;
 	
 	public LibGDXView(BattleCityStage stage, Model model, BattleCityGame game) {
 		_game = game;
@@ -72,8 +72,8 @@ public class LibGDXView extends BattleCity_independent_code.View {
 				
 			}else {
 				
-				if (_model._logic._state.isBonusIsDroped()) {						
-					_model._logic._state.setBonusIsDroped(false);
+				if (_model.get_logic().get_state().isBonusIsDroped()) {						
+					_model.get_logic().get_state().setBonusIsDroped(false);
 				}
 
 				if (_bonus != null) {
@@ -100,7 +100,7 @@ public class LibGDXView extends BattleCity_independent_code.View {
 		Box box = new Box(textureIndex);
 		_boxes[row][col] = box;
 		_stage.addActor(box);
-		box.setPosition(col * SCREEN_WIDTH / Map.COL, row * SCREEN_HEIGHT / Map.ROW);
+		box.setPosition(col * getScreenWidth() / Map.getCol(), row * getScreenHeight() / Map.getRow());
 		
 	}
 
@@ -109,9 +109,9 @@ public class LibGDXView extends BattleCity_independent_code.View {
 			int pannel_size_X, int pannel_size_Y, String message, boolean gameOver) {
 		
 		if (gameOver) {
-			_stage.gameIsOver = true;
-			_stage.final_score = _model._logic._state.get_tank().getEnemyKilled();
-			_stage.final_level = _model._logic._state.get_level();
+			_stage.setGameIsOver(true);
+			_stage.setFinal_score(_model.get_logic().get_state().get_tank().getEnemyKilled());
+			_stage.setFinal_level(_model.get_logic().get_state().get_level());
 		}
 
 		if (_infoPanel == null || _info == null) {
@@ -130,7 +130,7 @@ public class LibGDXView extends BattleCity_independent_code.View {
 		_stage.addActor(_infoPanel);
 		_stage.addActor(_info);
 		_infoPanel.setPosition(coordX, coordY);
-		_info.setPosition(coordX + SCREEN_WIDTH / Map.COL / 4, coordY + SCREEN_HEIGHT / Map.ROW/2);
+		_info.setPosition(coordX + getScreenWidth() / Map.getCol() / 4, coordY + getScreenHeight() / Map.getRow()/2);
 		
 	}
 
@@ -164,11 +164,11 @@ public class LibGDXView extends BattleCity_independent_code.View {
 		if (derection == UP) {
 			putInLocation(coordY, coordX, number, ANGLE_0);
 		} else if (derection == DONW) {
-			putInLocation(coordY + SCREEN_HEIGHT / Map.ROW, coordX + SCREEN_WIDTH / Map.COL, number, ANGLE_180);
+			putInLocation(coordY + getScreenHeight() / Map.getRow(), coordX + getScreenWidth() / Map.getCol(), number, ANGLE_180);
 		} else if (derection == LEFT) {
-			putInLocation(coordY + SCREEN_HEIGHT / Map.ROW, coordX, number, ANGLE_90);
+			putInLocation(coordY + getScreenHeight() / Map.getRow(), coordX, number, ANGLE_90);
 		} else if (derection == RIGHT) {
-			putInLocation(coordY, coordX + SCREEN_WIDTH / Map.COL, number, ANGLE_270);
+			putInLocation(coordY, coordX + getScreenWidth() / Map.getCol(), number, ANGLE_270);
 		}
 
 	}

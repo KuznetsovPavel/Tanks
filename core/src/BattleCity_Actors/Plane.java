@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Plane extends Actor {
 	
-	private static final int HEIGHT_ACTOR = BattleCityScreen.SCREEN_HEIGHT*4/Map.ROW;
-	private static final int WIDTH_ACTOR = BattleCityScreen.SCREEN_WIGHT*4/Map.COL;
+	private static final int HEIGHT_ACTOR = BattleCityScreen.getScreenHeight()*4/Map.getRow();
+	private static final int WIDTH_ACTOR = BattleCityScreen.getScreenWight()*4/Map.getCol();
 	
 	private Texture _texture = new Texture("resourse/graphics/plane.png");
 	
@@ -28,7 +28,7 @@ public class Plane extends Actor {
 		this.addAction(
 				Actions.sequence(
 					Actions.moveTo(coordX, coordY, 1.5f),
-					Actions.parallel(Actions.rotateTo(180, 1f), Actions.moveTo(coordX + WIDTH_ACTOR, coordY + HEIGHT_ACTOR, 0.5f)), 
+					Actions.parallel(Actions.rotateTo(180, 1f), Actions.moveTo(coordX + WIDTH_ACTOR/2, coordY + HEIGHT_ACTOR, 0.5f)), 
 					Actions.moveTo(-WIDTH_ACTOR, -HEIGHT_ACTOR, 2f), 
 					Actions.removeActor(this))
 				);

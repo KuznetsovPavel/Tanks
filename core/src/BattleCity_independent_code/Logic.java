@@ -24,26 +24,26 @@ public class Logic {
 	private static final int VALUE_BLOCK_WITH_HALF_ON_LEFT = 7;
 	private static final int VALUE_BLOCK_WITH_HALF_ON_RIGHT = 8;
 	
-	private static final int BOX_SIZE_X = View.SCREEN_WIDTH / Map.COL;
-	private static final int BOX_SIZE_Y = View.SCREEN_HEIGHT / Map.ROW;
-	private static final int TANK_SIZE_X = View.SCREEN_WIDTH / Map.COL;
-	private static final int TANK_SIZE_Y = View.SCREEN_HEIGHT / Map.ROW;
+	private static final int BOX_SIZE_X = View.getScreenWidth() / Map.getCol();
+	private static final int BOX_SIZE_Y = View.getScreenHeight() / Map.getRow();
+	private static final int TANK_SIZE_X = View.getScreenWidth() / Map.getCol();
+	private static final int TANK_SIZE_Y = View.getScreenHeight() / Map.getRow();
 
 	private static final int UP = 0;
 	private static final int DOWN = 1;
 	private static final int LEFT = 2;
 	private static final int RIGHT = 3;
 
-	public State _state;
-	Random random = new Random();
+	private State _state;
+	private Random random = new Random();
 
 	public Logic(final State state) {
-		_state = state;
+		set_state(state);
 	}
 
 	public State getState() {
 		try {
-			return _state.clone();
+			return get_state().clone();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
@@ -52,21 +52,21 @@ public class Logic {
 
 	public boolean oneStep() {
 
-		if (_state.get_tank().damages == Tank.ARMOR_PLAYER_TANK) {
-			_state._gameOver = true;
+		if (get_state().get_tank().getDamages() == Tank.getArmorPlayerTank()) {
+			get_state().set_gameOver(true);
 			return true;
 		}
 
 		takeBonus();
 		
-		List<Tank> tanks = _state._botTanks;
+		List<Tank> tanks = get_state().get_botTanks();
 		oneStepForBotTanks(tanks);
 		oneStepForPlayerTank();
 		
 		boolean allDestroy = true;
 		
 		for (Tank tank : tanks) {
-			if (tank.isCrash == false) {
+			if (tank.isCrash() == false) {
 				allDestroy = false;
 			}
 		}
@@ -77,33 +77,33 @@ public class Logic {
 
 	private void initNewMap(boolean allDestroy) {
 		if (allDestroy) {
-			for (int tank = 0; tank < State.NUMB_OF_TANK_BOT; tank++) {
-				_state.removeTank(_state._botTanks.get(0));
+			for (int tank = 0; tank < State.getNumbOfTankBot(); tank++) {
+				get_state().removeTank(get_state().get_botTanks().get(0));
 			}
 			
-			_state.setBotTank();
+			get_state().setBotTank();
 			Map map = Map.randomMap();
-			_state.setBonusIsTake(true);
-			_state.bonus = COORD_BONUS_IS_CHARGING;
-			_state.setIsNewMap(true);
-			_state.setMap(map);
-			_state.get_tank().setTank(Map.COL / 2 * BOX_SIZE_X, 2 * BOX_SIZE_Y);
-			_state.set_level(_state.get_level() + LEVEL_UP);
+			get_state().setBonusIsTake(true);
+			get_state().setIsNewMap(true);
+			get_state().set_bonus_coordX(get_state().set_bonus_coordY(COORD_BONUS_IS_CHARGING));
+			get_state().setMap(map);
+			get_state().get_tank().setTank(Map.getCol() / 2 * BOX_SIZE_X, 2 * BOX_SIZE_Y);
+			get_state().set_level(get_state().get_level() + LEVEL_UP);
 
 		}
 	}
 
 	private void oneStepForPlayerTank() {
-		if (_state.get_tank()._bullet.isLive) {
+		if (get_state().get_tank().get_bullet().isLive()) {
 			
-			Tank hunter = _state.get_tank();
-			Bullet bullet = hunter._bullet;
-			List<Tank> victims = _state._botTanks;
+			Tank hunter = get_state().get_tank();
+			Bullet bullet = hunter.get_bullet();
+			List<Tank> victims = get_state().get_botTanks();
 			fire();
 			
 			for (Tank victim : victims) {	
 				if (hit(hunter, bullet, victim)) {
-					_state.get_tank().isKill = true;
+					get_state().get_tank().setKill(true);
 					break;	
 				}
 			}
@@ -115,17 +115,17 @@ public class Logic {
 		
 		for (Tank hunter : tanks) {
 			
-			if (hunter.isCrash == false) {
+			if (hunter.isCrash() == false) {
 				moveBotTank(hunter);
-				hunter.countOfStep += 1;
+				hunter.setCountOfStep(hunter.getCountOfStep() + 1);
 				
-				if (hunter.countOfStep == NUMB_OF_STEP_FOR_ONE_DERECTION) {
-					hunter.countOfStep = 0;
+				if (hunter.getCountOfStep() == NUMB_OF_STEP_FOR_ONE_DERECTION) {
+					hunter.setCountOfStep(0);
 				}
 				
 				fireBot(hunter);
-				Bullet bullet = hunter._bullet;
-				Tank victim = _state.get_tank();
+				Bullet bullet = hunter.get_bullet();
+				Tank victim = get_state().get_tank();
 				hit(hunter, bullet, victim);
 				
 				for (Tank tank : tanks) {
@@ -143,22 +143,22 @@ public class Logic {
 
 	public boolean move(Tank tank, int vertical_speed, int horizontal_speed) {
 
-		if (vertical_speed == tank._speed) {
-			tank.derection = UP;
-		} else if (vertical_speed == -tank._speed) {
-			tank.derection = DOWN;
-		} else if (horizontal_speed == tank._speed) {
-			tank.derection = RIGHT;
-		} else if (horizontal_speed == -tank._speed) {
-			tank.derection = LEFT;
+		if (vertical_speed == tank.get_speed()) {
+			tank.setDerection(UP);
+		} else if (vertical_speed == -tank.get_speed()) {
+			tank.setDerection(DOWN);
+		} else if (horizontal_speed == tank.get_speed()) {
+			tank.setDerection(RIGHT);
+		} else if (horizontal_speed == -tank.get_speed()) {
+			tank.setDerection(LEFT);
 		}
 
-		tank.coordY += vertical_speed;
-		tank.coordX += horizontal_speed;
+		tank.setCoordY(tank.getCoordY() + vertical_speed);
+		tank.setCoordX(tank.getCoordX() + horizontal_speed);
 
 		if (!isTankFitField(tank) || isTankOnOtherTank(tank)) {
-			tank.coordY -= vertical_speed;
-			tank.coordX -= horizontal_speed;
+			tank.setCoordY(tank.getCoordY() - vertical_speed);
+			tank.setCoordX(tank.getCoordX() - horizontal_speed);
 
 			return false;
 		}
@@ -171,16 +171,16 @@ public class Logic {
 		
 		boolean cross = false;
 		
-		for (Tank otherTank : _state._botTanks) {
+		for (Tank otherTank : get_state().get_botTanks()) {
 			if (!tank.equals(otherTank)) {
-				if (cross = checkCrossing(tank.coordX, tank.coordY, otherTank.coordX, otherTank.coordY)) {
+				if (cross = checkCrossing(tank.getCoordX(), tank.getCoordY(), otherTank.getCoordX(), otherTank.getCoordY())) {
 					return cross;
 				}
 			}
 		}
 		
-		if (!tank.equals(_state.get_tank())) {
-			if (cross = checkCrossing(tank.coordX, tank.coordY, _state.get_tank().coordX, _state.get_tank().coordY)) {
+		if (!tank.equals(get_state().get_tank())) {
+			if (cross = checkCrossing(tank.getCoordX(), tank.getCoordY(), get_state().get_tank().getCoordX(), get_state().get_tank().getCoordY())) {
 				return cross;
 			}
 		}
@@ -215,25 +215,25 @@ public class Logic {
 	}
 
 	private boolean isTankFitField(Tank tank) {
-		int leftUpAngle_Y = (tank.coordY + 1) / (TANK_SIZE_Y);
-		int leftUpAngle_X = (tank.coordX + 1) / (TANK_SIZE_X);
+		int leftUpAngle_Y = (tank.getCoordY() + 1) / (TANK_SIZE_Y);
+		int leftUpAngle_X = (tank.getCoordX() + 1) / (TANK_SIZE_X);
 
-		int rightUpAngle_Y = (tank.coordY + 1) / (TANK_SIZE_Y);
-		int rightUpAngle_X = (tank.coordX + TANK_SIZE_X - 1) / (TANK_SIZE_X);
+		int rightUpAngle_Y = (tank.getCoordY() + 1) / (TANK_SIZE_Y);
+		int rightUpAngle_X = (tank.getCoordX() + TANK_SIZE_X - 1) / (TANK_SIZE_X);
 
-		int rightDownAngle_Y = (tank.coordY + TANK_SIZE_Y - 1) / (TANK_SIZE_Y);
-		int rightDownAngle_X = (tank.coordX + TANK_SIZE_X - 1) / (TANK_SIZE_X);
+		int rightDownAngle_Y = (tank.getCoordY() + TANK_SIZE_Y - 1) / (TANK_SIZE_Y);
+		int rightDownAngle_X = (tank.getCoordX() + TANK_SIZE_X - 1) / (TANK_SIZE_X);
 
-		int leftDownAngle_Y = (tank.coordY + TANK_SIZE_Y - 1) / (TANK_SIZE_Y);
-		int leftDownAngle_X = (tank.coordX + 1) / (TANK_SIZE_X);
+		int leftDownAngle_Y = (tank.getCoordY() + TANK_SIZE_Y - 1) / (TANK_SIZE_Y);
+		int leftDownAngle_X = (tank.getCoordX() + 1) / (TANK_SIZE_X);
 
-		if (objectIsNotInMap(tank.coordY, tank.coordX)
+		if (objectIsNotInMap(tank.getCoordY(), tank.getCoordX())
 			|| !locationIsFree(leftUpAngle_Y, leftUpAngle_X)
-			|| objectIsNotInMap(tank.coordY, tank.coordX + TANK_SIZE_X)
+			|| objectIsNotInMap(tank.getCoordY(), tank.getCoordX() + TANK_SIZE_X)
 			|| !locationIsFree(rightUpAngle_Y, rightUpAngle_X)
-			|| objectIsNotInMap(tank.coordY + TANK_SIZE_Y, tank.coordX + TANK_SIZE_X)
+			|| objectIsNotInMap(tank.getCoordY() + TANK_SIZE_Y, tank.getCoordX() + TANK_SIZE_X)
 			|| !locationIsFree(rightDownAngle_Y, rightDownAngle_X)
-			|| objectIsNotInMap(tank.coordY + TANK_SIZE_Y, tank.coordX)
+			|| objectIsNotInMap(tank.getCoordY() + TANK_SIZE_Y, tank.getCoordX())
 			|| !locationIsFree(leftDownAngle_Y, leftDownAngle_X)) {
 
 			return false;
@@ -242,62 +242,62 @@ public class Logic {
 	}
 
 	protected boolean objectIsNotInMap(int coordY, int coordX) {
-		return coordY < 0 || coordX < 0 || coordY >= _state._map.getHeight()*TANK_SIZE_Y
-				|| coordX >= _state._map.getWidth()*TANK_SIZE_X;
+		return coordY < 0 || coordX < 0 || coordY >= get_state().get_map().getHeight()*TANK_SIZE_Y
+				|| coordX >= get_state().get_map().getWidth()*TANK_SIZE_X;
 	}
 
 	protected boolean locationIsFree(int row, int col) {
-		return (_state._map._data[row][col] == 0 || _state._map._data[row][col] == 1);
+		return (get_state().get_map().get_data()[row][col] == 0 || get_state().get_map().get_data()[row][col] == 1);
 	}
 
 	protected void moveBotTank(Tank tank) {
 		
-		int victim_coordX = _state.get_tank().coordX;
-		int victim_coordY = _state.get_tank().coordY;
+		int victim_coordX = get_state().get_tank().getCoordX();
+		int victim_coordY = get_state().get_tank().getCoordY();
 
-		int differ_coordX = victim_coordX - tank.coordX;
-		int differ_coordY = victim_coordY - tank.coordY;
+		int differ_coordX = victim_coordX - tank.getCoordX();
+		int differ_coordY = victim_coordY - tank.getCoordY();
 
-		if (tank.countOfStep == 0) {
+		if (tank.getCountOfStep() == 0) {
 			if (random.nextBoolean()) {
 
 				if (differ_coordY > 0) {
-					tank.derection = UP;
+					tank.setDerection(UP);
 					return;
 				} else {
-					tank.derection = DOWN;
+					tank.setDerection(DOWN);
 					return;
 				}
 
 			} else {
 
 				if (differ_coordX > 0) {
-					tank.derection = RIGHT;
+					tank.setDerection(RIGHT);
 					return;
 				} else {
-					tank.derection = LEFT;
+					tank.setDerection(LEFT);
 					return;
 				}
 			}
 		}
 
-		int direction = tank.derection;
+		int direction = tank.getDerection();
 
 		switch (direction) {
 		case UP:
-			move(tank, tank._speed, 0);
+			move(tank, tank.get_speed(), 0);
 			break;
 
 		case DOWN:
-			move(tank, -tank._speed, 0);
+			move(tank, -tank.get_speed(), 0);
 			break;
 
 		case LEFT:
-			move(tank, 0, -tank._speed);
+			move(tank, 0, -tank.get_speed());
 			break;
 
 		case RIGHT:
-			move(tank, 0, tank._speed);
+			move(tank, 0, tank.get_speed());
 			break;
 
 		default:
@@ -311,67 +311,46 @@ public class Logic {
 			return;
 		}
 
-//		if (tankHaveTarget(tank)) {
-			tank._bullet = new Bullet(tank.equals(_state.tank_with_bonus) && _state.bonus == SHOTING_SPEED);
-			tank._bullet.isLive = true;
-			tank._bullet.coordY = tank.coordY + TANK_SIZE_Y / 2;
-			tank._bullet.coordX = tank.coordX + TANK_SIZE_X / 2;
-			tank._bullet.targetDerection = tank.derection;
-//		}
+			tank.set_bullet(new Bullet(tank.equals(get_state().getTank_with_bonus()) && get_state().getBonus() == SHOTING_SPEED));
+			tank.get_bullet().setLive(true);
+			tank.get_bullet().setCoordY(tank.getCoordY() + TANK_SIZE_Y / 2);
+			tank.get_bullet().setCoordX(tank.getCoordX() + TANK_SIZE_X / 2);
+			tank.get_bullet().setTargetDerection(tank.getDerection());
 	}
-	
-	
-
-/*
- 	private boolean tankHaveTarget(Tank tank) {
-		
-		int victim_coordX = _state.get_tank().coordX;
-		int victim_coordY = _state.get_tank().coordY;
-
-		int differ_coordX = victim_coordX - tank.coordX;
-		int differ_coordY = victim_coordY - tank.coordY;
-
-		if (differ_coordX / BOX_SIZE_X == 0 || differ_coordY / BOX_SIZE_Y == 0) {
-			return true;
-		}
-		return false;
-	}
-*/
-	
 	
 	protected boolean fire() {
-		Tank hunter = _state.get_tank();
+		Tank hunter = get_state().get_tank();
 		
 		if (isFireAlready(hunter)) {
 			moveBullet(hunter);
 			return false;
 		}
 		
-		hunter._bullet = new Bullet(hunter.equals(_state.tank_with_bonus) && _state.bonus == 2);
-		hunter._bullet.isLive = true;
-		hunter._bullet.coordY = hunter.coordY + TANK_SIZE_Y / 2;
-		hunter._bullet.coordX = hunter.coordX + TANK_SIZE_X / 2;
-		hunter._bullet.targetDerection = hunter.derection;
+		hunter.set_bullet(new Bullet(hunter.equals(get_state().getTank_with_bonus()) && get_state().getBonus() == 2));
+		hunter.get_bullet().setLive(true);
+		hunter.get_bullet().setCoordY(hunter.getCoordY() + TANK_SIZE_Y / 2);
+		hunter.get_bullet().setCoordX(hunter.getCoordX() + TANK_SIZE_X / 2);
+		hunter.get_bullet().setTargetDerection(hunter.getDerection());
 		return true;
 		
 	}
 
 	protected void moveBullet(Tank tank) {
-		switch (tank._bullet.targetDerection) {
+		switch (tank.get_bullet().getTargetDerection()) {
 		case UP:
-			tank._bullet.coordY +=  tank._bullet._speed;
+			tank.get_bullet().setCoordY(tank.get_bullet().getCoordY() + tank.get_bullet().get_speed());
 			break;
 
 		case DOWN:
-			tank._bullet.coordY -=  tank._bullet._speed;
+			tank.get_bullet().setCoordY(tank.get_bullet().getCoordY() - tank.get_bullet().get_speed());
 			break;
 
 		case LEFT:
-			tank._bullet.coordX -=  tank._bullet._speed;
+			tank.get_bullet().setCoordX(tank.get_bullet().getCoordX() - tank.get_bullet().get_speed());
 			break;
 
 		case RIGHT:
-			tank._bullet.coordX += tank._bullet._speed;
+			tank.get_bullet().setCoordX(tank.get_bullet().getCoordX() + tank.get_bullet().get_speed());
 			break;
 
 		default:
@@ -380,7 +359,7 @@ public class Logic {
 	}
 
 	private boolean isFireAlready(Tank tank) {
-		if (tank._bullet.isLive == true) {
+		if (tank.get_bullet().isLive() == true) {
 			return true;
 		}
 		return false;
@@ -388,10 +367,10 @@ public class Logic {
 
 	protected boolean hit(Tank hunter, Bullet bullet, Tank victim) {
 		
-		int tankCoordY = victim.coordY;
-		int tankCoordX = victim.coordX;
-		int bulletCoordY = hunter._bullet.coordY ;
-		int bulletCoordX = hunter._bullet.coordX;
+		int tankCoordY = victim.getCoordY();
+		int tankCoordX = victim.getCoordX();
+		int bulletCoordY = hunter.get_bullet().getCoordY() ;
+		int bulletCoordX = hunter.get_bullet().getCoordX();
 
 		if (tankCoordY <= bulletCoordY
 				&& tankCoordY + TANK_SIZE_Y >= bulletCoordY
@@ -403,13 +382,13 @@ public class Logic {
 		} 
 		
 		if (objectIsNotInMap(bulletCoordY, bulletCoordX)
-				|| _state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_STONE ) {
+				|| get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_STONE ) {
 		
 			return missShooting(hunter, bullet);
 		
-		}else if(_state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_BRICK ){
+		}else if(get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_BRICK ){
 		
-			int bullet_direction = hunter._bullet.targetDerection;
+			int bullet_direction = hunter.get_bullet().getTargetDerection();
 			return hitInFullBrickBlock(hunter, bullet, bulletCoordY, bulletCoordX, bullet_direction);
 		
 		}
@@ -419,61 +398,61 @@ public class Logic {
 
 	private boolean missShooting(Tank hunter, Bullet bullet) {
 		
-		hunter._bullet.coordX = (hunter.coordX * 2 + TANK_SIZE_X) / 2;
-		hunter._bullet.coordY = (hunter.coordY * 2 + TANK_SIZE_Y) / 2;
-		bullet.isLive = false;
+		hunter.get_bullet().setCoordX((hunter.getCoordX() * 2 + TANK_SIZE_X) / 2);
+		hunter.get_bullet().setCoordY((hunter.getCoordY() * 2 + TANK_SIZE_Y) / 2);
+		bullet.setLive(false);
 		return false;
 		
 	}
 
 	private boolean hitOfTank(Tank hunter, Bullet bullet, Tank victim) {
 		
-		if (hunter.equals(_state.get_tank())) {
-			victim.damages += 1;
+		if (hunter.equals(get_state().get_tank())) {
+			victim.setDamages(victim.getDamages() + 1);
 		}
 		
-		if (victim.equals(_state.get_tank())) {
-			victim.damages += 1;
+		if (victim.equals(get_state().get_tank())) {
+			victim.setDamages(victim.getDamages() + 1);
 			
-			if (victim.damages == Tank.ARMOR_PLAYER_TANK) {
-				victim.isCrash = true;
+			if (victim.getDamages() == Tank.getArmorPlayerTank()) {
+				victim.setCrash(true);
 			}
 			
 		}
 
-		for (Tank tankBot : _state._botTanks) {
-			if (victim.damages == Tank.ARMOM_BOT_TANK) {
+		for (Tank tankBot : get_state().get_botTanks()) {
+			if (victim.getDamages() == Tank.getArmomBotTank()) {
 				if (victim.equals(tankBot)) {
 					
-					victim._bullet.coordX = (victim.coordX * 2 + TANK_SIZE_X) / 2;
-					victim._bullet.coordY = (victim.coordY * 2 + TANK_SIZE_Y) / 2;
-					victim.isCrash = true;
+					victim.get_bullet().setCoordX((victim.getCoordX() * 2 + TANK_SIZE_X) / 2);
+					victim.get_bullet().setCoordY((victim.getCoordY() * 2 + TANK_SIZE_Y) / 2);
+					victim.setCrash(true);
 					hunter.setEnemyKilled(hunter.getEnemyKilled() + 1);
-					_state.coordX_expl = victim.coordX;
-					_state.coordY_expl = victim.coordY;
-					bullet.isLive = false;
+					get_state().setCoordX_expl(victim.getCoordX());
+					get_state().setCoordY_expl(victim.getCoordY());
+					bullet.setLive(false);
 					return true;
 					
 				}
 			}
 		}
 
-		bullet.isLive = false;
+		bullet.setLive(false);
 		return false;
 	}
 
 	private boolean hitInHalfBrickBlock(Tank hunter, Bullet bullet,
 			int bulletCoordY, int bulletCoordX) {
 		
-		if (_state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_WITH_HALF_ON_UP
-				|| _state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_WITH_HALF_ON_DOWN
-				|| _state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_WITH_HALF_ON_RIGHT
-				|| _state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_WITH_HALF_ON_LEFT) {
+		if (get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_WITH_HALF_ON_UP
+				|| get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_WITH_HALF_ON_DOWN
+				|| get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_WITH_HALF_ON_RIGHT
+				|| get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] == VALUE_BLOCK_WITH_HALF_ON_LEFT) {
 			
-			_state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_GROUND;
-			hunter._bullet.coordX = (hunter.coordX * 2 + TANK_SIZE_X) / 2;
-			hunter._bullet.coordY = (hunter.coordY * 2 + TANK_SIZE_Y) / 2;
-			bullet.isLive = false;
+			get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_GROUND;
+			hunter.get_bullet().setCoordX((hunter.getCoordX() * 2 + TANK_SIZE_X) / 2);
+			hunter.get_bullet().setCoordY((hunter.getCoordY() * 2 + TANK_SIZE_Y) / 2);
+			bullet.setLive(false);
 			return true;
 			
 		}
@@ -484,18 +463,18 @@ public class Logic {
 			int bulletCoordY, int bulletCoordX, int bullet_direction) {
 		
 		if (bullet_direction == 0) {
-			_state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_WITH_HALF_ON_UP;
+			get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_WITH_HALF_ON_UP;
 		}else if (bullet_direction == 1) {
-			_state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_WITH_HALF_ON_DOWN;
+			get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_WITH_HALF_ON_DOWN;
 		}else if (bullet_direction == 2) {
-			_state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_WITH_HALF_ON_RIGHT;
+			get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_WITH_HALF_ON_RIGHT;
 		}else if (bullet_direction == 3) {
-			_state._map._data[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_WITH_HALF_ON_LEFT;
+			get_state().get_map().get_data()[bulletCoordY / BOX_SIZE_Y][bulletCoordX / BOX_SIZE_X] = VALUE_BLOCK_WITH_HALF_ON_LEFT;
 		}
 		
-		hunter._bullet.coordX = hunter.coordX + TANK_SIZE_X / 2;
-		hunter._bullet.coordY = hunter.coordY + TANK_SIZE_Y / 2;
-		bullet.isLive = false;
+		hunter.get_bullet().setCoordX(hunter.getCoordX() + TANK_SIZE_X / 2);
+		hunter.get_bullet().setCoordY(hunter.getCoordY() + TANK_SIZE_Y / 2);
+		bullet.setLive(false);
 		return true;
 		
 	}
@@ -507,22 +486,22 @@ public class Logic {
 		int bonus_tmpX;
 		int bonus_tmpY;
 		
-		if (_state.tank_with_bonus != null) {
-			_state.tank_with_bonus._speed = Tank.SPEED;  
-			_state.tank_with_bonus._bullet._speed = Bullet.SPEED;
-			_state.tank_with_bonus = null;
+		if (get_state().getTank_with_bonus() != null) {
+			get_state().getTank_with_bonus().set_speed(Tank.getSpeed());  
+			get_state().getTank_with_bonus().get_bullet().set_speed(Bullet.getSpeed());
+			get_state().setTank_with_bonus(null);
 		}
 		
-		_state.setBonusIsTake(false);
+		get_state().setBonusIsTake(false);
 		while (true) {
 			
-			_state.bonus = random.nextInt(NUMB_OF_BONUS);
-			bonus_tmpX = random.nextInt(Map.COL - 1);
-			bonus_tmpY = random.nextInt(Map.ROW - 1);
+			get_state().setBonus(random.nextInt(NUMB_OF_BONUS));
+			bonus_tmpX = random.nextInt(Map.getCol() - 1);
+			bonus_tmpY = random.nextInt(Map.getRow() - 1);
 			
-			if (_state._map._data[bonus_tmpY][bonus_tmpX] == VALUE_BLOCK_GROUND) {
-				_state._bonus_coordX = bonus_tmpX;
-				_state._bonus_coordY = bonus_tmpY;
+			if (get_state().get_map().get_data()[bonus_tmpY][bonus_tmpX] == VALUE_BLOCK_GROUND) {
+				get_state().set_bonus_coordX(bonus_tmpX);
+				get_state().set_bonus_coordY(bonus_tmpY);
 				break;
 			}
 			
@@ -532,22 +511,22 @@ public class Logic {
 
 
 	public void takeBonus() {
-		for (Tank tank : _state._botTanks) {
-			if (_state.isBonusIsDroped() && checkCrossing(tank.coordX, tank.coordY, 
-					_state._bonus_coordX*BOX_SIZE_X, _state._bonus_coordY*BOX_SIZE_Y)) {
+		for (Tank tank : get_state().get_botTanks()) {
+			if (get_state().isBonusIsDroped() && checkCrossing(tank.getCoordX(), tank.getCoordY(), 
+					get_state().get_bonus_coordX()*BOX_SIZE_X, get_state().get_bonus_coordY()*BOX_SIZE_Y)) {
 				
 				whichBonusIsTake(tank);
-				_state.tank_with_bonus = tank;
+				get_state().setTank_with_bonus(tank);
 				bonusIsTake();
 				return;
 				
 			}
 		}
-		if (_state.isBonusIsDroped() && checkCrossing(_state.get_tank().coordX, _state.get_tank().coordY,
-				_state._bonus_coordX*BOX_SIZE_X, _state._bonus_coordY*BOX_SIZE_Y)) {
+		if (get_state().isBonusIsDroped() && checkCrossing(get_state().get_tank().getCoordX(), get_state().get_tank().getCoordY(),
+				get_state().get_bonus_coordX()*BOX_SIZE_X, get_state().get_bonus_coordY()*BOX_SIZE_Y)) {
 
-			whichBonusIsTake(_state.get_tank());
-			_state.tank_with_bonus = _state.get_tank();
+			whichBonusIsTake(get_state().get_tank());
+			get_state().setTank_with_bonus(get_state().get_tank());
 			bonusIsTake();
 			
 		}
@@ -555,20 +534,28 @@ public class Logic {
 
 	private void whichBonusIsTake(Tank tank) {
 		
-		if (_state.bonus == ARMOR) {
-			tank.damages -= 1;
-		}else if (_state.bonus == MOVING_SPEED) {
-			tank._speed += Tank.SPEED;
-		}else if (_state.bonus == SHOTING_SPEED) {
-			tank._bullet._speed += Bullet.SPEED;
+		if (get_state().getBonus() == ARMOR) {
+			tank.setDamages(tank.getDamages() - 1);
+		}else if (get_state().getBonus() == MOVING_SPEED) {
+			tank.set_speed(tank.get_speed() + Tank.getSpeed());
+		}else if (get_state().getBonus() == SHOTING_SPEED) {
+			tank.get_bullet().set_speed(tank.get_bullet().get_speed() + Bullet.getSpeed());
 		}
 		
 	}
 
 	private void bonusIsTake() {
-		_state._bonus_coordX = _state._bonus_coordY = COORD_BONUS_IS_CHARGING;
-		_state.setBonusIsDroped(false);
-		_state.setBonusIsTake(true);
+		get_state().set_bonus_coordX(get_state().set_bonus_coordY(COORD_BONUS_IS_CHARGING));
+		get_state().setBonusIsDroped(false);
+		get_state().setBonusIsTake(true);
+	}
+
+	public State get_state() {
+		return _state;
+	}
+
+	public void set_state(State _state) {
+		this._state = _state;
 	}
 
 }

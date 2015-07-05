@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Tank extends Actor {
 	
-	private static final int HEIGHT_TANK = BattleCityScreen.SCREEN_HEIGHT/Map.ROW;
-	private static final int WIDTH_TANK = BattleCityScreen.SCREEN_WIGHT/Map.COL;
+	private static final int HEIGHT_TANK = BattleCityScreen.getScreenHeight()/Map.getRow();
+	private static final int WIDTH_TANK = BattleCityScreen.getScreenWight()/Map.getCol();
 	private static Texture[] textures = new Texture[3];
 	private Texture _texture;
 	private static Texture[] explosion = new Texture[34];

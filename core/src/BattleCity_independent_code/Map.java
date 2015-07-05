@@ -8,9 +8,9 @@ import java.util.Scanner;
 
 public class Map {
 	
-	public static final int COL = 25;
-	public static final int ROW = 15;
-	int[][] _data;
+	private static final int COL = 25;
+	private static final int ROW = 15;
+	private int[][] _data;
 	private static Random random = new Random();
 	
 	
@@ -22,11 +22,11 @@ public class Map {
 	private static Scanner scanner;
 
 	public Map() {
-		_data = new int [ROW][COL];
+		set_data(new int [getRow()][getCol()]);
 	}
 
 	public static int[][] readMap(int mapNumber){
-		int[][] data = new int[ROW][COL];
+		int[][] data = new int[getRow()][getCol()];
 		try {
 			scanner = new Scanner(MAPS[mapNumber]);
 			for (int i = 0; i < data.length; i++) {
@@ -42,21 +42,37 @@ public class Map {
 	}
 	
 	public int getWidth() {
-		return _data[0].length;
+		return get_data()[0].length;
 	}
 
 	public int getHeight() {
-		return _data.length;
+		return get_data().length;
 	}
 
 	public int[][] getData() {
-		return _data;
+		return get_data();
 	}
 
 	public static Map randomMap() {
 		Map map = new Map();
-		map._data = readMap(random.nextInt(MAPS.length - 1));
+		map.set_data(readMap(random.nextInt(MAPS.length - 1)));
 		return map;
+	}
+
+	public static int getRow() {
+		return ROW;
+	}
+
+	public static int getCol() {
+		return COL;
+	}
+
+	public int[][] get_data() {
+		return _data;
+	}
+
+	public void set_data(int[][] _data) {
+		this._data = _data;
 	} 
 	
 }

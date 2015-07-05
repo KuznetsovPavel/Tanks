@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class ButtonFire extends Actor {
 	
-	public static final int HEIGHT_BUTTON = BattleCityScreen.SCREEN_HEIGHT/Map.ROW*2;
-	public static final int WIDTH_BUTTON = BattleCityScreen.SCREEN_WIGHT/Map.COL*2;
+	private static final int HEIGHT_BUTTON = BattleCityScreen.getScreenHeight()/Map.getRow()*2;
+	private static final int WIDTH_BUTTON = BattleCityScreen.getScreenWight()/Map.getCol()*2;
 	private static Texture[] textures = new Texture[2];
 	private Texture _texture;
 	
@@ -28,7 +28,7 @@ public class ButtonFire extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.draw(get_texture(), this.getX(), getY(), this.getOriginX(), this.getOriginY(),
-				WIDTH_BUTTON, HEIGHT_BUTTON, this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0, 
+				getWidthButton(), getHeightButton(), this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0, 
 				get_texture().getWidth(), get_texture().getHeight(), false, false);
 	}
 
@@ -46,6 +46,14 @@ public class ButtonFire extends Actor {
 
 	public static void setTextures(Texture[] textures) {
 		ButtonFire.textures = textures;
+	}
+
+	public static int getHeightButton() {
+		return HEIGHT_BUTTON;
+	}
+
+	public static int getWidthButton() {
+		return WIDTH_BUTTON;
 	}
 
 }

@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Model {
 
-	public static final int COLUMNS = 25;
-	public static final int ROWS = 15;
-	public Logic _logic;
+	private static final int COLUMNS = 25;
+	private static final int ROWS = 15;
+	private Logic _logic;
 	
 	public Model() {
 		State state = new State();
-		_logic = new Logic(state);
+		set_logic(new Logic(state));
 		Map map = Map.randomMap();		
 		state.setMap(map);
 		state.setBotTank();
@@ -30,18 +30,18 @@ public class Model {
 	
 	void fireChangedEvent(){
 		for (ModelListener modelListener : _listeners) {
-			modelListener.onChange(_logic.getState());
+			modelListener.onChange(get_logic().getState());
 		}
 	}
 
 	public void move(int vertical, int horizontal) {
-		if (_logic.move(_logic.getState().get_tank(), vertical, horizontal)) {
+		if (get_logic().move(get_logic().getState().get_tank(), vertical, horizontal)) {
 			fireChangedEvent();
 		}
 	}
 
 	public boolean oneStep() {
-		if (_logic.oneStep()) {
+		if (get_logic().oneStep()) {
 			fireChangedEvent();
 			return true;
 		}
@@ -49,7 +49,7 @@ public class Model {
 	}
 
 	public boolean fire() {
-		if (_logic.fire()) {
+		if (get_logic().fire()) {
 			fireChangedEvent();
 			return true;
 		}
@@ -57,11 +57,27 @@ public class Model {
 	}
 
 	public boolean dropBonus() {
-		if(_logic.dropBonus()){
+		if(get_logic().dropBonus()){
 			fireChangedEvent();
 			return true;
 		}
 		return false;
+	}
+
+	public static int getColumns() {
+		return COLUMNS;
+	}
+
+	public static int getRows() {
+		return ROWS;
+	}
+
+	public Logic get_logic() {
+		return _logic;
+	}
+
+	public void set_logic(Logic _logic) {
+		this._logic = _logic;
 	}
 	
 }

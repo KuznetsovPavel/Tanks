@@ -11,10 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Button  extends Actor {
 
-	private static final int WIDTH_BUT_PLAY = BattleCityScreen.SCREEN_WIGHT/4;
-	private static final int HEIGHT_BUT_PLAY = BattleCityScreen.SCREEN_HEIGHT/10;
-	private static final int HEIGHT_BUT_VOLUME = BattleCityScreen.SCREEN_HEIGHT/8;
-	private static final int WIDTH_BUT_VOLUME = BattleCityScreen.SCREEN_WIGHT/10;
+	private static final int WIDTH_BUT_PLAY = BattleCityScreen.getScreenWight()/4;
+	private static final int HEIGHT_BUT_PLAY = BattleCityScreen.getScreenHeight()/10;
+	private static final int HEIGHT_BUT_VOLUME = BattleCityScreen.getScreenHeight()/8;
+	private static final int WIDTH_BUT_VOLUME = BattleCityScreen.getScreenWight()/10;
 
 	private static final int BUTTON_VOLUME_OFF = 5;
 	private static final int BUTTON_VOLUME_ON = 4;

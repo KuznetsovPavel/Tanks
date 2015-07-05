@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Bonus extends Actor {
 	
-	private static final int HEIGHT_ACTOR = BattleCityScreen.SCREEN_HEIGHT/Map.ROW;
-	private static final int WIDTH_ACTOR = BattleCityScreen.SCREEN_WIGHT/Map.COL;
+	private static final int HEIGHT_ACTOR = BattleCityScreen.getScreenHeight()/Map.getRow();
+	private static final int WIDTH_ACTOR = BattleCityScreen.getScreenWight()/Map.getCol();
 	
 	private static Texture[] textures = new Texture[3];
 	private Texture _texture;

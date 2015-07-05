@@ -4,10 +4,10 @@ public class Controller implements ModelListener {
 
 	private View _view;
 	private Model _model;
-	public boolean up;
-	public boolean down;
-	public boolean left;
-	public boolean right;
+	private boolean up;
+	private boolean down;
+	private boolean left;
+	private boolean right;
 
 	@Override
 	public void onChange(State state) {
@@ -24,19 +24,19 @@ public class Controller implements ModelListener {
 
 	public boolean oneStep() {
 		if (_model.oneStep()) {
-			if (_model._logic.getState().get_tank().isCrash == false) {
-				if (up) {
-					_model.move(_model._logic.getState().get_tank()._speed, 0);
-				} else if (down) {
-					_model.move(-_model._logic.getState().get_tank()._speed, 0);
-				} else if (left) {
-					_model.move(0, -_model._logic.getState().get_tank()._speed);
-				} else if (right) {
-					_model.move(0, _model._logic.getState().get_tank()._speed);
+			if (_model.get_logic().getState().get_tank().isCrash() == false) {
+				if (isUp()) {
+					_model.move(_model.get_logic().getState().get_tank().get_speed(), 0);
+				} else if (isDown()) {
+					_model.move(-_model.get_logic().getState().get_tank().get_speed(), 0);
+				} else if (isLeft()) {
+					_model.move(0, -_model.get_logic().getState().get_tank().get_speed());
+				} else if (isRight()) {
+					_model.move(0, _model.get_logic().getState().get_tank().get_speed());
 				}
 			}
-			if (_model._logic.getState().get_tank().isKill == true) {
-				_model._logic.getState().get_tank().isKill = false;
+			if (_model.get_logic().getState().get_tank().isKill() == true) {
+				_model.get_logic().getState().get_tank().setKill(false);
 				return true;
 			}
 		}
@@ -44,7 +44,7 @@ public class Controller implements ModelListener {
 	}
 
 	public boolean fire() {
-		if (_model._logic.getState().get_tank().isCrash == false) {
+		if (_model.get_logic().getState().get_tank().isCrash() == false) {
 			if (_model.fire()) {
 				return true;
 			}
@@ -54,6 +54,38 @@ public class Controller implements ModelListener {
 
 	public void dropBonus() {
 		_model.dropBonus();
+	}
+
+	public boolean isUp() {
+		return up;
+	}
+
+	public void setUp(boolean up) {
+		this.up = up;
+	}
+
+	public boolean isDown() {
+		return down;
+	}
+
+	public void setDown(boolean down) {
+		this.down = down;
+	}
+
+	public boolean isLeft() {
+		return left;
+	}
+
+	public void setLeft(boolean left) {
+		this.left = left;
+	}
+
+	public boolean isRight() {
+		return right;
+	}
+
+	public void setRight(boolean right) {
+		this.right = right;
 	}
 
 }

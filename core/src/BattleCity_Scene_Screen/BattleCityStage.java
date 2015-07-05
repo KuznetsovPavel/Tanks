@@ -15,17 +15,17 @@ public class BattleCityStage extends Stage {
 	private static final int ERROR_TIME = 100;
 	private static final int FALL_TIME_BONUS = 3500;
 	private static final int TIME_FOR_BONUS = 15000;
-	private static final int SCREEN_WIDTH = BattleCityScreen.SCREEN_WIGHT;
-	private static final int SCREEN_HEIGHT = BattleCityScreen.SCREEN_HEIGHT;
+	private static final int SCREEN_WIDTH = BattleCityScreen.getScreenWight();
+	private static final int SCREEN_HEIGHT = BattleCityScreen.getScreenHeight();
 
 	SpriteBatch spriteBatch = new SpriteBatch();
 	
-	long timerForDroppingBonus = 0;
-	long timerForGettingBonus = 0;
-	protected boolean gameIsOver = false;
-	protected int final_score;
-	protected int final_level;
-	BattleCityGame _game;
+	private long timerForDroppingBonus = 0;
+	private long timerForGettingBonus = 0;
+	private boolean gameIsOver = false;
+	private int final_score;
+	private int final_level;
+	private BattleCityGame _game;
 	
 	public BattleCityStage(BattleCityGame game) {
 		
@@ -58,7 +58,7 @@ public class BattleCityStage extends Stage {
 				
 				if (this.getExecuteTimeMillis() - timerForDroppingBonus >= TIME_FOR_BONUS - ERROR_TIME && 
 						this.getExecuteTimeMillis() - timerForDroppingBonus <= TIME_FOR_BONUS) {
-					model._logic._state.setBonusIsTake(true);
+					model.get_logic().get_state().setBonusIsTake(true);
 				}else if (this.getExecuteTimeMillis() - timerForDroppingBonus >= TIME_FOR_BONUS) {
 					controller.dropBonus();
 					timerForGettingBonus = this.getExecuteTimeMillis();
@@ -67,7 +67,7 @@ public class BattleCityStage extends Stage {
 				
 				if (this.getExecuteTimeMillis() - timerForGettingBonus  >= FALL_TIME_BONUS 
 						&& this.getExecuteTimeMillis() - timerForGettingBonus  < FALL_TIME_BONUS + ERROR_TIME) {
-					model._logic._state.setBonusIsDroped(true);
+					model.get_logic().get_state().setBonusIsDroped(true);
 				}
 				
 				if (controller.oneStep() && !_game.music_mute) {
@@ -88,6 +88,30 @@ public class BattleCityStage extends Stage {
 
 	public static int getScreenHeight() {
 		return SCREEN_HEIGHT;
+	}
+
+	public boolean isGameIsOver() {
+		return gameIsOver;
+	}
+
+	public void setGameIsOver(boolean gameIsOver) {
+		this.gameIsOver = gameIsOver;
+	}
+
+	public int getFinal_score() {
+		return final_score;
+	}
+
+	public void setFinal_score(int final_score) {
+		this.final_score = final_score;
+	}
+
+	public int getFinal_level() {
+		return final_level;
+	}
+
+	public void setFinal_level(int final_level) {
+		this.final_level = final_level;
 	}
 
 }

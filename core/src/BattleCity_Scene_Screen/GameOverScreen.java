@@ -25,36 +25,36 @@ public class GameOverScreen implements Screen, InputProcessor {
 	
 	private static final int HEIGHT_BUT_PLAY = Button.getHeightButPlay();
 	private static final int LENGHT_BUT_PLAY = Button.getWidthButPlay();
-	private static final double COORD_BUT_PLAY_X = BattleCityScreen.SCREEN_WIGHT*0.4;
-	private static final double COORD_BUT_PLAY_Y = BattleCityScreen.SCREEN_HEIGHT*0.8;
-	private static final double COORD_BUT_VOLUME_X = BattleCityScreen.SCREEN_WIGHT*0.01;
-	private static final double COORD_BUT_VOLUME_Y = BattleCityScreen.SCREEN_HEIGHT*0.85;
+	private static final double COORD_BUT_PLAY_X = BattleCityScreen.getScreenWight()*0.4;
+	private static final double COORD_BUT_PLAY_Y = BattleCityScreen.getScreenHeight()*0.8;
+	private static final double COORD_BUT_VOLUME_X = BattleCityScreen.getScreenWight()*0.01;
+	private static final double COORD_BUT_VOLUME_Y = BattleCityScreen.getScreenHeight()*0.85;
 	private static final int LENGHT_BUT_VOLUME = Button.getWidthButVolume();
 	private static final int HEIGHT_BUT_VOLUME = Button.getHeightButVolume();
 
-	BattleCityGame game = new BattleCityGame();
-	OrthographicCamera camera;
+	private BattleCityGame game = new BattleCityGame();
+	private OrthographicCamera camera;
 	
 	boolean isPlay = false;
-	Headband headband = new Headband(GAME_OVER_HEADBAND);
+	private Headband headband = new Headband(GAME_OVER_HEADBAND);
 	
-	Button play = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) (BattleCityScreen.SCREEN_WIGHT * 0.4),
-			(int) (BattleCityScreen.SCREEN_HEIGHT * 0.1));
-	Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.SCREEN_HEIGHT*0.01));
+	private Button play = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) (BattleCityScreen.getScreenWight() * 0.4),
+			(int) (BattleCityScreen.getScreenHeight() * 0.1));
+	private Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.getScreenHeight()*0.01));
 	
-	InfoPanel gameOverInfoPanel = new InfoPanel();
-	BitmapFont gameOverInfo = new BitmapFont();
-	String message = new String();
+	private InfoPanel gameOverInfoPanel = new InfoPanel();
+	private BitmapFont gameOverInfo = new BitmapFont();
+	private String message = new String();
 	
 	
 	public GameOverScreen(BattleCityGame newGame, BattleCityStage stage) {
 		game = newGame;
-		message = "You are killed " + stage.final_score + " enemy " + '\n' 
-				+ '\n' + "You could clean up " + stage.final_level + " level";
+		message = "You are killed " + stage.getFinal_score() + " enemy " + '\n' 
+				+ '\n' + "You could clean up " + stage.getFinal_level() + " level";
 		gameOverInfo.setColor(Color.WHITE);
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, BattleCityScreen.SCREEN_HEIGHT,
-				BattleCityScreen.SCREEN_WIGHT);
+		camera.setToOrtho(false, BattleCityScreen.getScreenHeight(),
+				BattleCityScreen.getScreenWight());
 	}
 
 	@Override
@@ -67,8 +67,8 @@ public class GameOverScreen implements Screen, InputProcessor {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 		
-		gameOverInfoPanel.setPosition((float) (BattleCityScreen.SCREEN_WIGHT*0.43), 
-				(float) (BattleCityScreen.SCREEN_HEIGHT*0.4));
+		gameOverInfoPanel.setPosition((float) (BattleCityScreen.getScreenWight()*0.43), 
+				(float) (BattleCityScreen.getScreenHeight()*0.4));
 		
 		game.batch.begin();
 		headband.draw(game.batch, 0);
@@ -85,8 +85,8 @@ public class GameOverScreen implements Screen, InputProcessor {
 		 _volume.draw(game.batch, 0);
 		gameOverInfoPanel.setScale(1);
 		gameOverInfoPanel.draw(game.batch, 0);
-		gameOverInfo.draw(game.batch, message, (float) (BattleCityScreen.SCREEN_WIGHT*0.45), 
-				(float) (BattleCityScreen.SCREEN_HEIGHT*0.55));
+		gameOverInfo.draw(game.batch, message, (float) (BattleCityScreen.getScreenWight()*0.45), 
+				(float) (BattleCityScreen.getScreenHeight()*0.55));
 		game.batch.end();
 		
 		Gdx.input.setInputProcessor(this);

@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class MovingControl extends Actor {
 
-	public static final int HEIGHT_CONTROL = BattleCityScreen.SCREEN_HEIGHT/Map.ROW*5;
-	public static final int WIDTH_CONTROL = BattleCityScreen.SCREEN_WIGHT/Map.COL*5;
+	private static final int HEIGHT_CONTROL = BattleCityScreen.getScreenHeight()/Map.getRow()*5;
+	private static final int WIDTH_CONTROL = BattleCityScreen.getScreenWight()/Map.getCol()*5;
 	private static Texture[] textures = new Texture[5];
 	private Texture _texture;
 	
@@ -31,8 +31,8 @@ public class MovingControl extends Actor {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(get_texture(), this.getX(), getY(), this.getOriginX(), this.getOriginY(), WIDTH_CONTROL, 
-				HEIGHT_CONTROL,  this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0, 
+		batch.draw(get_texture(), this.getX(), getY(), this.getOriginX(), this.getOriginY(), getWidthControl(), 
+				getHeightControl(),  this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0, 
 				get_texture().getWidth(), get_texture().getHeight(), false, false);
 	}
 
@@ -50,6 +50,14 @@ public class MovingControl extends Actor {
 
 	public static void setTextures(Texture[] textures) {
 		MovingControl.textures = textures;
+	}
+
+	public static int getHeightControl() {
+		return HEIGHT_CONTROL;
+	}
+
+	public static int getWidthControl() {
+		return WIDTH_CONTROL;
 	}
 	
 }

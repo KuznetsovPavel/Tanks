@@ -10,13 +10,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class BattleCityGame extends Game {
 	Music main;
 	Music music_gameOver;
-	private Music _aircraft;
+	Music _aircraft;
 	SpriteBatch batch;
 	BitmapFont font;
 	boolean music_mute = false;
 
-	private Sound _shot;
-	private Sound _boom;
+	Sound _shot;
+	Sound _boom;
 
 	@Override
 	public void create() {
