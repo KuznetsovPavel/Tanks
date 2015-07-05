@@ -1,7 +1,7 @@
 package BattleCity_Scene_Screen;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -21,7 +21,7 @@ public class BattleCityScreen implements Screen {
 
 	@Override
 	public void show() {
-		_stage = new BattleCityStage();
+		_stage = new BattleCityStage(game);
 		_stage.init();
 	}
 

@@ -33,6 +33,7 @@ public class LibGDXView extends BattleCity_independent_code.View {
 	
 	private BattleCityStage _stage;
 	private Model _model;
+	private BattleCityGame _game;
 	private Box[][] _boxes = new Box[Model.ROWS][Model.COLUMNS];
 	private Tank[] _tank = new Tank[NUMB_OF_TANK_IN_LEVEL];
 	private Bullet[] _bullet = new Bullet[NUMB_OF_TANK_IN_LEVEL];
@@ -45,7 +46,8 @@ public class LibGDXView extends BattleCity_independent_code.View {
 	LabelStyle infoStyle = new LabelStyle(font, Color.WHITE);
 	Label _info;
 	
-	public LibGDXView(BattleCityStage stage, Model model) {
+	public LibGDXView(BattleCityStage stage, Model model, BattleCityGame game) {
+		_game = game;
 		_stage = stage;
 		_model = model;
 	}
@@ -63,6 +65,7 @@ public class LibGDXView extends BattleCity_independent_code.View {
 			_bonus.setPosition(-_bonus.get_texture().getWidth(), -_bonus.get_texture().getHeight());
 			_stage.addActor(_bonus);
 			_stage.addActor(_plane);
+			_game.getAircraft().play();
 			_plane.action(coordX, coordY, 0);
 			_bonus.action(coordX, coordY);
 		}			

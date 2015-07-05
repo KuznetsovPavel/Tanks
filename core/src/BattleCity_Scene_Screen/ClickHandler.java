@@ -13,10 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class ClickHandler extends InputListener {
 	Model _model;
 	Controller _controller;
+	BattleCityGame _game;
 	
-	public ClickHandler(Model model, Controller controller) {
+	public ClickHandler(Model model, Controller controller, BattleCityGame game) {
 		_model = model;
 		_controller = controller;
+		_game = game;
 	}
 		
 		@Override
@@ -33,8 +35,8 @@ public class ClickHandler extends InputListener {
 			
 				_model._logic._state.setState_butFire(1);
 				if (_controller.fire()) {
-					BattleCityGame.getShot().stop();
-					BattleCityGame.getShot().play();
+					_game.getShot().stop();
+					_game.getShot().play();
 				}
 				
 			}else if (pointInArea(x, y, cntrl_X + MovingControl.WIDTH_CONTROL/3, 
@@ -125,9 +127,8 @@ public class ClickHandler extends InputListener {
 				break;
 
 			case Input.Keys.SPACE:
-				if (_controller.fire()) {
-					BattleCityGame.getShot().stop();
-					BattleCityGame.getShot().play();
+				if (_controller.fire() && !_game.music_mute) {
+					_game.getShot().play();
 				}
 				break;
 				

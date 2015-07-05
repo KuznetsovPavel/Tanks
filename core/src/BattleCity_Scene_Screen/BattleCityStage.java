@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class BattleCityStage extends Stage {
 
+	private static final int ERROR_TIME = 100;
+	private static final int FALL_TIME_BONUS = 3500;
 	private static final int TIME_FOR_BONUS = 15000;
 	private static final int SCREEN_WIDTH = BattleCityScreen.SCREEN_WIGHT;
 	private static final int SCREEN_HEIGHT = BattleCityScreen.SCREEN_HEIGHT;
@@ -23,9 +25,11 @@ public class BattleCityStage extends Stage {
 	protected boolean gameIsOver = false;
 	protected int final_score;
 	protected int final_level;
+	BattleCityGame _game;
 	
-	public BattleCityStage() {
+	public BattleCityStage(BattleCityGame game) {
 		
+		_game = game;
 		OrthographicCamera camera = new OrthographicCamera();
 		camera.setToOrtho(false);
 		setViewport(new ScreenViewport(camera));
@@ -37,9 +41,9 @@ public class BattleCityStage extends Stage {
 		final Model model = new Model();
 		final Controller controller = new Controller();
 		model.addListener(controller);
-		ClickHandler clickHandler = new ClickHandler(model, controller);
+		ClickHandler clickHandler = new ClickHandler(model, controller, _game);
 		
-		LibGDXView view = new LibGDXView(this, model);
+		LibGDXView view = new LibGDXView(this, model, _game);
 
 		controller.setView(view);
 		controller.setModel(model);
@@ -52,7 +56,7 @@ public class BattleCityStage extends Stage {
 					timerForDroppingBonus = this.getExecuteTimeMillis();
 				}
 				
-				if (this.getExecuteTimeMillis() - timerForDroppingBonus >= TIME_FOR_BONUS - 100 && 
+				if (this.getExecuteTimeMillis() - timerForDroppingBonus >= TIME_FOR_BONUS - ERROR_TIME && 
 						this.getExecuteTimeMillis() - timerForDroppingBonus <= TIME_FOR_BONUS) {
 					model._logic._state.setBonusIsTake(true);
 				}else if (this.getExecuteTimeMillis() - timerForDroppingBonus >= TIME_FOR_BONUS) {
@@ -61,13 +65,13 @@ public class BattleCityStage extends Stage {
 					timerForDroppingBonus = 0;		
 				}			
 				
-				if (this.getExecuteTimeMillis() - timerForGettingBonus  >= 3500) {
+				if (this.getExecuteTimeMillis() - timerForGettingBonus  >= FALL_TIME_BONUS 
+						&& this.getExecuteTimeMillis() - timerForGettingBonus  < FALL_TIME_BONUS + ERROR_TIME) {
 					model._logic._state.setBonusIsDroped(true);
 				}
 				
-				if (controller.oneStep()) {
-					BattleCityGame.getBoom().stop();
-					BattleCityGame.getBoom().play();
+				if (controller.oneStep() && !_game.music_mute) {
+						_game.getBoom().play();						
 				}
 			}
 		}, 0.01f, 0.02f);

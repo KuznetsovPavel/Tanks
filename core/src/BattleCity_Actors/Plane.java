@@ -1,6 +1,5 @@
 package BattleCity_Actors;
 
-import BattleCity_Scene_Screen.BattleCityGame;
 import BattleCity_Scene_Screen.BattleCityScreen;
 import BattleCity_independent_code.Map;
 
@@ -26,7 +25,6 @@ public class Plane extends Actor {
 	
 	public void action(int coordX , int coordY, int ang){
 		
-		BattleCityGame.getAircraft().play();
 		this.addAction(
 				Actions.sequence(
 					Actions.moveTo(coordX, coordY, 1.5f),

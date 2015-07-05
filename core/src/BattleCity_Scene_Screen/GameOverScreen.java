@@ -124,15 +124,11 @@ public class GameOverScreen implements Screen, InputProcessor {
 	        return true;
 		}else if (game.music_mute) {
 			game.main.setVolume(VOLUME_OFF);
-			BattleCityGame.getBoom().setVolume(VOLUME_OFF);
-			BattleCityGame.getShot().setVolume(VOLUME_OFF);
-			BattleCityGame.getAircraft().setVolume(VOLUME_OFF);
+			game.getAircraft().setVolume(VOLUME_OFF);
 			game.music_gameOver.setVolume(VOLUME_OFF);
 		}else if(!game.music_mute){
 			game.main.setVolume(VOLUME_MAX);
-			BattleCityGame.getBoom().setVolume(VOLUME_MAX);
-			BattleCityGame.getAircraft().setVolume(VOLUME_MAX);
-			BattleCityGame.getShot().setVolume(VOLUME_MAX);
+			game.getAircraft().setVolume(VOLUME_MAX);
 			game.music_gameOver.setVolume(VOLUME_MAX);
 		}
 		return false;
