@@ -15,6 +15,7 @@ public class Model {
 		Map map = Map.randomMap();		
 		state.setMap(map);
 		state.setBotTank();
+		state.setMyBotTank();
 		state.setPlayerTank();
 	}
 

@@ -82,6 +82,7 @@ public class Logic {
 			}
 			
 			get_state().setBotTank();
+			get_state().setMyBotTank();
 			Map map = Map.randomMap();
 			get_state().setBonusIsTake(true);
 			get_state().setIsNewMap(true);

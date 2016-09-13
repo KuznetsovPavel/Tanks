@@ -12,7 +12,7 @@ public class Tank extends Actor {
 	
 	private static final int HEIGHT_TANK = BattleCityScreen.getScreenHeight()/Map.getRow();
 	private static final int WIDTH_TANK = BattleCityScreen.getScreenWight()/Map.getCol();
-	private static Texture[] textures = new Texture[3];
+	private static Texture[] textures = new Texture[5];
 	private Texture _texture;
 	private static Texture[] explosion = new Texture[34];
 	private int numbTextExpl = 0;
@@ -26,6 +26,8 @@ public class Tank extends Actor {
 		getTextures()[0] = new Texture(Gdx.files.internal("resourse/graphics/tank2.png"));
 		getTextures()[1] = new Texture(Gdx.files.internal("resourse/graphics/tank.png"));
 		getTextures()[2] = new Texture(Gdx.files.internal("resourse/graphics/deadTank.png"));
+		getTextures()[3] = new Texture(Gdx.files.internal("resourse/graphics/tank3.png"));
+		getTextures()[4] = new Texture(Gdx.files.internal("resourse/graphics/tank4.png"));
 		
 	}
 

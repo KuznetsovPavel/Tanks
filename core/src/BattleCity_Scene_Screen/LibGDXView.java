@@ -29,7 +29,7 @@ public class LibGDXView extends BattleCity_independent_code.View {
 	private static final int LEFT = 2;
 	private static final int DONW = 1;
 	private static final int UP = 0;
-	private static final int NUMB_OF_TANK_IN_LEVEL = 6;
+	private static final int NUMB_OF_TANK_IN_LEVEL = 9;
 	
 	private BattleCityStage _stage;
 	private Model _model;

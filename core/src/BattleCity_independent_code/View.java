@@ -78,6 +78,24 @@ public class View {
 						numberOfTank, tankBot.getDerection(), state.isNewMap());
 			}
 		}
+
+		int count = 0;
+		for (Tank tankBot : state.get_MyBotTanks()) {
+			numberOfTank += 1;
+			count++;
+			if (!tankBot.isCrash()) {
+				if (count == 2) {
+					drawTank(4, tankBot.getCoordX(), tankBot.getCoordY(),
+							numberOfTank, tankBot.getDerection(), state.isNewMap());
+				}else {
+					drawTank(3, tankBot.getCoordX(), tankBot.getCoordY(),
+							numberOfTank, tankBot.getDerection(), state.isNewMap());
+				}
+			}else {
+				drawTank(TANK_BOT_CRASHED_TEXTURE_INDEX, tankBot.getCoordX(), tankBot.getCoordY(),
+						numberOfTank, tankBot.getDerection(), state.isNewMap());
+			}
+		}
 		
 		if (state.isNewMap()) {
 			state.setIsNewMap(false);

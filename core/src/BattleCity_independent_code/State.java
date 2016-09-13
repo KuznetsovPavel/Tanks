@@ -13,6 +13,7 @@ public class State {
 	private Tank _tank;
 	private Map _map;
 	private List<Tank> _botTanks = new ArrayList<Tank>();
+	private List<Tank> _myBotTanks = new ArrayList<Tank>();
 	private boolean newMap = false;
 
 	private int bonus, _bonus_coordX, _bonus_coordY;
@@ -31,6 +32,11 @@ public class State {
 		get_botTanks().add(tank);
 	}
 
+	protected void addMyBotTank(Tank tank) {
+		get_MyBotTanks().add(tank);
+	}
+
+
 	protected void addRemove(Tank tank) {
 		get_botTanks().remove(tank);
 	}
@@ -38,7 +44,7 @@ public class State {
 	public void setPlayerTank() {
 		set_tank(new Tank());
 		get_tank().set_bullet(new Bullet(get_tank().equals(getTank_with_bonus()) && getBonus() == 2));
-		get_tank().setTank(Map.getCol() / 2 * SIZE_BOX_X, 2 * SIZE_BOX_Y);
+		get_tank().setTank(Map.getCol() / 2 * SIZE_BOX_X,  SIZE_BOX_Y);
 	}
 
 	public void setBotTank() {
@@ -47,6 +53,15 @@ public class State {
 			addTank(tank);
 			tank.set_bullet(new Bullet(tank.equals(getTank_with_bonus()) && getBonus() == 2));
 			tank.setTank(SIZE_BOX_X * Map.getCol() / 6 + i * Map.getCol() * SIZE_BOX_X / 6, (Map.getRow() - 2) * SIZE_BOX_Y);
+		}
+	}
+
+	public void setMyBotTank() {
+		for (int i = 0; i < 3; i++) {
+			Tank tank = new Tank();
+			addMyBotTank(tank);
+			tank.set_bullet(new Bullet(tank.equals(getTank_with_bonus()) && getBonus() == 2));
+			tank.setTank(SIZE_BOX_X * Map.getCol() / 4 + i * Map.getCol() * SIZE_BOX_X / 4, 2 * SIZE_BOX_Y);
 		}
 	}
 
@@ -178,6 +193,10 @@ public class State {
 
 	public List<Tank> get_botTanks() {
 		return _botTanks;
+	}
+
+	public List<Tank> get_MyBotTanks() {
+		return _myBotTanks;
 	}
 
 	public void set_botTanks(List<Tank> _botTanks) {
