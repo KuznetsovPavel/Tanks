@@ -5,7 +5,7 @@ import java.util.List;
 
 public class State {
 
-	private static final int NUMB_OF_TANK_BOT = 3;
+	private static final int  NUMB_OF_TANK_BOT = 5;
 	private static final int SIZE_BOX_Y = View.getScreenHeight() / Map.getRow();
 	private static final int SIZE_BOX_X = View.getScreenWidth() / Map.getCol();
 
@@ -46,7 +46,7 @@ public class State {
 			Tank tank = new Tank();
 			addTank(tank);
 			tank.set_bullet(new Bullet(tank.equals(getTank_with_bonus()) && getBonus() == 2));
-			tank.setTank(SIZE_BOX_X * Map.getCol() / 4 + i * Map.getCol() * SIZE_BOX_X / 4, (Map.getRow() - 2) * SIZE_BOX_Y);
+			tank.setTank(SIZE_BOX_X * Map.getCol() / 6 + i * Map.getCol() * SIZE_BOX_X / 6, (Map.getRow() - 2) * SIZE_BOX_Y);
 		}
 	}
 
