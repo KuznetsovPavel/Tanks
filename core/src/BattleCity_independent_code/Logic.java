@@ -118,7 +118,7 @@ public class Logic {
 		
 		for (Tank hunter : tanks) {
 			
-			if (hunter.isCrash() == false) {
+			if (!hunter.isCrash()) {
 				moveBotTank(hunter);
 				hunter.setCountOfStep(hunter.getCountOfStep() + 1);
 				
@@ -147,26 +147,41 @@ public class Logic {
 	private void oneStepForMyBotTanks (List<Tank> tanks){
 		int count = 0;
 		for (Tank tank : tanks) {
-			if (count == 0){
-				moveHunter(tank);
-				tank.setCountOfStep(tank.getCountOfStep() + 1);
-				if(tank.getCountOfStep() == NUMB_OF_STEP_FOR_ONE_DERECTION)
-					tank.setCountOfStep(0);
-			} else {
-				if (count == 1) {
-					moveHealer(tank);
+			if (!tank.isCrash()) {
+				if (count == 0) {
+					moveHunter(tank);
 					tank.setCountOfStep(tank.getCountOfStep() + 1);
-					if(tank.getCountOfStep() == NUMB_OF_STEP_FOR_ONE_DERECTION * 2)
+					if (tank.getCountOfStep() == NUMB_OF_STEP_FOR_ONE_DERECTION)
 						tank.setCountOfStep(0);
-
 				} else {
-					if (count == 2) {
-						moveGuard(tank);
+					if (count == 1) {
+						moveHealer(tank);
+						tank.setCountOfStep(tank.getCountOfStep() + 1);
+						if (tank.getCountOfStep() == NUMB_OF_STEP_FOR_ONE_DERECTION * 2)
+							tank.setCountOfStep(0);
 
+					} else {
+						if (count == 2) {
+							moveGuard(tank);
+						}
 					}
 				}
+				count++;
+				fireBot(tank);
+
+				Bullet bullet = tank.get_bullet();
+				for (Tank bot : _state.get_botTanks()) {
+					hit(tank, bullet, bot);
+				}
+
+				for (Tank myBot : tanks) {
+					if (tank.equals(myBot)) {
+						continue;
+					}
+					hit(tank, bullet, myBot);
+				}
+
 			}
-			count++;
 		}
 	}
 

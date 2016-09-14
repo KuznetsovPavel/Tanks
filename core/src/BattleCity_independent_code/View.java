@@ -67,6 +67,16 @@ public class View {
 			}
 		}
 
+		for (Tank tankBot : state.get_MyBotTanks()) {
+			numberOfBullet += 1;
+			if (tankBot.get_bullet().isLive() == true) {
+				drawBullet(tankBot.get_bullet().getCoordX(), tankBot.get_bullet().getCoordY(),
+						numberOfBullet);
+			} else if (state.get_tank().get_bullet().isLive() == false) {
+				drawBullet(0, 0, numberOfBullet);
+			}
+		}
+
 		for (Tank tankBot : state.get_botTanks()) {
 			numberOfTank += 1;
 			if (!tankBot.isCrash()) {
