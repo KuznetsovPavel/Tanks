@@ -61,7 +61,7 @@ public class State {
 			Tank tank = new Tank();
 			addMyBotTank(tank);
 			tank.set_bullet(new Bullet(tank.equals(getTank_with_bonus()) && getBonus() == 2));
-			tank.setTank(SIZE_BOX_X * Map.getCol() / 4 + i * Map.getCol() * SIZE_BOX_X / 4, 2 * SIZE_BOX_Y);
+			tank.setTank(SIZE_BOX_X * Map.getCol() / 5 + i * Map.getCol() * SIZE_BOX_X / 5, 2 * SIZE_BOX_Y);
 		}
 	}
 

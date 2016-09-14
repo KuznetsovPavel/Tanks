@@ -130,15 +130,15 @@ public class Logic {
 				Bullet bullet = hunter.get_bullet();
 				Tank victim = get_state().get_tank();
 				hit(hunter, bullet, victim);
-				
-				for (Tank tank : tanks) {
+
+				for (Tank tank : _state.get_MyBotTanks()) {
 					if (hunter.equals(tank)) {
 						continue;
 					}
-					
+
 					victim = tank;
 					hit(hunter, bullet, victim);
-					
+
 				}
 			}
 		}
@@ -174,12 +174,6 @@ public class Logic {
 					hit(tank, bullet, bot);
 				}
 
-				for (Tank myBot : tanks) {
-					if (tank.equals(myBot)) {
-						continue;
-					}
-					hit(tank, bullet, myBot);
-				}
 
 			}
 		}
@@ -427,6 +421,14 @@ public class Logic {
 				}
 			}
 		}
+
+		for (Tank otherTank : get_state().get_MyBotTanks()) {
+			if (!tank.equals(otherTank)) {
+				if (cross = checkCrossing(tank.getCoordX(), tank.getCoordY(), otherTank.getCoordX(), otherTank.getCoordY())) {
+					return cross;
+				}
+			}
+		}
 		
 		if (!tank.equals(get_state().get_tank())) {
 			if (cross = checkCrossing(tank.getCoordX(), tank.getCoordY(), get_state().get_tank().getCoordX(), get_state().get_tank().getCoordY())) {
@@ -640,10 +642,8 @@ public class Logic {
 
 	private boolean hitOfTank(Tank hunter, Bullet bullet, Tank victim) {
 		
-		if (hunter.equals(get_state().get_tank())) {
-			victim.setDamages(victim.getDamages() + 1);
-		}
-		
+		victim.setDamages(victim.getDamages() + 1);
+
 		if (victim.equals(get_state().get_tank())) {
 			victim.setDamages(victim.getDamages() + 1);
 			

@@ -1,5 +1,9 @@
 package BattleCity_independent_code;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.files.FileHandle;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Random;
@@ -12,14 +16,12 @@ public class Map {
 	private static final int ROW = 15;
 	private int[][] _data;
 	private static Random random = new Random();
-	
-	
-	public static File[] MAPS = {new File("resourse/map/map0.txt"), 
-		new File("resourse/map/map1.txt"), 
-		new File("resourse/map/map2.txt"), 
-		new File("resourse/map/map3.txt"), 
-		new File("resourse/map/map4.txt")};
-	private static Scanner scanner;
+
+	public static FileHandle[] MAPS = {Gdx.files.internal("resourse/map/map0.txt"),
+		Gdx.files.internal("resourse/map/map1.txt"),
+		Gdx.files.internal("resourse/map/map2.txt"),
+		Gdx.files.internal("resourse/map/map3.txt"),
+		Gdx.files.internal("resourse/map/map4.txt")};
 
 	public Map() {
 		set_data(new int [getRow()][getCol()]);
@@ -27,16 +29,18 @@ public class Map {
 
 	public static int[][] readMap(int mapNumber){
 		int[][] data = new int[getRow()][getCol()];
-		try {
-			scanner = new Scanner(MAPS[mapNumber]);
-			for (int i = 0; i < data.length; i++) {
-				for (int j = 0; j < data[i].length; j++) {					
-						data[i][j] = scanner.nextInt();
-				}
+		String str = MAPS[mapNumber].readString();
+		System.out.println(str);
+		String[] split = str.split("\n");
+
+
+		for (int i = 0; i < data.length; i++) {
+			String[] s = split[i].split(" ");
+			for (int j = 0; j < data[i].length; j++) {
+				data[i][j] = Integer.parseInt(s[j]);
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		}
+
 		return data;
 		
 	}
