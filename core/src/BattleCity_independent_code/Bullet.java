@@ -7,6 +7,7 @@ public class Bullet {
 	private int coordY, coordX, targetDerection;
 	private boolean isLive = false;
 	private int _speed = getSpeed();
+	private long time;
 	
 	public Bullet(boolean bonus) {
 		if (bonus) {
@@ -58,5 +59,13 @@ public class Bullet {
 
 	public static int getSpeed() {
 		return SPEED;
+	}
+
+	public long getTime() {
+		return time;
+	}
+
+	public void setTime(long time) {
+		this.time = time;
 	}
 }

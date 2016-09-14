@@ -63,8 +63,7 @@ public class View {
 				drawBullet(tankBot.get_bullet().getCoordX(), tankBot.get_bullet().getCoordY(),
 						numberOfBullet);
 			} else if (state.get_tank().get_bullet().isLive() == false) {
-				drawBullet(tankBot.getCoordX() + TANK_SIZE_X / 2, tankBot.getCoordY()
-						+ TANK_SIZE_Y / 2, numberOfBullet);
+				drawBullet(0, 0, numberOfBullet);
 			}
 		}
 
@@ -95,6 +94,7 @@ public class View {
 				drawTank(TANK_BOT_CRASHED_TEXTURE_INDEX, tankBot.getCoordX(), tankBot.getCoordY(),
 						numberOfTank, tankBot.getDerection(), state.isNewMap());
 			}
+
 		}
 		
 		if (state.isNewMap()) {

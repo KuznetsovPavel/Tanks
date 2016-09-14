@@ -60,7 +60,9 @@ public class Logic {
 		takeBonus();
 		
 		List<Tank> tanks = get_state().get_botTanks();
+		List<Tank> myBots = get_state().get_MyBotTanks();
 		oneStepForBotTanks(tanks);
+		oneStepForMyBotTanks(myBots);
 		oneStepForPlayerTank();
 		
 		boolean allDestroy = true;
@@ -77,10 +79,10 @@ public class Logic {
 
 	private void initNewMap(boolean allDestroy) {
 		if (allDestroy) {
-			for (int tank = 0; tank < State.getNumbOfTankBot(); tank++) {
-				get_state().removeTank(get_state().get_botTanks().get(0));
-			}
-			
+
+			get_state().get_botTanks().clear();
+			get_state().get_MyBotTanks().clear();
+
 			get_state().setBotTank();
 			get_state().setMyBotTank();
 			Map map = Map.randomMap();
@@ -141,6 +143,237 @@ public class Logic {
 			}
 		}
 	}
+
+	private void oneStepForMyBotTanks (List<Tank> tanks){
+		int count = 0;
+		for (Tank tank : tanks) {
+			if (count == 0){
+				moveHunter(tank);
+				tank.setCountOfStep(tank.getCountOfStep() + 1);
+				if(tank.getCountOfStep() == NUMB_OF_STEP_FOR_ONE_DERECTION)
+					tank.setCountOfStep(0);
+			} else {
+				if (count == 1) {
+					moveHealer(tank);
+					tank.setCountOfStep(tank.getCountOfStep() + 1);
+					if(tank.getCountOfStep() == NUMB_OF_STEP_FOR_ONE_DERECTION * 2)
+						tank.setCountOfStep(0);
+
+				} else {
+					if (count == 2) {
+						moveGuard(tank);
+
+					}
+				}
+			}
+			count++;
+		}
+	}
+
+	private void moveGuard(Tank tank) {
+
+		int myTank_coordX = get_state().get_tank().getCoordX();
+		int myTank_coordY = get_state().get_tank().getCoordY();
+		int myDirection = get_state().get_tank().getDerection();
+		int differ = BOX_SIZE_X * 2;
+
+		int differ_coordX = myTank_coordX - tank.getCoordX();
+		int differ_coordY = myTank_coordY - tank.getCoordY();
+
+		if ((Math.abs(differ_coordX) > differ) || (Math.abs(differ_coordY) > differ)) {
+
+			switch (myDirection) {
+				case UP:
+					if (differ_coordX > 0) {
+						tank.setDerection(RIGHT);
+						changeMove(tank);
+						break;
+					}
+					if (differ_coordX < 0) {
+						tank.setDerection(LEFT);
+						changeMove(tank);
+						break;
+					}
+					if (differ_coordY > 0) {
+						tank.setDerection(UP);
+						break;
+					}
+					if (differ_coordY < 0) {
+						tank.setDerection(DOWN);
+						break;
+					}
+					break;
+
+				case DOWN:
+					if (differ_coordX > 0) {
+						tank.setDerection(RIGHT);
+						changeMove(tank);
+						break;
+					}
+					if (differ_coordX < 0) {
+						tank.setDerection(LEFT);
+						changeMove(tank);
+						break;
+					}
+					if (differ_coordY > 0) {
+						tank.setDerection(UP);
+						break;
+					}
+					if (differ_coordY < 0) {
+						tank.setDerection(DOWN);
+						break;
+					}
+					break;
+
+				case RIGHT:
+					if (differ_coordY > 0) {
+						tank.setDerection(UP);
+						changeMove(tank);
+						break;
+					}
+					if (differ_coordY < 0) {
+						tank.setDerection(DOWN);
+						changeMove(tank);
+						break;
+					}
+
+					if (differ_coordX > 0) {
+						tank.setDerection(RIGHT);
+						break;
+					}
+					if (differ_coordX < 0) {
+						tank.setDerection(LEFT);
+						break;
+					}
+					break;
+
+				case LEFT:
+					if (differ_coordY > 0) {
+						tank.setDerection(UP);
+						changeMove(tank);
+						break;
+					}
+					if (differ_coordY < 0) {
+						tank.setDerection(DOWN);
+						changeMove(tank);
+						break;
+					}
+
+					if (differ_coordX > 0) {
+						tank.setDerection(RIGHT);
+						break;
+					}
+					if (differ_coordX < 0) {
+						tank.setDerection(LEFT);
+						break;
+					}
+					break;
+
+
+			}
+		}
+
+	}
+
+	private void changeMove (Tank tank) {
+		int direction = tank.getDerection();
+		switch (direction) {
+			case UP:
+				move(tank, tank.get_speed(), 0);
+				break;
+
+			case DOWN:
+				move(tank, -tank.get_speed(), 0);
+				break;
+
+			case LEFT:
+				move(tank, 0, -tank.get_speed());
+				break;
+
+			case RIGHT:
+				move(tank, 0, tank.get_speed());
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	private void moveHealer(Tank tank) {
+		if (tank.getCountOfStep() == 0) {
+			if (random.nextBoolean()) {
+
+				if (random.nextBoolean()) {
+					tank.setDerection(UP);
+					return;
+				} else {
+					tank.setDerection(DOWN);
+					return;
+				}
+
+			} else {
+
+				if (random.nextBoolean()) {
+					tank.setDerection(RIGHT);
+					return;
+				} else {
+					tank.setDerection(LEFT);
+					return;
+				}
+			}
+		}
+
+		changeMove(tank);
+	}
+
+	private void moveHunter(Tank tank) {
+
+		List<Tank> tanks = get_state().get_botTanks();
+		int bot_coordX;
+		int bot_coordY;
+		int differ_coordX = Integer.MAX_VALUE;
+		int differ_coordY = Integer.MAX_VALUE;
+
+		for (Tank bot : tanks) {
+			bot_coordX = bot.getCoordX();
+			bot_coordY = bot.getCoordY();
+			if ((tank.getCoordX() - bot_coordX < differ_coordX) || (tank.getCoordY() - bot_coordY < differ_coordY)){
+				differ_coordX = - tank.getCoordX() + bot_coordX;
+				differ_coordY = - tank.getCoordY() + bot_coordY;
+			}
+
+		}
+
+		if (tank.getCountOfStep() == 0) {
+			if (random.nextBoolean()) {
+
+				if (differ_coordY > 0) {
+					tank.setDerection(UP);
+					return;
+				} else {
+					tank.setDerection(DOWN);
+					return;
+				}
+
+			} else {
+
+				if (differ_coordX > 0) {
+					tank.setDerection(RIGHT);
+					return;
+				} else {
+					tank.setDerection(LEFT);
+					return;
+				}
+			}
+		}
+
+		changeMove(tank);
+	}
+
+
+
+
+
 
 	public boolean move(Tank tank, int vertical_speed, int horizontal_speed) {
 
@@ -282,28 +515,7 @@ public class Logic {
 			}
 		}
 
-		int direction = tank.getDerection();
-
-		switch (direction) {
-		case UP:
-			move(tank, tank.get_speed(), 0);
-			break;
-
-		case DOWN:
-			move(tank, -tank.get_speed(), 0);
-			break;
-
-		case LEFT:
-			move(tank, 0, -tank.get_speed());
-			break;
-
-		case RIGHT:
-			move(tank, 0, tank.get_speed());
-			break;
-
-		default:
-			break;
-		}
+		changeMove(tank);
 	}
 
 	protected void fireBot(Tank tank) {
@@ -311,29 +523,34 @@ public class Logic {
 			moveBullet(tank);
 			return;
 		}
-
+		tank.get_bullet().setCoordY(0);
+		tank.get_bullet().setCoordX(0);
+		if(System.currentTimeMillis() - tank.get_bullet().getTime() > 2000) {
 			tank.set_bullet(new Bullet(tank.equals(get_state().getTank_with_bonus()) && get_state().getBonus() == SHOTING_SPEED));
 			tank.get_bullet().setLive(true);
+			tank.get_bullet().setTime(System.currentTimeMillis());
 			tank.get_bullet().setCoordY(tank.getCoordY() + TANK_SIZE_Y / 2);
 			tank.get_bullet().setCoordX(tank.getCoordX() + TANK_SIZE_X / 2);
 			tank.get_bullet().setTargetDerection(tank.getDerection());
+		}
 	}
 	
-	protected boolean fire() {
+	synchronized protected boolean fire() {
 		Tank hunter = get_state().get_tank();
 		
 		if (isFireAlready(hunter)) {
 			moveBullet(hunter);
 			return false;
 		}
-		
-		hunter.set_bullet(new Bullet(hunter.equals(get_state().getTank_with_bonus()) && get_state().getBonus() == 2));
-		hunter.get_bullet().setLive(true);
-		hunter.get_bullet().setCoordY(hunter.getCoordY() + TANK_SIZE_Y / 2);
-		hunter.get_bullet().setCoordX(hunter.getCoordX() + TANK_SIZE_X / 2);
-		hunter.get_bullet().setTargetDerection(hunter.getDerection());
-		return true;
-		
+		if(System.currentTimeMillis() - hunter.get_bullet().getTime() > 2000) {
+			hunter.set_bullet(new Bullet(hunter.equals(get_state().getTank_with_bonus()) && get_state().getBonus() == 2));
+			hunter.get_bullet().setLive(true);
+			hunter.get_bullet().setCoordY(hunter.getCoordY() + TANK_SIZE_Y / 2);
+			hunter.get_bullet().setCoordX(hunter.getCoordX() + TANK_SIZE_X / 2);
+			hunter.get_bullet().setTargetDerection(hunter.getDerection());
+			return true;
+		}
+		return false;
 	}
 
 	protected void moveBullet(Tank tank) {
@@ -399,8 +616,8 @@ public class Logic {
 
 	private boolean missShooting(Tank hunter, Bullet bullet) {
 		
-		hunter.get_bullet().setCoordX((hunter.getCoordX() * 2 + TANK_SIZE_X) / 2);
-		hunter.get_bullet().setCoordY((hunter.getCoordY() * 2 + TANK_SIZE_Y) / 2);
+		hunter.get_bullet().setCoordX(0);
+		hunter.get_bullet().setCoordY(0);
 		bullet.setLive(false);
 		return false;
 		

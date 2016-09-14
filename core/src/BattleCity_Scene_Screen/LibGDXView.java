@@ -188,7 +188,6 @@ public class LibGDXView extends BattleCity_independent_code.View {
 			_bullet[numberOfBullet] = new Bullet();
 			_stage.addActor(_bullet[numberOfBullet]);
 		}
-		
 		_bullet[numberOfBullet].setPosition(coordY, coordX);
 	}
 	
