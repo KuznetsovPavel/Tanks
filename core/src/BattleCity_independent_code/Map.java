@@ -30,7 +30,6 @@ public class Map {
 	public static int[][] readMap(int mapNumber){
 		int[][] data = new int[getRow()][getCol()];
 		String str = MAPS[mapNumber].readString();
-		System.out.println(str);
 		String[] split = str.split("\n");
 
 

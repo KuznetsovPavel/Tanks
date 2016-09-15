@@ -542,7 +542,7 @@ public class Logic {
 		}
 		tank.get_bullet().setCoordY(0);
 		tank.get_bullet().setCoordX(0);
-		if(System.currentTimeMillis() - tank.get_bullet().getTime() > 2000) {
+		if(System.currentTimeMillis() - tank.get_bullet().getTime() > 1500) {
 			tank.set_bullet(new Bullet(tank.equals(get_state().getTank_with_bonus()) && get_state().getBonus() == SHOTING_SPEED));
 			tank.get_bullet().setLive(true);
 			tank.get_bullet().setTime(System.currentTimeMillis());
@@ -559,9 +559,10 @@ public class Logic {
 			moveBullet(hunter);
 			return false;
 		}
-		if(System.currentTimeMillis() - hunter.get_bullet().getTime() > 2000) {
+		if(System.currentTimeMillis() - hunter.get_bullet().getTime() > 1500) {
 			hunter.set_bullet(new Bullet(hunter.equals(get_state().getTank_with_bonus()) && get_state().getBonus() == 2));
 			hunter.get_bullet().setLive(true);
+			hunter.get_bullet().setTime(System.currentTimeMillis());
 			hunter.get_bullet().setCoordY(hunter.getCoordY() + TANK_SIZE_Y / 2);
 			hunter.get_bullet().setCoordX(hunter.getCoordX() + TANK_SIZE_X / 2);
 			hunter.get_bullet().setTargetDerection(hunter.getDerection());
