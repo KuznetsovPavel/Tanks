@@ -119,6 +119,4 @@ public class Tank {
 	public static int getSpeed() {
 		return SPEED;
 	}
-	
-	
 }

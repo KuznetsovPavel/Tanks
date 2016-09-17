@@ -166,7 +166,6 @@ public class Logic {
 						}
 					}
 				}
-				count++;
 				fireBot(tank);
 
 				Bullet bullet = tank.get_bullet();
@@ -174,7 +173,12 @@ public class Logic {
 					hit(tank, bullet, bot);
 				}
 
+				if(count == 1){
+					hit(tank, bullet, _state.get_tank());
+				}
 
+
+				count++;
 			}
 		}
 	}
@@ -645,19 +649,26 @@ public class Logic {
 		
 		victim.setDamages(victim.getDamages() + 1);
 
+		if (victim.equals(get_state().get_tank()) && get_state().get_MyBotTanks().contains(hunter)) {
+			if (victim.getDamages() != Tank.getArmorPlayerTank()) {
+				victim.setDamages(victim.getDamages() - 2);
+				bullet.setLive(false);
+			}
+			return true;
+		}
+
+
 		if (victim.equals(get_state().get_tank())) {
-			victim.setDamages(victim.getDamages() + 1);
-			
 			if (victim.getDamages() == Tank.getArmorPlayerTank()) {
 				victim.setCrash(true);
 			}
-			
+
 		}
 
 		for (Tank tankBot : get_state().get_botTanks()) {
 			if (victim.getDamages() == Tank.getArmomBotTank()) {
 				if (victim.equals(tankBot)) {
-					
+
 					victim.get_bullet().setCoordX((victim.getCoordX() * 2 + TANK_SIZE_X) / 2);
 					victim.get_bullet().setCoordY((victim.getCoordY() * 2 + TANK_SIZE_Y) / 2);
 					victim.setCrash(true);
@@ -666,7 +677,7 @@ public class Logic {
 					get_state().setCoordY_expl(victim.getCoordY());
 					bullet.setLive(false);
 					return true;
-					
+
 				}
 			}
 		}
