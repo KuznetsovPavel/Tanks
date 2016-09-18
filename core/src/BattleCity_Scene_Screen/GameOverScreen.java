@@ -25,7 +25,7 @@ public class GameOverScreen implements Screen, InputProcessor {
 	
 	private static final int HEIGHT_BUT_PLAY = Button.getHeightButPlay();
 	private static final int LENGHT_BUT_PLAY = Button.getWidthButPlay();
-	private static final double COORD_BUT_PLAY_X = BattleCityScreen.getScreenWight()*0.4;
+	private static final double COORD_BUT_PLAY_X = BattleCityScreen.getScreenWight()*0.1;
 	private static final double COORD_BUT_PLAY_Y = BattleCityScreen.getScreenHeight()*0.8;
 	private static final double COORD_BUT_VOLUME_X = BattleCityScreen.getScreenWight()*0.01;
 	private static final double COORD_BUT_VOLUME_Y = BattleCityScreen.getScreenHeight()*0.85;
@@ -36,9 +36,12 @@ public class GameOverScreen implements Screen, InputProcessor {
 	private OrthographicCamera camera;
 	
 	boolean isPlay = false;
+	boolean isPlayGameForLive = false;
 	private Headband headband = new Headband(GAME_OVER_HEADBAND);
 	
-	private Button play = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) (BattleCityScreen.getScreenWight() * 0.4),
+	private Button play = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) (BattleCityScreen.getScreenWight()*0.1),
+			(int) (BattleCityScreen.getScreenHeight() * 0.1));
+	private Button playForLive = new Button(6, (int) (BattleCityScreen.getScreenWight() - BattleCityScreen.getScreenWight()*0.1 - Button.getWidthButPlay()),
 			(int) (BattleCityScreen.getScreenHeight() * 0.1));
 	private Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.getScreenHeight()*0.01));
 	
@@ -75,6 +78,7 @@ public class GameOverScreen implements Screen, InputProcessor {
 		
 		if (isPlay) {
 			play.set_texture(Button.getTextures()[BUTTON_PLAY_IS_PUT]);
+			playForLive.set_texture(Button.getTextures()[6]);
 		}else if(game.music_mute){
 			_volume.set_texture(Button.getTextures()[SOUND_IS_OFF]);
 		}else if (!game.music_mute) {
@@ -82,6 +86,7 @@ public class GameOverScreen implements Screen, InputProcessor {
 		}
 		
 		play.draw(game.batch, 0);
+		playForLive.draw(game.batch, 0);
 		 _volume.draw(game.batch, 0);
 		gameOverInfoPanel.setScale(1);
 		gameOverInfoPanel.draw(game.batch, 0);
@@ -96,6 +101,10 @@ public class GameOverScreen implements Screen, InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (pointInArea(screenX, screenY, COORD_BUT_PLAY_X, COORD_BUT_PLAY_Y, LENGHT_BUT_PLAY, HEIGHT_BUT_PLAY)) {
 			isPlay = true;
+			return true;
+		}else if (pointInArea(screenX, screenY, (int) (BattleCityScreen.getScreenWight() - BattleCityScreen.getScreenWight()*0.1 - Button.getWidthButPlay()),
+				COORD_BUT_PLAY_Y, LENGHT_BUT_PLAY, HEIGHT_BUT_PLAY)){
+			isPlayGameForLive = true;
 			return true;
 		}else if (pointInArea(screenX, screenY,COORD_BUT_VOLUME_X, COORD_BUT_VOLUME_Y,
 				LENGHT_BUT_VOLUME, HEIGHT_BUT_VOLUME )) {
@@ -118,10 +127,15 @@ public class GameOverScreen implements Screen, InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (isPlay) {
-			game.setScreen(new BattleCityScreen(game));
+			game.setScreen(new BattleCityScreen(game, true));
 			game.music_gameOver.stop();
 			game.main.play();
-	        return true;
+			return true;
+		}else if (isPlayGameForLive){
+			game.setScreen(new BattleCityScreen(game, false));
+			game.music_gameOver.stop();
+			game.main.play();
+			return true;
 		}else if (game.music_mute) {
 			game.main.setVolume(VOLUME_OFF);
 			game.getAircraft().setVolume(VOLUME_OFF);

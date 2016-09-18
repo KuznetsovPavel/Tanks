@@ -19,7 +19,7 @@ public class Button  extends Actor {
 	private static final int BUTTON_VOLUME_OFF = 5;
 	private static final int BUTTON_VOLUME_ON = 4;
 
-	private static Texture[] textures = new Texture[6];
+	private static Texture[] textures = new Texture[7];
 	private Texture _texture;
 	int _coordX;
 	int _coordY;
@@ -27,10 +27,11 @@ public class Button  extends Actor {
 	static{
 		getTextures()[0] = new Texture(Gdx.files.internal("resourse/graphics/play_button.png"));
 		getTextures()[1] = new Texture(Gdx.files.internal("resourse/graphics/play_button_down.png"));
-		getTextures()[2] = new Texture(Gdx.files.internal("resourse/graphics/play_again.png"));
-		getTextures()[3] = new Texture(Gdx.files.internal("resourse/graphics/play_again_down.png"));
+		getTextures()[2] = new Texture(Gdx.files.internal("resourse/graphics/play_button1.png"));
+		getTextures()[3] = new Texture(Gdx.files.internal("resourse/graphics/play_button1.png"));
 		getTextures()[4] = new Texture(Gdx.files.internal("resourse/graphics/volume_on.png"));
 		getTextures()[5] = new Texture(Gdx.files.internal("resourse/graphics/volume_off.png"));
+		getTextures()[6] = new Texture(Gdx.files.internal("resourse/graphics/3.png"));
 	}
 
 	public Button (int textureIndex, int coordX, int coordY) {

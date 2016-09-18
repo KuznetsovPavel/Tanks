@@ -9,9 +9,12 @@ public class Model {
 	private static final int ROWS = 15;
 	private Logic _logic;
 	
-	public Model() {
+	public Model(boolean isArcade) {
 		State state = new State();
-		set_logic(new Logic(state));
+		if (isArcade)
+			set_logic(new Logic(state));
+		else
+			set_logic(new LogicGameForLive(state));
 		Map map = Map.randomMap();		
 		state.setMap(map);
 		state.setBotTank();

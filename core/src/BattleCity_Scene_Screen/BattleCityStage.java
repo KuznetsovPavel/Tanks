@@ -36,9 +36,9 @@ public class BattleCityStage extends Stage {
 	
 	}
 
-	public void init() {
+	public void init(boolean isArcade) {
 		
-		final Model model = new Model();
+		final Model model = new Model(isArcade);
 		final Controller controller = new Controller();
 		model.addListener(controller);
 		ClickHandler clickHandler = new ClickHandler(model, controller, _game);

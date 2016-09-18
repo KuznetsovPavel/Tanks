@@ -22,8 +22,10 @@ public class MenuScreen implements Screen, InputProcessor{
 	
 	private static final int HEIGHT_BUT_PLAY = Button.getHeightButPlay();
 	private static final int LENGHT_BUT_PLAY = Button.getWidthButPlay();
-	private static final double COORD_BUT_PLAY_X = BattleCityScreen.getScreenWight()*0.4;
+	private static final double COORD_BUT_PLAY_X = BattleCityScreen.getScreenWight()*0.1;
 	private static final double COORD_BUT_PLAY_Y = BattleCityScreen.getScreenHeight()*0.8;
+	private static final double COORD_BUT_PLAYFORLIVE_X = BattleCityScreen.getScreenWight() - BattleCityScreen.getScreenWight()*0.1 - Button.getWidthButPlay();
+	private static final double COORD_BUT_PLAYFORLIVE_Y = BattleCityScreen.getScreenHeight()*0.8;
 	private static final double COORD_BUT_VOLUME_X = BattleCityScreen.getScreenWight()*0.01;
 	private static final double COORD_BUT_VOLUME_Y = BattleCityScreen.getScreenHeight()*0.85;
 	private static final int LENGHT_BUT_VOLUME = Button.getWidthButVolume();
@@ -32,9 +34,11 @@ public class MenuScreen implements Screen, InputProcessor{
 	private OrthographicCamera camera;
 	 
 	private boolean isPlay = false;
+	private boolean isPlayForLive =  false;
 	private BattleCityGame game = new BattleCityGame();
 	private Headband headband = new Headband(MENU_SCREEN_HEADBAND);
 	private Button play_game = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) COORD_BUT_PLAY_X, (int) (BattleCityScreen.getScreenHeight()*0.1));
+	private Button play_gameforlive = new Button(6, (int) COORD_BUT_PLAYFORLIVE_X, (int) (BattleCityScreen.getScreenHeight()*0.1));
 	private Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.getScreenHeight()*0.01));
 	 
 	 public MenuScreen(BattleCityGame newGame) {
@@ -58,12 +62,14 @@ public class MenuScreen implements Screen, InputProcessor{
 	        headband.draw(game.batch, 0);
 	        if (isPlay) {
 				play_game.set_texture(Button.getTextures()[BUTTON_PLAY_IS_PUT]);
+				play_gameforlive.set_texture(Button.getTextures()[6]);
 			}else if(game.music_mute){
 				_volume.set_texture(Button.getTextures()[SOUND_IS_OFF]);
 			}else if (!game.music_mute) {
 				_volume.set_texture(Button.getTextures()[SOUND_IS_ON]);
 			}
 	        play_game.draw(game.batch, 0);
+			play_gameforlive.draw(game.batch, 0);
 	        _volume.draw(game.batch, 0);
 	        game.batch.end();
 	        Gdx.input.setInputProcessor(this);
@@ -75,6 +81,9 @@ public class MenuScreen implements Screen, InputProcessor{
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (pointInArea(screenX, screenY, COORD_BUT_PLAY_X, COORD_BUT_PLAY_Y, LENGHT_BUT_PLAY, HEIGHT_BUT_PLAY)) {
 			isPlay = true;
+			return true;
+		} else if(pointInArea(screenX, screenY, COORD_BUT_PLAYFORLIVE_X, COORD_BUT_PLAYFORLIVE_Y, LENGHT_BUT_PLAY, HEIGHT_BUT_PLAY)){
+			isPlayForLive = true;
 			return true;
 		}else if (pointInArea(screenX, screenY,COORD_BUT_VOLUME_X, COORD_BUT_VOLUME_Y,
 				LENGHT_BUT_VOLUME, HEIGHT_BUT_VOLUME )) {
@@ -97,8 +106,11 @@ public class MenuScreen implements Screen, InputProcessor{
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (isPlay) {
-			game.setScreen(new BattleCityScreen(game));
-	        return true;
+			game.setScreen(new BattleCityScreen(game, true));
+			return true;
+		} else if (isPlayForLive) {
+			game.setScreen(new BattleCityScreen(game, false));
+			return true;
 		}else if (game.music_mute) {
 			game.main.setVolume(VOLUME_OFF);
 			game.getAircraft().setVolume(VOLUME_OFF);
