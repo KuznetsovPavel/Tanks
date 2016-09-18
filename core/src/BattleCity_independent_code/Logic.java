@@ -132,12 +132,7 @@ public class Logic {
 				hit(hunter, bullet, victim);
 
 				for (Tank tank : _state.get_MyBotTanks()) {
-					if (hunter.equals(tank)) {
-						continue;
-					}
-
-					victim = tank;
-					hit(hunter, bullet, victim);
+					hit(hunter, bullet, tank);
 
 				}
 			}
@@ -147,6 +142,9 @@ public class Logic {
 	private void oneStepForMyBotTanks (List<Tank> tanks){
 		int count = 0;
 		for (Tank tank : tanks) {
+			if (tank.getDamages() == Tank.getArmomBotTank()) {
+				tank.setCrash(true);
+			}
 			if (!tank.isCrash()) {
 				if (count == 0) {
 					moveHunter(tank);

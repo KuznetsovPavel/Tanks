@@ -3,7 +3,7 @@ package BattleCity_independent_code;
 
 public class Tank {
 	
-	private static final int ARMOM_BOT_TANK = 2;
+	private static final int ARMOM_BOT_TANK = 3;
 	private static final int ARMOR_PLAYER_TANK = 10;
 	private static final int SPEED = 2;
 	
