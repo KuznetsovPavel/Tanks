@@ -28,6 +28,9 @@ public class MenuScreen implements Screen, InputProcessor{
 	private static final double COORD_BUT_PLAYFORLIVE_Y = BattleCityScreen.getScreenHeight()*0.8;
 	private static final double COORD_BUT_VOLUME_X = BattleCityScreen.getScreenWight()*0.01;
 	private static final double COORD_BUT_VOLUME_Y = BattleCityScreen.getScreenHeight()*0.85;
+	private static final double COORD_BUT_INFO_X = BattleCityScreen.getScreenWight() - (BattleCityScreen.getScreenHeight() * 0.1);
+	private static final double COORD_BUT_INFO_Y = BattleCityScreen.getScreenHeight()*0.01;
+
 	private static final int LENGHT_BUT_VOLUME = Button.getWidthButVolume();
 	private static final int HEIGHT_BUT_VOLUME = Button.getHeightButVolume();
 
@@ -39,8 +42,11 @@ public class MenuScreen implements Screen, InputProcessor{
 	private Headband headband = new Headband(MENU_SCREEN_HEADBAND);
 	private Button play_game = new Button(BUTTON_PLAY_IS_NOT_PUT, (int) COORD_BUT_PLAY_X, (int) (BattleCityScreen.getScreenHeight()*0.1));
 	private Button play_gameforlive = new Button(6, (int) COORD_BUT_PLAYFORLIVE_X, (int) (BattleCityScreen.getScreenHeight()*0.1));
-	private Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (BattleCityScreen.getScreenHeight()*0.01));
-	 
+	private Button info = new Button(7, (int)(COORD_BUT_INFO_X), (int)(BattleCityScreen.getScreenHeight() * 0.9));
+	private Button _volume = new Button(SOUND_IS_ON, (int) (COORD_BUT_VOLUME_X), (int) (COORD_BUT_INFO_Y));
+	private Button text = new Button(8, (int)(BattleCityScreen.getScreenWight() / 2 - 256), 20);
+	private boolean isDrowText = false;
+
 	 public MenuScreen(BattleCityGame newGame) {
 		 	game = newGame;
 	        camera = new OrthographicCamera();
@@ -70,7 +76,10 @@ public class MenuScreen implements Screen, InputProcessor{
 			}
 	        play_game.draw(game.batch, 0);
 			play_gameforlive.draw(game.batch, 0);
+			info.draw(game.batch, 0);
 	        _volume.draw(game.batch, 0);
+			if (isDrowText)
+				text.draw(game.batch, 0);
 	        game.batch.end();
 	        Gdx.input.setInputProcessor(this);
 
@@ -84,6 +93,9 @@ public class MenuScreen implements Screen, InputProcessor{
 			return true;
 		} else if(pointInArea(screenX, screenY, COORD_BUT_PLAYFORLIVE_X, COORD_BUT_PLAYFORLIVE_Y, LENGHT_BUT_PLAY, HEIGHT_BUT_PLAY)){
 			isPlayForLive = true;
+			return true;
+		} else if(pointInArea(screenX, screenY, COORD_BUT_INFO_X, COORD_BUT_INFO_Y, Button.getInfoSize(), Button.getInfoSize())){
+			isDrowText = !isDrowText;
 			return true;
 		}else if (pointInArea(screenX, screenY,COORD_BUT_VOLUME_X, COORD_BUT_VOLUME_Y,
 				LENGHT_BUT_VOLUME, HEIGHT_BUT_VOLUME )) {

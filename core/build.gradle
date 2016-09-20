@@ -12,5 +12,6 @@ eclipse.project {
 dependencies {
     compile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
+    compile 'com.badlogicgames.gdx:gdx-backend-lwjgl:1.6.2'
 }
 

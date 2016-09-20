@@ -15,11 +15,12 @@ public class Button  extends Actor {
 	private static final int HEIGHT_BUT_PLAY = BattleCityScreen.getScreenHeight()/10;
 	private static final int HEIGHT_BUT_VOLUME = BattleCityScreen.getScreenHeight()/8;
 	private static final int WIDTH_BUT_VOLUME = BattleCityScreen.getScreenWight()/10;
+	private static final int INFO_SIZE = BattleCityScreen.getScreenWight()/20;
 
 	private static final int BUTTON_VOLUME_OFF = 5;
 	private static final int BUTTON_VOLUME_ON = 4;
 
-	private static Texture[] textures = new Texture[7];
+	private static Texture[] textures = new Texture[9];
 	private Texture _texture;
 	int _coordX;
 	int _coordY;
@@ -32,6 +33,8 @@ public class Button  extends Actor {
 		getTextures()[4] = new Texture(Gdx.files.internal("resourse/graphics/volume_on.png"));
 		getTextures()[5] = new Texture(Gdx.files.internal("resourse/graphics/volume_off.png"));
 		getTextures()[6] = new Texture(Gdx.files.internal("resourse/graphics/3.png"));
+		getTextures()[7] = new Texture(Gdx.files.internal("resourse/graphics/inff.png"));
+		getTextures()[8] = new Texture(Gdx.files.internal("resourse/graphics/text.png"));
 	}
 
 	public Button (int textureIndex, int coordX, int coordY) {
@@ -46,7 +49,15 @@ public class Button  extends Actor {
 			batch.draw(get_texture(), _coordX, _coordY, this.getOriginX(), this.getOriginY(),
 					getWidthButVolume(), getHeightButVolume(), this.getScaleX(), this.getScaleY(), 
 					this.getRotation(), 0, 0, get_texture().getWidth(), get_texture().getHeight(), false, false);
-		}else {
+		}else if(get_texture().equals(getTextures()[7])) {
+			batch.draw(get_texture(), _coordX, _coordY, this.getOriginX(), this.getOriginY(),
+					INFO_SIZE, INFO_SIZE, this.getScaleX(), this.getScaleY(),
+					this.getRotation(), 0, 0, get_texture().getWidth(), get_texture().getHeight(), false, false);
+		}else if(get_texture().equals(getTextures()[8])) {
+			batch.draw(get_texture(), _coordX, _coordY, this.getOriginX(), this.getOriginY(),
+					512, 512, this.getScaleX(), this.getScaleY(),
+					this.getRotation(), 0, 0, get_texture().getWidth(), get_texture().getHeight(), false, false);
+		} else {
 		batch.draw(get_texture(), _coordX, _coordY, this.getOriginX(), this.getOriginY(),
 				getWidthButPlay(), getHeightButPlay(), this.getScaleX(), this.getScaleY(), 
 				this.getRotation(), 0, 0, get_texture().getWidth(), get_texture().getHeight(), false, false);
@@ -71,6 +82,10 @@ public class Button  extends Actor {
 
 	public static int getWidthButVolume() {
 		return WIDTH_BUT_VOLUME;
+	}
+
+	public static int getInfoSize() {
+		return INFO_SIZE;
 	}
 
 	public static int getHeightButVolume() {
