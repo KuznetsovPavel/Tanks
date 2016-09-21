@@ -155,7 +155,7 @@ public class Logic {
 					if (count == 1) {
 						moveHealer(tank);
 						tank.setCountOfStep(tank.getCountOfStep() + 1);
-						if (tank.getCountOfStep() == NUMB_OF_STEP_FOR_ONE_DERECTION * 2)
+						if (tank.getCountOfStep() >= NUMB_OF_STEP_FOR_ONE_DERECTION)
 							tank.setCountOfStep(0);
 
 					} else {
@@ -311,7 +311,14 @@ public class Logic {
 
 	private void moveHealer(Tank tank) {
 		if(_state.get_tank().getDamages() > 5) {
-			moveBotTank(tank);
+			if (tank.getCoordX() < _state.get_tank().getCoordX())
+				tank.setDerection(RIGHT);
+			else if (tank.getCoordX() > _state.get_tank().getCoordX())
+				tank.setDerection(LEFT);
+			else if (tank.getCoordY() < _state.get_tank().getCoordY())
+				tank.setDerection(UP);
+			else if (tank.getCoordY() > _state.get_tank().getCoordY())
+				tank.setDerection(DOWN);
 		} else {
 			if (tank.getCountOfStep() == 0) {
 				if (random.nextBoolean()) {
@@ -401,12 +408,12 @@ public class Logic {
 		if (!isTankFitField(tank) || isTankOnOtherTank(tank)) {
 			tank.setCoordY(tank.getCoordY() - vertical_speed);
 			tank.setCoordX(tank.getCoordX() - horizontal_speed);
-			if(!tank.equals(_state.get_tank())) {
-				if (tank.getStandStill() == 15) {
-					tank.setDerection((int) (Math.random() * 4));
-					tank.setStandStill(0);
-				}
-				tank.setStandStill(tank.getStandStill() + 1);
+			if(_state.get_botTanks().contains(tank)) {
+					if (tank.getStandStill() == 15) {
+						tank.setDerection((int) (Math.random() * 4));
+						tank.setStandStill(0);
+					}
+					tank.setStandStill(tank.getStandStill() + 1);
 			}
 			return false;
 		}
