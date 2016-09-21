@@ -3,39 +3,37 @@ package BattleCity_independent_code;
 import java.util.List;
 import java.util.Random;
 
-import BattleCity_independent_code.State;
-
 public class Logic {
 	
-	private static final int COORD_BONUS_IS_CHARGING = -10;
-	private static final int NUMB_OF_STEP_FOR_ONE_DERECTION = 40;
-	private static final int LEVEL_UP = 1;
+	static final int COORD_BONUS_IS_CHARGING = -10;
+	static final int NUMB_OF_STEP_FOR_ONE_DERECTION = 40;
+	static final int LEVEL_UP = 1;
 	
-	private static final int SHOTING_SPEED = 2;
-	private static final int MOVING_SPEED = 1;
-	private static final int ARMOR = 0;
-	private static final int NUMB_OF_BONUS = 3;
+	static final int SHOTING_SPEED = 2;
+	static final int MOVING_SPEED = 1;
+	static final int ARMOR = 0;
+	static final int NUMB_OF_BONUS = 3;
 	
-	private static final int VALUE_BLOCK_GROUND = 0;
-	private static final int VALUE_BLOCK_BRICK = 2;
-	private static final int VALUE_BLOCK_STONE = 3;
-	private static final int VALUE_BLOCK_WITH_HALF_ON_UP = 5;
-	private static final int VALUE_BLOCK_WITH_HALF_ON_DOWN = 6;
-	private static final int VALUE_BLOCK_WITH_HALF_ON_LEFT = 7;
-	private static final int VALUE_BLOCK_WITH_HALF_ON_RIGHT = 8;
+	static final int VALUE_BLOCK_GROUND = 0;
+	static final int VALUE_BLOCK_BRICK = 2;
+	static final int VALUE_BLOCK_STONE = 3;
+	static final int VALUE_BLOCK_WITH_HALF_ON_UP = 5;
+	static final int VALUE_BLOCK_WITH_HALF_ON_DOWN = 6;
+	static final int VALUE_BLOCK_WITH_HALF_ON_LEFT = 7;
+	static final int VALUE_BLOCK_WITH_HALF_ON_RIGHT = 8;
 	
-	private static final int BOX_SIZE_X = View.getScreenWidth() / Map.getCol();
-	private static final int BOX_SIZE_Y = View.getScreenHeight() / Map.getRow();
-	private static final int TANK_SIZE_X = View.getScreenWidth() / Map.getCol();
-	private static final int TANK_SIZE_Y = View.getScreenHeight() / Map.getRow();
+	static final int BOX_SIZE_X = View.getScreenWidth() / Map.getCol();
+	static final int BOX_SIZE_Y = View.getScreenHeight() / Map.getRow();
+	static final int TANK_SIZE_X = View.getScreenWidth() / Map.getCol();
+	static final int TANK_SIZE_Y = View.getScreenHeight() / Map.getRow();
 
-	private static final int UP = 0;
-	private static final int DOWN = 1;
-	private static final int LEFT = 2;
-	private static final int RIGHT = 3;
+	static final int UP = 0;
+	static final int DOWN = 1;
+	static final int LEFT = 2;
+	static final int RIGHT = 3;
 
-	private State _state;
-	private Random random = new Random();
+	State _state;
+	Random random = new Random();
 
 	public Logic(final State state) {
 		set_state(state);
@@ -77,7 +75,7 @@ public class Logic {
 		return true;
 	}
 
-	private void initNewMap(boolean allDestroy) {
+	 void initNewMap(boolean allDestroy) {
 		if (allDestroy) {
 
 			get_state().get_botTanks().clear();
@@ -96,7 +94,7 @@ public class Logic {
 		}
 	}
 
-	private void oneStepForPlayerTank() {
+	void oneStepForPlayerTank() {
 		if (get_state().get_tank().get_bullet().isLive()) {
 			
 			Tank hunter = get_state().get_tank();
@@ -114,7 +112,7 @@ public class Logic {
 		}
 	}
 
-	private void oneStepForBotTanks(List<Tank> tanks) {
+	void oneStepForBotTanks(List<Tank> tanks) {
 		
 		for (Tank hunter : tanks) {
 			
@@ -139,7 +137,7 @@ public class Logic {
 		}
 	}
 
-	private void oneStepForMyBotTanks (List<Tank> tanks){
+	void oneStepForMyBotTanks (List<Tank> tanks){
 		int count = 0;
 		for (Tank tank : tanks) {
 			if (tank.getDamages() == Tank.getArmomBotTank()) {
@@ -566,7 +564,7 @@ public class Logic {
 			moveBullet(hunter);
 			return false;
 		}
-		if(System.currentTimeMillis() - hunter.get_bullet().getTime() > 1500) {
+		if (System.currentTimeMillis() - hunter.get_bullet().getTime() > 1500) {
 			hunter.set_bullet(new Bullet(hunter.equals(get_state().getTank_with_bonus()) && get_state().getBonus() == 2));
 			hunter.get_bullet().setLive(true);
 			hunter.get_bullet().setTime(System.currentTimeMillis());
