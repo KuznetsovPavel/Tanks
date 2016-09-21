@@ -6,8 +6,7 @@ public class Tank {
 	private static final int ARMOM_BOT_TANK = 3;
 	private static final int ARMOR_PLAYER_TANK = 10;
 	private static final int SPEED = 2;
-	
-	
+
 	private int coordX = 0;
 	private int coordY = 0;
 	

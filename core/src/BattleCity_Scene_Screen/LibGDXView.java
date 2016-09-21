@@ -1,18 +1,13 @@
 package BattleCity_Scene_Screen;
 
 
-import BattleCity_Actors.Bonus;
-import BattleCity_Actors.Box;
-import BattleCity_Actors.Bullet;
-import BattleCity_Actors.ButtonFire;
-import BattleCity_Actors.InfoPanel;
-import BattleCity_Actors.MovingControl;
-import BattleCity_Actors.Plane;
-import BattleCity_Actors.Tank;
+import BattleCity_Actors.*;
 import BattleCity_independent_code.Map;
 import BattleCity_independent_code.Model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -35,6 +30,7 @@ public class LibGDXView extends BattleCity_independent_code.View {
 	private Model _model;
 	private BattleCityGame _game;
 	private Box[][] _boxes = new Box[Model.getRows()][Model.getColumns()];
+	private Picture picture;
 	private Tank[] _tank = new Tank[NUMB_OF_TANK_IN_LEVEL];
 	private Bullet[] _bullet = new Bullet[NUMB_OF_TANK_IN_LEVEL];
 	private InfoPanel _infoPanel;
@@ -83,6 +79,21 @@ public class LibGDXView extends BattleCity_independent_code.View {
 			
 		}
 			
+	}
+
+	@Override
+	protected void drawPicture() {
+		if (picture == null) {
+			picture = new Picture();
+			_stage.addActor(picture);
+			picture.setVisible(true);
+		} else
+			picture.setVisible(true);
+	}
+
+	@Override
+	protected void hidePicture() {
+		picture.setVisible(false);
 	}
 	
 	@Override
@@ -216,6 +227,5 @@ public class LibGDXView extends BattleCity_independent_code.View {
 		_button_fire.setPosition(butFirelX, butFirelY);
 		_button_fire.toFront();
 	}
-	
-	
+
 }

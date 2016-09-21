@@ -142,6 +142,8 @@ public class Logic {
 		for (Tank tank : tanks) {
 			if (tank.getDamages() == Tank.getArmomBotTank()) {
 				tank.setCrash(true);
+				tank.get_bullet().setCoordY(-1);
+				tank.get_bullet().setCoordX(-1);
 			}
 			if (!tank.isCrash()) {
 				if (count == 0) {
@@ -183,7 +185,7 @@ public class Logic {
 		int myTank_coordX = get_state().get_tank().getCoordX();
 		int myTank_coordY = get_state().get_tank().getCoordY();
 		int myDirection = get_state().get_tank().getDerection();
-		int differ = BOX_SIZE_X * 2;
+		int differ = BOX_SIZE_X * 3;
 
 		int differ_coordX = myTank_coordX - tank.getCoordX();
 		int differ_coordY = myTank_coordY - tank.getCoordY();
@@ -308,29 +310,32 @@ public class Logic {
 	}
 
 	private void moveHealer(Tank tank) {
-		if (tank.getCountOfStep() == 0) {
-			if (random.nextBoolean()) {
-
+		if(_state.get_tank().getDamages() > 5) {
+			moveBotTank(tank);
+		} else {
+			if (tank.getCountOfStep() == 0) {
 				if (random.nextBoolean()) {
-					tank.setDerection(UP);
-					return;
-				} else {
-					tank.setDerection(DOWN);
-					return;
-				}
 
-			} else {
+					if (random.nextBoolean()) {
+						tank.setDerection(UP);
+						return;
+					} else {
+						tank.setDerection(DOWN);
+						return;
+					}
 
-				if (random.nextBoolean()) {
-					tank.setDerection(RIGHT);
-					return;
 				} else {
-					tank.setDerection(LEFT);
-					return;
+
+					if (random.nextBoolean()) {
+						tank.setDerection(RIGHT);
+						return;
+					} else {
+						tank.setDerection(LEFT);
+						return;
+					}
 				}
 			}
 		}
-
 		changeMove(tank);
 	}
 

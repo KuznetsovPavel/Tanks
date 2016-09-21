@@ -34,7 +34,7 @@ public class LogicGameForLive extends Logic{
 				if (System.currentTimeMillis() - time >= 10000){
 					tank.setCrash(false);
 					tank.setKill(false);
-					tank.setDamages(Tank.getArmomBotTank());
+					tank.setDamages(0);
 					tank.setTank(View.getScreenWidth() / 2, (Map.getRow() - 2) * View.getScreenHeight() / Map.getRow());
 					time = System.currentTimeMillis();
 				}

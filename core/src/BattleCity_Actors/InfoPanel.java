@@ -25,5 +25,4 @@ public class InfoPanel extends Actor {
 				this.getRotation(), 0, 0, _texture.getWidth(), _texture.getHeight(), false, false);
 	}
 
-	
 }

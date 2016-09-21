@@ -27,6 +27,7 @@ public class State {
 	
 	private int coordX_expl = 0;
 	private int coordY_expl = 0;
+	private boolean isPicture = false;
 	
 	protected void addTank(Tank tank) {
 		get_botTanks().add(tank);
@@ -84,6 +85,7 @@ public class State {
 
 	public void set_level(int _level) {
 		this._level = _level;
+		isPicture = true;
 	}
 
 	public Tank get_tank() {
@@ -215,4 +217,11 @@ public class State {
 		this.tank_with_bonus = tank_with_bonus;
 	}
 
+	public boolean isPicture() {
+		return isPicture;
+	}
+
+	public void setPicture(boolean picture) {
+		isPicture = picture;
+	}
 }

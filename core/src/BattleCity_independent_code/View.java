@@ -1,6 +1,7 @@
 package BattleCity_independent_code;
 
 import BattleCity_Scene_Screen.BattleCityScreen;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class View {
 
@@ -27,6 +28,7 @@ public class View {
 	private static final int BUTTON_FIRE_Y = (int) (getScreenHeight()*0.1);
 
 	private Graphics _graphics;
+	private long time = 0;
 	
 	public void setGraphics(final Graphics graphics) {
 		_graphics = graphics;
@@ -121,8 +123,32 @@ public class View {
 		
 		drawMovingControl(getMovingControlX(), getMovingControlY(), state.getState_cntrl());
 		drawButtonFire(getButtonFireX(), getButtonFireY(), state.getState_butFire());
-		
 
+		if(state.isPicture()){
+			if (time == 0) {
+				time = System.currentTimeMillis();
+			} else
+			{
+				if(System.currentTimeMillis() - time < 3000) {
+					drawPicture();
+				}
+				else
+				{
+					state.setPicture(false);
+					time = 0;
+					hidePicture();
+				}
+			}
+
+		}
+
+	}
+
+	protected void hidePicture() {
+
+	}
+
+	protected void drawPicture() {
 	}
 
 
@@ -189,4 +215,5 @@ public class View {
 	public static int getScreenWidth() {
 		return SCREEN_WIDTH;
 	}
+
 }
