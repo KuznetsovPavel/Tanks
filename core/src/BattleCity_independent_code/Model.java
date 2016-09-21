@@ -53,7 +53,7 @@ public class Model {
 	}
 
 	public boolean fire() {
-		if (get_logic().fire()) {
+		if (get_logic().fire(_logic._state.get_tank())) {
 			fireChangedEvent();
 			return true;
 		}

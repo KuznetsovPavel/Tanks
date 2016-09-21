@@ -5,35 +5,35 @@ import java.util.Random;
 
 public class Logic {
 	
-	static final int COORD_BONUS_IS_CHARGING = -10;
-	static final int NUMB_OF_STEP_FOR_ONE_DERECTION = 40;
-	static final int LEVEL_UP = 1;
-	
-	static final int SHOTING_SPEED = 2;
-	static final int MOVING_SPEED = 1;
-	static final int ARMOR = 0;
-	static final int NUMB_OF_BONUS = 3;
-	
-	static final int VALUE_BLOCK_GROUND = 0;
-	static final int VALUE_BLOCK_BRICK = 2;
-	static final int VALUE_BLOCK_STONE = 3;
-	static final int VALUE_BLOCK_WITH_HALF_ON_UP = 5;
-	static final int VALUE_BLOCK_WITH_HALF_ON_DOWN = 6;
-	static final int VALUE_BLOCK_WITH_HALF_ON_LEFT = 7;
-	static final int VALUE_BLOCK_WITH_HALF_ON_RIGHT = 8;
-	
-	static final int BOX_SIZE_X = View.getScreenWidth() / Map.getCol();
-	static final int BOX_SIZE_Y = View.getScreenHeight() / Map.getRow();
-	static final int TANK_SIZE_X = View.getScreenWidth() / Map.getCol();
-	static final int TANK_SIZE_Y = View.getScreenHeight() / Map.getRow();
+	protected static final int COORD_BONUS_IS_CHARGING = -10;
+	protected static final int NUMB_OF_STEP_FOR_ONE_DERECTION = 40;
+	protected static final int LEVEL_UP = 1;
 
-	static final int UP = 0;
-	static final int DOWN = 1;
-	static final int LEFT = 2;
-	static final int RIGHT = 3;
+	protected static final int SHOTING_SPEED = 2;
+	protected static final int MOVING_SPEED = 1;
+	protected static final int ARMOR = 0;
+	protected static final int NUMB_OF_BONUS = 3;
 
-	State _state;
-	Random random = new Random();
+	protected static final int VALUE_BLOCK_GROUND = 0;
+	protected static final int VALUE_BLOCK_BRICK = 2;
+	protected static final int VALUE_BLOCK_STONE = 3;
+	protected static final int VALUE_BLOCK_WITH_HALF_ON_UP = 5;
+	protected static final int VALUE_BLOCK_WITH_HALF_ON_DOWN = 6;
+	protected static final int VALUE_BLOCK_WITH_HALF_ON_LEFT = 7;
+	protected static final int VALUE_BLOCK_WITH_HALF_ON_RIGHT = 8;
+
+	protected static final int BOX_SIZE_X = View.getScreenWidth() / Map.getCol();
+	protected static final int BOX_SIZE_Y = View.getScreenHeight() / Map.getRow();
+	protected static final int TANK_SIZE_X = View.getScreenWidth() / Map.getCol();
+	protected static final int TANK_SIZE_Y = View.getScreenHeight() / Map.getRow();
+
+	protected static final int UP = 0;
+	protected static final int DOWN = 1;
+	protected static final int LEFT = 2;
+	protected static final int RIGHT = 3;
+
+	protected State _state;
+	protected Random random = new Random();
 
 	public Logic(final State state) {
 		set_state(state);
@@ -48,7 +48,7 @@ public class Logic {
 		return null;
 	}
 
-	public boolean oneStep() {
+	protected boolean oneStep() {
 
 		if (get_state().get_tank().getDamages() == Tank.getArmorPlayerTank()) {
 			get_state().set_gameOver(true);
@@ -75,7 +75,7 @@ public class Logic {
 		return true;
 	}
 
-	 void initNewMap(boolean allDestroy) {
+	protected void initNewMap(boolean allDestroy) {
 		if (allDestroy) {
 
 			get_state().get_botTanks().clear();
@@ -94,13 +94,13 @@ public class Logic {
 		}
 	}
 
-	void oneStepForPlayerTank() {
+	protected void oneStepForPlayerTank() {
 		if (get_state().get_tank().get_bullet().isLive()) {
 			
 			Tank hunter = get_state().get_tank();
 			Bullet bullet = hunter.get_bullet();
 			List<Tank> victims = get_state().get_botTanks();
-			fire();
+			fire(hunter);
 			
 			for (Tank victim : victims) {	
 				if (hit(hunter, bullet, victim)) {
@@ -112,7 +112,7 @@ public class Logic {
 		}
 	}
 
-	void oneStepForBotTanks(List<Tank> tanks) {
+	protected void oneStepForBotTanks(List<Tank> tanks) {
 		
 		for (Tank hunter : tanks) {
 			
@@ -124,7 +124,7 @@ public class Logic {
 					hunter.setCountOfStep(0);
 				}
 				
-				fireBot(hunter);
+				fire(hunter);
 				Bullet bullet = hunter.get_bullet();
 				Tank victim = get_state().get_tank();
 				hit(hunter, bullet, victim);
@@ -137,7 +137,7 @@ public class Logic {
 		}
 	}
 
-	void oneStepForMyBotTanks (List<Tank> tanks){
+	protected void oneStepForMyBotTanks (List<Tank> tanks){
 		int count = 0;
 		for (Tank tank : tanks) {
 			if (tank.getDamages() == Tank.getArmomBotTank()) {
@@ -162,7 +162,7 @@ public class Logic {
 						}
 					}
 				}
-				fireBot(tank);
+				fire(tank);
 
 				Bullet bullet = tank.get_bullet();
 				for (Tank bot : _state.get_botTanks()) {
@@ -172,7 +172,6 @@ public class Logic {
 				if(count == 1){
 					hit(tank, bullet, _state.get_tank());
 				}
-
 
 				count++;
 			}
@@ -379,11 +378,6 @@ public class Logic {
 		changeMove(tank);
 	}
 
-
-
-
-
-
 	public boolean move(Tank tank, int vertical_speed, int horizontal_speed) {
 
 		if (vertical_speed == tank.get_speed()) {
@@ -402,15 +396,15 @@ public class Logic {
 		if (!isTankFitField(tank) || isTankOnOtherTank(tank)) {
 			tank.setCoordY(tank.getCoordY() - vertical_speed);
 			tank.setCoordX(tank.getCoordX() - horizontal_speed);
-			if (tank.getStandStill() == 15) {
-				tank.setDerection((int)(Math.random()*4));
-				//tank.setCountOfStep(0);
-				tank.setStandStill(0);
+			if(!tank.equals(_state.get_tank())) {
+				if (tank.getStandStill() == 15) {
+					tank.setDerection((int) (Math.random() * 4));
+					tank.setStandStill(0);
+				}
+				tank.setStandStill(tank.getStandStill() + 1);
 			}
-			tank.setStandStill(tank.getStandStill() + 1);
 			return false;
 		}
-
 		return true;
 
 	}
@@ -540,10 +534,10 @@ public class Logic {
 		changeMove(tank);
 	}
 
-	protected void fireBot(Tank tank) {
+	protected boolean fire(Tank tank) {
 		if (isFireAlready(tank)) {
 			moveBullet(tank);
-			return;
+			return false;
 		}
 		tank.get_bullet().setCoordY(0);
 		tank.get_bullet().setCoordX(0);
@@ -554,26 +548,9 @@ public class Logic {
 			tank.get_bullet().setCoordY(tank.getCoordY() + TANK_SIZE_Y / 2);
 			tank.get_bullet().setCoordX(tank.getCoordX() + TANK_SIZE_X / 2);
 			tank.get_bullet().setTargetDerection(tank.getDerection());
-		}
-	}
-	
-	synchronized protected boolean fire() {
-		Tank hunter = get_state().get_tank();
-		
-		if (isFireAlready(hunter)) {
-			moveBullet(hunter);
-			return false;
-		}
-		if (System.currentTimeMillis() - hunter.get_bullet().getTime() > 1500) {
-			hunter.set_bullet(new Bullet(hunter.equals(get_state().getTank_with_bonus()) && get_state().getBonus() == 2));
-			hunter.get_bullet().setLive(true);
-			hunter.get_bullet().setTime(System.currentTimeMillis());
-			hunter.get_bullet().setCoordY(hunter.getCoordY() + TANK_SIZE_Y / 2);
-			hunter.get_bullet().setCoordX(hunter.getCoordX() + TANK_SIZE_X / 2);
-			hunter.get_bullet().setTargetDerection(hunter.getDerection());
 			return true;
 		}
-		return false;
+		return  false;
 	}
 
 	protected void moveBullet(Tank tank) {
