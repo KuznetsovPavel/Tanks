@@ -8,7 +8,7 @@ import BattleCity_independent_code.State;
 public class Logic {
 	
 	private static final int COORD_BONUS_IS_CHARGING = -10;
-	private static final int NUMB_OF_STEP_FOR_ONE_DERECTION = 50;
+	private static final int NUMB_OF_STEP_FOR_ONE_DERECTION = 40;
 	private static final int LEVEL_UP = 1;
 	
 	private static final int SHOTING_SPEED = 2;
@@ -404,7 +404,12 @@ public class Logic {
 		if (!isTankFitField(tank) || isTankOnOtherTank(tank)) {
 			tank.setCoordY(tank.getCoordY() - vertical_speed);
 			tank.setCoordX(tank.getCoordX() - horizontal_speed);
-
+			if (tank.getStandStill() == 15) {
+				tank.setDerection((int)(Math.random()*4));
+				//tank.setCountOfStep(0);
+				tank.setStandStill(0);
+			}
+			tank.setStandStill(tank.getStandStill() + 1);
 			return false;
 		}
 

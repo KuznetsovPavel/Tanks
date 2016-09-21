@@ -15,6 +15,7 @@ public class Tank {
 	
 	private int damages = 0;
 	private int derection = 1;
+	private int standStill = 0;
 	
 	private int countOfStep = 0;
 	private boolean isCrash = false;
@@ -118,5 +119,13 @@ public class Tank {
 
 	public static int getSpeed() {
 		return SPEED;
+	}
+
+	public int getStandStill() {
+		return standStill;
+	}
+
+	public void setStandStill(int standStill) {
+		this.standStill = standStill;
 	}
 }
